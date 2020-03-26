@@ -1,0 +1,10 @@
+/.*
+!/.gitignore
+*__pycache__
+*.pyc
+/dist/
+/venv/
+/build/
+/*.egg-info
+/*.egg
+/.idea
