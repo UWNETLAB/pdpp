@@ -12,8 +12,8 @@ def main():
 # rig
 @main.command(short_help="Incorporates a step in the project's automation")
 def rig():
-    from pdpp.src.rig import rig as rig_
-    rig_()
+    from pdpp.src.rig import rig as rig_step
+    rig_step()
 
  
 # graph
