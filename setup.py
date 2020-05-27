@@ -1,16 +1,18 @@
 from setuptools import setup, find_packages
 
+def readme():
+	with open('README.rst') as f:
+	    return f.read()
+
 setup(
     name="pdpp",
     version="0.3.9",
-    install_requires=['Click>=7.0', 'doit>=0.31.1', 'networkx>=2.2', 'graphviz>=0.10.1', 'pydot>=1.4.1', 'pyyaml>=3.00', 
-    #'questionary>=1.0.2'
-    ],
+    install_requires=['Click>=7.0', 'doit>=0.31.1', 'networkx>=2.2', 'graphviz>=0.10.1', 'pydot>=1.4.1', 'questionary>=1.0.2', 'pyyaml>=3.00'],
     packages=find_packages(),
 	include_package_data=True,
     entry_points = """
         [console_scripts]
-        pdpp=pdpp.pdpp:main
+        pdpp=pdpp.main:main
         """,
 
     author="Pierson Browne, Rachel Wood, Tyler Crick, John McLevey",
