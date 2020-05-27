@@ -1,12 +1,14 @@
 import click
-from pdpp.src.utils.rem_slash import rem_slash
+from pdpp.utils.rem_slash import rem_slash
 import os
 from os.path import isdir, join
 
 
 class ExistingStepFolder(click.types.StringParamType):
-    # Custom type for folders to check that it is already an existing folder,
-    # and that it is a proper step folder (meaning it includes input, output, and src subdirectories).
+    """
+    Custom type for folders to check that it is already an existing folder, and that it is a proper step folder (meaning it includes input, output, and src subdirectories).
+    """
+
     def convert(self, value, param, ctx):
         folder = rem_slash(super(ExistingStepFolder, self).convert(value, param, ctx))
 
@@ -20,17 +22,25 @@ class ExistingStepFolder(click.types.StringParamType):
         return folder
 
 class StepFolder(click.types.StringParamType):
-    # Custom type for folders with no spaces, and to ensure that the folder name does not already exist.
-    # This will keep prompting the user for a proper input type if they enter
-    # a folder name with spaces or a folder name that already exists.
+    """
+    Custom type for folders with no spaces, and to ensure that the folder name does not already exist. This will keep prompting the user for a proper input type if they enter a folder name with spaces or a folder name that already exists.
+    """
+
+
     def convert(self, value, param, ctx):
         folder = super(StepFolder, self).convert(value, param, ctx)
         if ' ' in folder:
-            raise self.fail("No spaces allowed.", param, ctx)
+            raise self.fail("\n No spaces allowed. Please try again. \n", param, ctx)
+
+        if folder == "_import_":
+            raise self.fail("\n'_import_' is reserved and is not a valid step name. Please try again. \n", param, ctx)
+        
+        if folder == "_export_":
+            raise self.fail("\n'export' is reserved and is not a valid step name.  Please try again. \n", param, ctx)
 
         # It appears to already be checking for it all to be lower case, but I'm not sure where..
 
         if folder in os.listdir():
-            raise self.fail("This step folder already exists.\nPlease choose another name for your folder.", param, ctx)
+            raise self.fail("\nThis step folder already exists.\nPlease choose another name for your folder. \n", param, ctx)
 
         return folder
