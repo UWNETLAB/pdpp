@@ -2,7 +2,7 @@ from posixpath import join
 from pdpp.doit_constructors.link_task import make_link_task
 from pdpp.utils.directory_test import get_riggable_classes
 from typing import List, Tuple
-from pdpp.pdpp_class import base_pdpp_class, export_class, custom_class, project_class, step_class
+from pdpp.pdpp_class import base_pdpp_class, export_class, custom_class, project_class, step_class, import_class
 from pdpp.languages.language_parser import parse_language
 from pdpp.languages.runners import project_runner
 
@@ -15,6 +15,8 @@ from pdpp.languages.runners import project_runner
 #
 #####
 
+def passaction():
+    pass
 
 def class_list_splitter(loaded_steps: List[base_pdpp_class]) -> Tuple[export_class, List[custom_class], List[project_class], List[step_class]]:
 
@@ -79,9 +81,10 @@ def gen_many_tasks():
 
     _export, custom_list, project_list, step_list = class_list_splitter(loaded_steps)
 
-    step_and_custom: List[base_pdpp_class] = step_list + custom_list + project_list
+    step_and_custom: List[base_pdpp_class] = step_list + custom_list + project_list + [_export]
     
     for step in step_and_custom:
+        print(step.__class__)
 
         if step.enabled == False:
             pass
@@ -109,6 +112,8 @@ def gen_many_tasks():
                 for source_file in step.src_files:
                     action_list.append((runner, [source_file, step.target_dir], {}))
                     dep_list.append(join(step.target_dir, step.src_dir, source_file))
+            elif isinstance(step, export_class):
+                action_list.append((passaction, [], {}))
             else:
                 raise Exception
 
@@ -122,11 +127,19 @@ def gen_many_tasks():
                 for dependency_file in step.dep_files[dependent_step]:
                     dep_list.append(join(step.target_dir, step.in_dir, dependency_file))
 
+            
+            full_targ_list = [join(step.target_dir, step.out_dir, targ) for targ in targ_list]
+
+            print(step.target_dir)
+            print(dep_list)
+            print("")
+
+
             yield {
                 'basename': '{}'.format(step.target_dir),
                 'actions': action_list,
                 'file_dep': dep_list,
-                'targets': targ_list,
+                'targets': full_targ_list,
                 'clean': True,
             }
 

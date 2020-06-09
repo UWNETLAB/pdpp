@@ -141,6 +141,7 @@ class import_class(base_pdpp_class):
     in_dir = "./"
     out_dir = "./"
     has_source = False
+    import_files = []
 
     def initialize_step(self):
         pass
@@ -160,12 +161,14 @@ class export_class(base_pdpp_class):
         self.target_dir = "_export_"
         self.dep_files: Dict[str, List[str]] = dep_files
         self.enabled = enabled
+        self.import_files = []
 
 
     filename = "pdpp_export.yaml"
     in_dir = "./"
     out_dir = ""
     has_source = False
+    import_files = []
 
     def initialize_step(self):
         pass
@@ -249,6 +252,7 @@ class project_class(base_pdpp_class):
         self.dep_files: Dict[str, List[str]] = dep_files
         self.import_files = import_files
         self.enabled = enabled
+        self.has_source = False
 
     filename = "pdpp_project.yaml"
     in_dir = "_import_"

@@ -30,22 +30,18 @@ def node_colour(G):
 
     """
     This is a docstring
-    """
+    """ 
 
     for node in G:
-        try:
-            if G.in_degree(node) == 0 and G.nodes[node]['categ'] == 'task':
-                G.nodes[node]['fillcolor'] = 'springgreen'
-            elif G.out_degree(node) == 0 and G.nodes[node]['categ'] == 'task':
-                G.nodes[node]['fillcolor'] = 'firebrick1'
-            elif G.nodes[node]['categ'] == 'task':
-                G.node[node]['fillcolor'] = 'cadetblue2'
-            elif G.nodes[node]['categ'] == 'disabled':
-                G.node[node]['fillcolor'] = 'dimgrey'
-        except KeyError:
-            pass
-        except AttributeError:
-            pass
+        if G.nodes[node]['categ'] == 'disabled':
+            G.node[node]['fillcolor'] = 'dimgrey'
+        elif G.in_degree(node) == 0:
+            G.nodes[node]['fillcolor'] = 'springgreen'
+        elif G.out_degree(node) == 0:
+            G.nodes[node]['fillcolor'] = 'firebrick1'
+        else:
+            G.nodes[node]['fillcolor'] = 'cadetblue2'
+
 
 def export_graph(G, output_name, files):
 
@@ -93,7 +89,6 @@ def depgraph(files='both'):
     """
 
     for step_metadata in riggable_classes:
-        #pprint(step_metadata)
         if step_metadata.enabled:
             nodes.append(step_metadata.target_dir)
         else:
@@ -142,14 +137,14 @@ def depgraph(files='both'):
             target_list = find_dependencies_from_others(step_metadata, export_, [riggable_classes])
             for target in target_list:
                 target_name = join(step_metadata.target_dir, target)
-                FILE.add_node(target_name, style="filled", shape='hexagon', fillcolor='violetred', fixedsize='shape', categ='file', penwidth=0)
+                FILE.add_node(target_name, style="filled", shape='hexagon', fillcolor='violetred', fixedsize='shape', categ='file', label=target, penwidth=0)
                 FILE.add_edge(step_metadata.target_dir, target_name, fillcolor='greenyellow')
 
         # Add edges from dependency files
         for dep_dir in step_metadata.dep_files:
             for dep_file in step_metadata.dep_files[dep_dir]:
                 dep_name = join(dep_dir, dep_file)
-                FILE.add_node(dep_name, style="filled", shape='hexagon', fillcolor='violetred', fixedsize='shape', categ='file', penwidth=0)
+                FILE.add_node(dep_name, style="filled", shape='hexagon', fillcolor='violetred', fixedsize='shape', categ='file', label=dep_file, penwidth=0)
                 FILE.add_edge(dep_name, step_metadata.target_dir, fillcolor='greenyellow')
                 if dep_dir == "_import_":
                     FILE.add_edge("_import_", dep_name, fillcolor='greenyellow')
