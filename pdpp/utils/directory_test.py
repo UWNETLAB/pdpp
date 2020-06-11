@@ -16,11 +16,10 @@ def in_project_folder():
 
     if exists("dodo.py") and len(listdir()) > 0:
         pass
-    elif len(listdir()) == 0:
-        pass
+    # elif len(listdir()) == 0:
+    #     pass
     else:
-        print("""Please run this command from an empty directory 
-        or an existing project directory (project directories contain a dodo.py file)""")
+        print("""Please run this command from an empty directory or an existing project directory (project directories contain a dodo.py file)""")
         raise NotInProjectException
 
 

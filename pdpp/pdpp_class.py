@@ -203,7 +203,6 @@ class step_class(base_pdpp_class):
     has_source = True
 
     def initialize_step(self):
-        populate_new_project("./")
         create_in_out_src(self.target_dir)
         self.src_files.append(join(self.target_dir, "src", (self.target_dir + ".py")))
         
@@ -233,7 +232,6 @@ class custom_class(base_pdpp_class):
     has_source = False
 
     def initialize_step(self):
-        populate_new_project("./")
         create_in_out_src(self.target_dir)
 
 

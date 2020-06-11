@@ -140,6 +140,5 @@ def select():
 # init
 @main.command(short_help="Prepares a directory to become a pdpp project")
 def init():
-    directory_test.in_project_folder()
     from pdpp.pdpp_class import populate_new_project
     populate_new_project("./")
