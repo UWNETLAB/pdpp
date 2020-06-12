@@ -39,14 +39,9 @@ def make_link_task(step: base_pdpp_class, loaded_steps: List[base_pdpp_class], d
                     (mylinker, [link_start, link_end])
                 )
 
-            print("from: " + link_class.target_dir)
-            print("to: " + step.target_dir)
-            print(link_targ_list)
-            print("")
-
 
             yield {
-                'basename': 'task_{}_LINK_TO_{}'.format(link_class.target_dir, step.target_dir),
+                'basename': '_task_{}_LINK_TO_{}'.format(link_class.target_dir, step.target_dir),
                 'actions': link_action_list,
                 'file_dep': link_dep_list,
                 'targets': link_targ_list,

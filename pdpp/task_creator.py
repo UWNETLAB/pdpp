@@ -130,11 +130,6 @@ def gen_many_tasks():
             
             full_targ_list = [join(step.target_dir, step.out_dir, targ) for targ in targ_list]
 
-            print(step.target_dir)
-            print(dep_list)
-            print("")
-
-
             yield {
                 'basename': '{}'.format(step.target_dir),
                 'actions': action_list,
