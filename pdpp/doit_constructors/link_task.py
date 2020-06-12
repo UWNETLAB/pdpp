@@ -22,7 +22,6 @@ def make_link_task(step: base_pdpp_class, loaded_steps: List[base_pdpp_class], d
         link_targ_list = []
 
         if link_class in disabled_list:
-            print('DISABLED')
             pass
         
         else:

@@ -84,7 +84,6 @@ def gen_many_tasks():
     step_and_custom: List[base_pdpp_class] = step_list + custom_list + project_list + [_export]
     
     for step in step_and_custom:
-        print(step.__class__)
 
         if step.enabled == False:
             pass

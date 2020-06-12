@@ -34,7 +34,7 @@ def node_colour(G):
 
     for node in G:
         if G.nodes[node]['categ'] == 'disabled':
-            G.node[node]['fillcolor'] = 'dimgrey'
+            G.nodes[node]['fillcolor'] = 'dimgrey'
         elif G.in_degree(node) == 0:
             G.nodes[node]['fillcolor'] = 'springgreen'
         elif G.out_degree(node) == 0:
