@@ -16,14 +16,14 @@ def src_links(target_dir: str, source_file: str, G):
     This is a docstring
     """
     
-    G.add_edge(source_file, target_dir, color='darkslategrey', dir='none', weight=20)
+    G.add_edge(source_file, target_dir, dir='none', color='#D3D3D3', penwidth=2)
     G.nodes[source_file]['style'] = 'filled'
-    if '.py' in source_file:
-        G.nodes[source_file]['fillcolor'] = 'turquoise4'
-    else:
-        G.nodes[source_file]['fillcolor'] = 'violetred'
-    G.nodes[source_file]['shape'] = 'square'
-    G.nodes[source_file]['fixedsize'] = 'shape'
+    #G.nodes[source_file]['fontcolor'] = 'white'
+    
+
+    G.nodes[source_file]['fillcolor'] = '#761D78'
+
+    G.nodes[source_file]['shape'] = 'box'
     G.nodes[source_file]['penwidth'] = 0
 
 def node_colour(G):
@@ -36,11 +36,11 @@ def node_colour(G):
         if G.nodes[node]['categ'] == 'disabled':
             G.nodes[node]['fillcolor'] = 'dimgrey'
         elif G.in_degree(node) == 0:
-            G.nodes[node]['fillcolor'] = 'springgreen'
+            G.nodes[node]['fillcolor'] = '#3E8DCF'
         elif G.out_degree(node) == 0:
-            G.nodes[node]['fillcolor'] = 'firebrick1'
+            G.nodes[node]['fillcolor'] = '#E95C3F'
         else:
-            G.nodes[node]['fillcolor'] = 'cadetblue2'
+            G.nodes[node]['fillcolor'] = '#F2A93B'
 
 
 def export_graph(G, output_name, files):
@@ -100,9 +100,9 @@ def depgraph(files='both'):
     This section creates the SPARSE graph, consisting only of edges indicating dependencies between steps
     """
 
-    SPARSE.add_nodes_from(nodes, style='filled', shape='circle', fixedsize='shape', penwidth=0, categ="task")
-    SPARSE.add_nodes_from(disabled_nodes, style='filled', shape='circle', fixedsize='shape', penwidth=0, categ="disabled")
-    SPARSE.add_edges_from(edges, color='darkslategrey', weight=20)
+    SPARSE.add_nodes_from(nodes, style='filled', shape='box', penwidth=0, categ="task")
+    SPARSE.add_nodes_from(disabled_nodes, style='filled', shape='box', penwidth=0, categ="disabled")
+    SPARSE.add_edges_from(edges, color='#D3D3D3', penwidth=2)
     node_colour(SPARSE)  
 
     output_name = "dependencies_sparse"
@@ -135,19 +135,24 @@ def depgraph(files='both'):
         # Add edges to target files
         if isinstance(step_metadata, export_class) == False:
             target_list = find_dependencies_from_others(step_metadata, export_, [riggable_classes])
+            
             for target in target_list:
                 target_name = join(step_metadata.target_dir, target)
-                FILE.add_node(target_name, style="filled", shape='hexagon', fillcolor='violetred', fixedsize='shape', categ='file', label=target, penwidth=0)
-                FILE.add_edge(step_metadata.target_dir, target_name, fillcolor='greenyellow')
+                FILE.add_node(target_name, style="filled", shape='box', fillcolor='#748F56', categ='file', label=target, penwidth=0)
+                FILE.add_edge(step_metadata.target_dir, target_name, color='#D3D3D3', penwidth=2)
 
         # Add edges from dependency files
         for dep_dir in step_metadata.dep_files:
             for dep_file in step_metadata.dep_files[dep_dir]:
                 dep_name = join(dep_dir, dep_file)
-                FILE.add_node(dep_name, style="filled", shape='hexagon', fillcolor='violetred', fixedsize='shape', categ='file', label=dep_file, penwidth=0)
-                FILE.add_edge(dep_name, step_metadata.target_dir, fillcolor='greenyellow')
+                print("From: " + dep_dir)
+                print(dep_name)
+                print("To: " + step_metadata.target_dir)
+                print("")
+                FILE.add_node(dep_name, style="filled", shape='box', fillcolor='#748F56', categ='file', label=dep_file, penwidth=0)
+                FILE.add_edge(dep_name, step_metadata.target_dir, color='#D3D3D3', penwidth=2)
                 if dep_dir == "_import_":
-                    FILE.add_edge("_import_", dep_name, fillcolor='greenyellow')
+                    FILE.add_edge("_import_", dep_name, color='#D3D3D3', penwidth=2)
                     
     output_name = "dependencies_file"
     export_graph(FILE, output_name, files)

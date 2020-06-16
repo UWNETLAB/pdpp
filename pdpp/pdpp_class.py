@@ -164,7 +164,7 @@ class export_class(base_pdpp_class):
         self.import_files = []
 
 
-    filename = "pdpp_export.yaml"
+    filename = ".pdpp_export.yaml"
     in_dir = "./"
     out_dir = ""
     has_source = False
@@ -196,7 +196,7 @@ class step_class(base_pdpp_class):
         self.language = language
         self.enabled = enabled
 
-    filename = "pdpp_step.yaml"
+    filename = ".pdpp_step.yaml"
     in_dir = "input"
     out_dir = "output"
     src_dir = "src"
@@ -226,7 +226,7 @@ class custom_class(base_pdpp_class):
         self.shell_commands = []
         self.enabled = enabled
 
-    filename = "pdpp_custom.yaml"
+    filename = ".pdpp_custom.yaml"
     in_dir = "input"
     out_dir = "output"
     has_source = False
@@ -252,7 +252,7 @@ class project_class(base_pdpp_class):
         self.enabled = enabled
         self.has_source = False
 
-    filename = "pdpp_project.yaml"
+    filename = ".pdpp_project.yaml"
     in_dir = "_import_"
     out_dir = "_export_"
     has_source = False

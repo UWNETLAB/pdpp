@@ -25,5 +25,5 @@ def create_export(export_class_instance: export_class, riggable_classes: List[ba
 
     immediate_link(export_class_instance, riggable_classes)
 
-    with open("_export_/pdpp_export.yaml", 'w') as stream:
+    with open("_export_/.pdpp_export.yaml", 'w') as stream:
         yaml.dump(export_class_instance, stream, default_flow_style = False)

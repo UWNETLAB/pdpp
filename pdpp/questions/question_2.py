@@ -40,7 +40,7 @@ def q2(dep_dirs: list, target_dir: str, step_metadata:step_class) -> Tuple[Dict[
         for root, _, files in os.walk(join(selected_class.target_dir, selected_class.out_dir)):
             root = root.replace('\\', '/').replace('./', '').replace('.\\', '')
             for entry in files:
-                if entry != '.gitkeep' and entry != "pdpp_export.yaml":
+                if entry != '.gitkeep' and entry != ".pdpp_export.yaml":
                     output = join(root, entry).replace('./', '')
                     q2input[selected_class.target_dir].append(output) 
 
@@ -48,7 +48,7 @@ def q2(dep_dirs: list, target_dir: str, step_metadata:step_class) -> Tuple[Dict[
         for root, _, files in os.walk(import_dir):
             root = root.replace('\\', '/').replace('./', '').replace('.\\', '')
             for entry in files:
-                if entry != '.gitkeep' and entry != "pdpp_export.yaml":
+                if entry != '.gitkeep' and entry != ".pdpp_export.yaml":
                     output = join(root, entry).replace('./', '')
                     import_input.append(output) 
 

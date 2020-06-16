@@ -45,13 +45,7 @@ def get_riggable_classes() -> List[base_pdpp_class]:
 
 def riggable_directory_test(dirs:DirEntry) -> bool:
     """
-    This function tests a directory to see if it is a valid pdpp-compliant step directory; this is defined as any directory containing one of the following YAML files:
-
-    "pdpp_step.yaml"
-    "pdpp_export.yaml"
-    "pdpp_custom.yaml"
-    "pdpp_project.yaml"
-
+    This function tests a directory to see if it is a valid pdpp-compliant step directory.
     Returns 'True' if all three aforementioned subdirectories are found, returns 'False' otherwise. 
 
     """
