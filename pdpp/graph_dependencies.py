@@ -50,9 +50,11 @@ def export_graph(G, output_name, files):
     """
 
     # This loop checks for and removes any isolated nodes
-    for node in G:
-        if G.degree[node] == 0:
-            G.remove_node(node)
+
+    remlist = [node for node in G if G.degree[node] == 0]
+
+    for node in remlist:
+        G.remove_node(node)
 
     toPdot = nx.drawing.nx_pydot.to_pydot
     N = toPdot(G)
@@ -150,10 +152,6 @@ def depgraph(files='both'):
         for dep_dir in step_metadata.dep_files:
             for dep_file in step_metadata.dep_files[dep_dir]:
                 dep_name = join(dep_dir, dep_file)
-                print("From: " + dep_dir)
-                print(dep_name)
-                print("To: " + step_metadata.target_dir)
-                print("")
                 FILE.add_node(dep_name, style="filled", shape='box', fillcolor='#748F56', categ='file', label=dep_file, penwidth=0)
                 FILE.add_edge(dep_name, step_metadata.target_dir, color='#D3D3D3', penwidth=2)
                 if dep_dir == "_import_":
