@@ -49,6 +49,11 @@ def export_graph(G, output_name, files):
     This is a docstring
     """
 
+    # This loop checks for and removes any isolated nodes
+    for node in G:
+        if G.degree[node] == 0:
+            G.remove_node(node)
+
     toPdot = nx.drawing.nx_pydot.to_pydot
     N = toPdot(G)
 
