@@ -1,9 +1,5 @@
 from setuptools import setup, find_packages
 
-def readme():
-	with open('README.rst') as f:
-	    return f.read()
-
 setup(
     name="pdpp",
     version="0.3.9",
@@ -18,7 +14,6 @@ setup(
     author="Pierson Browne, Rachel Wood, Tyler Crick, John McLevey",
     author_email="pbrowne@uwaterloo.ca",
     description="Command line tool for automation, transparency, and reproducibility in data processing projects",
-    long_description=readme(),
     keywords="doit",
     url="http://networkslab.org",
 	classifiers=(
