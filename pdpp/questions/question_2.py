@@ -62,6 +62,8 @@ def q2(dep_dirs: list, target_dir: str, step_metadata:step_class) -> Tuple[Dict[
                     checked = join(*(value.split('/')[2:])) in step_metadata.dep_files[key]
                 except KeyError:
                     checked = False
+                except TypeError:
+                    checked = False 
                 choice_list_2.append({
                     'name': join(value),
                     'checked': checked,

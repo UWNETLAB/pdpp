@@ -27,9 +27,9 @@ def create_task(this_class: base_pdpp_class):
         if len(dep_dirs) != 0: 
             this_class.dep_files, this_class.import_files = q2(dep_dirs, this_class.target_dir, this_class)
         else:
-            this_class.dep_files = []
+            this_class.dep_files = {}
     else:
-        this_class.dep_files = []
+        this_class.dep_files = {}
 
     
     immediate_link(this_class, riggables)
