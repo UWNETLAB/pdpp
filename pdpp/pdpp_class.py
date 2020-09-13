@@ -247,6 +247,9 @@ _export_/*
 */input/*
 */output/*
 !*.gitkeep
+
+# doit-specific
+*.doit.db*
 '''
 
     try:
