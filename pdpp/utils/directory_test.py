@@ -1,10 +1,9 @@
 from posixpath import exists, join
 from os import DirEntry, scandir, listdir
-from pdpp.pdpp_class import base_pdpp_class, export_class, custom_class, project_class, step_class
-from pdpp.utils.import_step_class import import_step_class
+from pdpp.pdpp_class_base import BasePDPPClass
+#from pdpp.utils.import_step_class import import_step_class
 from typing import List
  
-pdpp_classes_list = [export_class, custom_class, project_class, step_class]
 
 class NotInProjectException(Exception):
     """
@@ -16,8 +15,7 @@ def in_project_folder():
 
     if exists("dodo.py") and len(listdir()) > 0:
         pass
-    # elif len(listdir()) == 0:
-    #     pass
+
     else:
         print("""Please run this command from an empty directory or an existing project directory (project directories contain a dodo.py file)""")
         raise NotInProjectException
@@ -31,17 +29,18 @@ def get_riggable_directories() -> list:
 
     return riggables
 
-def get_riggable_classes() -> List[base_pdpp_class]:
-    directories = get_riggable_directories()
+def get_riggable_classes() -> List[BasePDPPClass]:
+    # directories = get_riggable_directories()
 
-    classes = []
+    # classes = []
 
-    for directory in directories:
-        for _class in pdpp_classes_list:
-            if exists(join(directory, _class.filename)):
-                classes.append(import_step_class(directory, _class.filename))
+    # for directory in directories:
+    #     for _class in pdpp_classes_list:
+    #         if exists(join(directory, _class.filename)):
+    #             classes.append(import_step_class(directory, _class.filename))
 
-    return classes
+    # return classes
+    pass
 
 def riggable_directory_test(dirs:DirEntry) -> bool:
     """
@@ -50,8 +49,8 @@ def riggable_directory_test(dirs:DirEntry) -> bool:
 
     """
 
-    for _class in pdpp_classes_list:
-        if exists(join(dirs, _class.filename)):
-            return True
+    # for _class in pdpp_classes_list:
+    #     if exists(join(dirs, _class.filename)):
+    #         return True
 
     return False

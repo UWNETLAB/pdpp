@@ -6,9 +6,9 @@ from pdpp.questions.question_4 import q4
 from pdpp.utils.directory_test import get_riggable_directories, get_riggable_classes
 import yaml
 from pdpp.utils.immediate_link import immediate_link, immediate_import_link
-from pdpp.pdpp_class import base_pdpp_class
+from pdpp.pdpp_class_base import BasePDPPClass
 
-def create_task(this_class: base_pdpp_class):
+def create_task(this_class: BasePDPPClass):
 
     this_class.initialize_step()
 

@@ -1,16 +1,13 @@
 """The primary access point for the `pdpp` package.
 
 Every call to `pdpp` from the command line is routed through this
-module.  
-
-
+module.
 """
-
 
 from pdpp.utils import step_folder 
 from pdpp.utils import directory_test
 from pdpp.utils.rem_slash import rem_slash
-from pdpp.new_task import create_task
+#from pdpp.new_task import create_task
 import click
  
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
@@ -21,6 +18,14 @@ files_list = ['png', 'pdf', 'both']
 def main():
     """A command line tool to automate the use of the Principled Data Processing methodology for reproducibility."""
     pass
+
+
+# init
+@main.command(short_help="Prepares a directory to become a pdpp project")
+def init():
+    from pdpp.templates.project_structure import populate_new_project
+    populate_new_project(".")
+
 
 
 # new
@@ -41,9 +46,9 @@ def new(dirname):
     Adds dodo.py to <dirname>. Use this to create a new step folder."""
     directory_test.in_project_folder()
 
-    from pdpp.pdpp_class import step_class
+    from pdpp.task_types.step_task import StepTask
 
-    class_type = step_class(target_dir = rem_slash(dirname))
+    class_type = StepTask(target_dir = rem_slash(dirname))
     
     create_task(class_type)
     click.echo(f"Your new step folder, {dirname}, was created.")
@@ -137,8 +142,3 @@ def select():
     task_enabler()
 
 
-# init
-@main.command(short_help="Prepares a directory to become a pdpp project")
-def init():
-    from pdpp.pdpp_class import populate_new_project
-    populate_new_project("./")
