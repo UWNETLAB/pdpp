@@ -1,6 +1,8 @@
 from pdpp.pdpp_class_base import BasePDPPClass
 from typing import List, Dict
-from posixpath import join
+from os import mkdir
+from pdpp.utils.yaml_dump_self import yaml_dump_self
+from pdpp.templates.project_structure import create_in_out_src
 
 
 class StepTask(BasePDPPClass):
@@ -9,28 +11,21 @@ class StepTask(BasePDPPClass):
     """
 
     def __init__(
-            self, 
-            target_dir = '',
-            dep_files = {}, 
-            import_files = [],
-            src_files = [], 
-            language = '', 
-            enabled = True,
+            self,
+            target_dir
             ):
 
         self.target_dir = target_dir
-        self.dep_files: Dict[str, List[str]] = dep_files
-        self.import_files = import_files
-        self.src_files = src_files
-        self.language = language
-        self.enabled = enabled
+        self.dep_files: Dict[str, List[str]]
+        self.import_files: List
+        self.src_files: List
+        self.language: str
+        self.enabled: bool
 
-    filename = ".pdpp_step.yaml"
-    in_dir = "input"
-    out_dir = "output"
-    src_dir = "src"
-    has_source = True
+    FILENAME = ".pdpp_step.yaml"
+    IN_DIR = "input"
+    OUT_DIR = "output"
+    SRC_DIR = "src"
 
     def initialize_step(self):
         create_in_out_src(self.target_dir)
-        self.src_files.append(join(self.target_dir, "src", (self.target_dir + ".py")))

@@ -20,7 +20,7 @@ class ImportTask(BasePDPPClass):
     FILENAME = ".pdpp_import.yaml"
     IN_DIR = ""
     OUT_DIR = ""
-    HAS_SOURCE = False
+    SRC_DIR = False
 
 
     def initialize_step(self):

@@ -17,22 +17,14 @@ def create_in_out_src(target_dir):
 
     """
 
-    makedirs(join(target_dir, "input"))
-    makedirs(join(target_dir, "output"))
-    makedirs(join(target_dir, "src"))
+    makedirs("input")
+    makedirs("output")
+    makedirs("src")
     
-
-    f = open(join(target_dir, "input", ".gitkeep"), "a")
-    f.close()
-
-    f = open(join(target_dir, "output", ".gitkeep"), "a")
-    f.close()
-
-    f = open(join(target_dir, "src", ".gitkeep"), "a")
-    f.close()
-
-    f = open(join(target_dir, "src", (target_dir + ".py")), "a")
-    f.close()
+    open(join("input", ".gitkeep"), "a").close()
+    open(join("output", ".gitkeep"), "a").close()
+    open(join("src", ".gitkeep"), "a").close()
+    open(join("src", (target_dir + ".py")), "a").close()
 
 
 def populate_new_project(target_dir = "."):

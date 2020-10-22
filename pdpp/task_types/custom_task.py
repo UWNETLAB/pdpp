@@ -22,10 +22,10 @@ class CustomTask(BasePDPPClass):
         self.shell_commands = []
         self.enabled = enabled
 
-    filename = ".pdpp_custom.yaml"
-    in_dir = "input"
-    out_dir = "output"
-    has_source = False
+    FILENAME = ".pdpp_custom.yaml"
+    IN_DIR = "input"
+    OUT_DIR = "output"
+    SRC_DIR = "src"
 
     def initialize_step(self):
         create_in_out_src(self.target_dir)

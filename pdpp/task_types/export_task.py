@@ -13,15 +13,15 @@ class ExportTask(BasePDPPClass):
             self
             ):
 
-        self.target_dir = "_export_"
-        self.dep_files: Dict[str, List[str]] = []
-        self.enabled = True
+        self.target_dir: str = "_export_"
+        self.dep_files: Dict[str, List[str]]
+        self.enabled: bool = True
 
 
     FILENAME = ".pdpp_export.yaml"
     IN_DIR = ""
-    OUT_DIR = ""
-    HAS_SOURCE = False
+    OUT_DIR = "./"
+    SRC_DIR = False
 
 
     def initialize_step(self):

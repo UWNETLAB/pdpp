@@ -19,10 +19,10 @@ class SubTask(BasePDPPClass):
         self.enabled = enabled
         self.has_source = False
 
-    filename = ".pdpp_project.yaml"
-    in_dir = "_import_"
-    out_dir = "_export_"
-    has_source = False
+    FILENAME = ".pdpp_project.yaml"
+    IN_DIR = "_import_"
+    OUT_DIR = "_export_"
+    SRC_DIR = False
 
     def initialize_step(self):
         populate_new_project(self.target_dir)

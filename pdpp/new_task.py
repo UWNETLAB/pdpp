@@ -8,38 +8,37 @@ import yaml
 from pdpp.utils.immediate_link import immediate_link, immediate_import_link
 from pdpp.pdpp_class_base import BasePDPPClass
 
-def create_task(this_class: BasePDPPClass):
+def create_task(task: BasePDPPClass):
 
-    this_class.initialize_step()
+    task.initialize_step()
 
-    subdirs = get_riggable_directories()
-    riggables = get_riggable_classes()
+    riggables, subdirs = get_riggable_classes()
 
     subdirs.append("_import_")
 
     subdirs.sort()
 
     # Question 1 - Which other Steps contain necessary dependencies?
-    dep_dirs = q1(subdirs, this_class.target_dir, this_class)
+    dep_dirs = q1(subdirs, task.target_dir, task)
 
     # Question 2 - Which files from the indicated dependencies are needed?
     if dep_dirs != None:
         if len(dep_dirs) != 0: 
-            this_class.dep_files, this_class.import_files = q2(dep_dirs, this_class.target_dir, this_class)
+            task.dep_files, task.import_files = q2(dep_dirs, task.target_dir, task)
         else:
-            this_class.dep_files = {}
+            task.dep_files = {}
     else:
-        this_class.dep_files = {}
+        task.dep_files = {}
 
     
-    immediate_link(this_class, riggables)
-    immediate_import_link(this_class)
+    immediate_link(task, riggables)
+    immediate_import_link(task)
     
-    if this_class.has_source:
-        this_class.src_files = q3(this_class.target_dir, this_class)
-        this_class.language = q4(this_class.src_files)
+    if task.has_source:
+        task.src_files = q3(task.target_dir, task)
+        task.language = q4(task.src_files)
 
-    yaml_loc = os.path.join(this_class.target_dir, this_class.filename)
+    yaml_loc = os.path.join(task.target_dir, task.filename)
 
     with open(yaml_loc, 'w') as stream:
-        yaml.dump(this_class, stream, default_flow_style=False)
+        yaml.dump(task, stream, default_flow_style=False)
