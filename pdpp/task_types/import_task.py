@@ -1,8 +1,8 @@
 from pdpp.pdpp_class_base import BasePDPPClass
 from typing import List, Dict
-from os import mkdir
-from pdpp.utils.yaml_dump_self import yaml_dump_self
-
+from os import mkdir, chdir
+from pdpp.utils.yaml_task import dump_self
+from pdpp.utils.execute_at_target import execute_at_target
 
 class ImportTask(BasePDPPClass):
     """
@@ -18,12 +18,16 @@ class ImportTask(BasePDPPClass):
 
 
     FILENAME = ".pdpp_import.yaml"
-    IN_DIR = ""
-    OUT_DIR = ""
+    RIG_VALID = False # Can be rigged
+    TRG_VALID = False # Can have targets 
+    DEP_VALID = True # Can contain dependencies for other tasks
+    SRC_VALID = False # Can have source code
+    IN_DIR = "./"
+    OUT_DIR = "./"
     SRC_DIR = False
 
 
-    def initialize_step(self):
+    def initialize_task(self):
         mkdir(self.target_dir)
-        yaml_dump_self(self)
+        execute_at_target(dump_self, self)
 

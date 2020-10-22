@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Union
 from abc import ABC, abstractmethod
 
 
@@ -13,17 +13,21 @@ class BasePDPPClass(ABC):
         self.target_dir: str
         self.language: str
         self.enabled: bool    
-        self.dep_files: Dict[str, List[str]] 
+        self.dep_files: Dict[str, Dict]
         self.import_files: List
         self.src_files: List
 
     
-    FILENAME: str
+    FILENAME = ".pdpp_export.yaml"
+    RIG_VALID = True # Can be rigged
+    TRG_VALID = False # Can have targets 
+    DEP_VALID = True # Can contain dependencies for other tasks
+    SRC_VALID = False # Can have source code
     IN_DIR: str
     OUT_DIR: str
-    HAS_SOURCE: bool
+    SRC_DIR: str
     
 
     @abstractmethod
-    def initialize_step(self):
+    def initialize_task(self):
         pass

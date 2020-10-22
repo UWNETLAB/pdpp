@@ -4,10 +4,9 @@ Every call to `pdpp` from the command line is routed through this
 module.
 """
 
-from pdpp.utils import step_folder 
+from pdpp.utils.step_folder_test import StepFolder
 from pdpp.utils.directory_test import in_project_folder
 from pdpp.utils.rem_slash import rem_slash
-from pdpp.new_task import create_task
 import click
  
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
@@ -25,9 +24,8 @@ def main():
 @main.command(short_help="Prepares a directory to become a pdpp project")
 def init():
 
-    from pdpp.templates.project_structure import populate_new_project
-    populate_new_project(".")
-
+    from pdpp.templates.populate_new_project import populate_new_project
+    populate_new_project()
 
 
 # new
@@ -37,7 +35,7 @@ def init():
                          "And which files from those steps should be immediately linked to the new step.",
               context_settings=CONTEXT_SETTINGS)
 @click.option('--dirname', '-d',
-              type=step_folder.StepFolder(),
+              type=StepFolder(),
               prompt="What do you want to call the new task directory?"
                      "(Use all lower case, no spaces, and cannot be '_import_' or '_export_')",
               help="This is what you want to name your new step folder. "
@@ -51,10 +49,17 @@ def new(dirname):
 
     from pdpp.task_types.step_task import StepTask
 
-    class_type = StepTask(target_dir = rem_slash(dirname))
+    StepTask(target_dir = rem_slash(dirname)).initialize_task()
     
-    create_task(class_type)
     click.echo(f"Your new step folder, {dirname}, was created.")
+
+# rig
+@main.command(short_help="Incorporates a step in the project's automation")
+def rig():
+    in_project_folder()
+    from pdpp.rig import rig as rig_step
+    rig_step()
+
 
 
 #custom
@@ -63,7 +68,7 @@ def new(dirname):
                          "You will be asked to indicate which other steps are dependencies of this step,"
                          "And which files from those steps should be immediately linked to the new step.",)
 @click.option('--dirname', '-s',
-              type=step_folder.StepFolder(),
+              type=StepFolder(),
               prompt="What do you want to call the new custom task directory?"
                      "(Use all lower case, no spaces, and cannot be '_import_' or '_export_')",
               help="This is what you want to name your new step folder. "
@@ -79,7 +84,6 @@ def custom(dirname: str):
 
     class_type = CustomTask(target_dir = rem_slash(dirname))
     
-    create_task(class_type)
     click.echo(f"Your new step folder, {dirname}, was created.")
 
 
@@ -88,7 +92,7 @@ def custom(dirname: str):
                          "You will be asked to indicate which other steps are dependencies of this step,"
                          "And which files from those steps should be immediately linked to the new step.",)
 @click.option('--dirname', '-s',
-              type=step_folder.StepFolder(),
+              type=StepFolder(),
               prompt="What do you want to call the new subproject task directory?"
                      "(Use all lower case, no spaces, and cannot be '_import_' or '_export_')",
               help="This is what you want to name your new step folder. "
@@ -100,20 +104,13 @@ def sub(dirname):
 
     in_project_folder()
 
-    from pdpp.pdpp_class import project_class
+    from pdpp.task_types.sub_task import SubTask
 
-    class_type = project_class(target_dir = rem_slash(dirname))
+    class_type = SubTask(target_dir = rem_slash(dirname))
     
-    create_task(class_type)
     click.echo(f"Your new subproject, {dirname}, was created.")
 
 
-# rig
-@main.command(short_help="Incorporates a step in the project's automation")
-def rig():
-    in_project_folder()
-    from pdpp.rig import rig as rig_step
-    rig_step()
 
  
 # graph

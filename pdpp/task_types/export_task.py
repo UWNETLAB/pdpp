@@ -1,7 +1,8 @@
 from pdpp.pdpp_class_base import BasePDPPClass
 from typing import List, Dict
 from os import mkdir
-from pdpp.utils.yaml_dump_self import yaml_dump_self
+from pdpp.utils.yaml_task import dump_self
+
 
 
 class ExportTask(BasePDPPClass):
@@ -19,13 +20,17 @@ class ExportTask(BasePDPPClass):
 
 
     FILENAME = ".pdpp_export.yaml"
-    IN_DIR = ""
+    RIG_VALID = True # Can be rigged
+    TRG_VALID = True # Can have targets 
+    DEP_VALID = False # Can contain dependencies for other tasks
+    SRC_VALID = False # Can have source code
+    IN_DIR = "./"
     OUT_DIR = "./"
     SRC_DIR = False
 
 
-    def initialize_step(self):
+    def initialize_task(self):
         mkdir(self.target_dir)
-        yaml_dump_self(self)
+        dump_self(self)
 
 

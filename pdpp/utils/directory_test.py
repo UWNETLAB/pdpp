@@ -1,12 +1,11 @@
 from posixpath import exists, join
 from os import DirEntry, chdir, scandir, listdir
 from pdpp.pdpp_class_base import BasePDPPClass
-from pdpp.task_types import all_task_filenames
-#from pdpp.utils.import_step_class import import_step_class
+from pdpp.utils.yaml_task import load_task
 from typing import List, Tuple, Iterator
 from itertools import compress
 import yaml
-
+from pdpp.task_types import all_task_filenames
 
 class NotInProjectException(Exception):
     """
@@ -25,7 +24,7 @@ def in_project_folder():
         raise NotInProjectException
 
 
-def riggable_directory_test(dir_) -> List[str]:
+def pdpp_directory_test(dir_) -> List[str]:
     """
     This function tests a directory to see if it is a valid pdpp-compliant step directory.
     Returns 'True' if all three aforementioned subdirectories are found, returns 'False' otherwise. 
@@ -34,28 +33,35 @@ def riggable_directory_test(dir_) -> List[str]:
     return list(compress(all_task_filenames, list(map(exists, [join(dir_, n) for n in all_task_filenames]))))
 
 
-def get_riggable_directories() -> Iterator[Tuple[str]]:
+def get_pdpp_directories() -> Iterator[Tuple[str]]:
     """
     Returns a list of all the riggable directories at this level of the project (or subproject)
     """
 
-    return zip(*[(f, riggable_directory_test(f)[0]) for f in [r.name for r in scandir() if r.is_dir()] if riggable_directory_test(f)])
+    return zip(*[(f, pdpp_directory_test(f)[0]) for f in [r.name for r in scandir() if r.is_dir()] if pdpp_directory_test(f)])
 
 
-## TODO: The following function should probably be moved elsewhere and turned into an all-purpose task loader
+def get_pdpp_tasks() -> List[BasePDPPClass]:
+    """
+    Returns a list containing loaded instances of all pdpp tasks in the current 
+    project. (Does not recursively search subprojects).
+    """    
 
-def get_dat_yaml(dat):
-    with open(dat, 'r') as stream:
-        return yaml.full_load(stream)
+    directories, filenames = get_pdpp_directories()
 
-def get_riggable_classes() -> List[BasePDPPClass]:
+    return [load_task(task) for task in map(join, directories, filenames)]
 
-    directories, filenames = get_riggable_directories()
 
-    # for directory in directories:
-    #     for _class in all_task_types:
-    #         if exists(join(directory, _class.filename)):
-    #             classes.append(import_step_class(directory, _class.filename))
+def get_riggable_tasks() -> List[BasePDPPClass]:
 
-    return [get_dat_yaml(task) for task in map(join, directories, filenames)]
+    return [task for task in get_pdpp_tasks() if task.RIG_VALID]
 
+
+def get_dependency_tasks() -> List[BasePDPPClass]:
+
+    return [task for task in get_pdpp_tasks() if task.DEP_VALID]
+
+
+def get_target_tasks() -> List[BasePDPPClass]:
+
+    return [task for task in get_pdpp_tasks() if task.TRG_VALID]

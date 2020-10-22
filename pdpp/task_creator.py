@@ -1,6 +1,6 @@
 from posixpath import join
 from pdpp.doit_constructors.link_task import make_link_task
-from pdpp.utils.directory_test import get_riggable_classes
+from pdpp.utils.directory_test import get_pdpp_tasks
 from typing import List, Tuple
 from pdpp.pdpp_class import base_pdpp_class, export_class, custom_class, project_class, step_class, import_class
 from pdpp.languages.language_parser import parse_language
@@ -59,7 +59,7 @@ def find_dependencies_from_others(step: base_pdpp_class, export:export_class, li
 def gen_many_tasks():
     
     # 1. Get all of the steps in the current scope
-    loaded_steps = get_riggable_classes()
+    loaded_steps = get_pdpp_tasks()
 
 
     # 2. Create a list of all the disabled steps loaded in step #1

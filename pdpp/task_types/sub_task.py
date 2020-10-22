@@ -1,6 +1,8 @@
 from pdpp.pdpp_class_base import BasePDPPClass
 from typing import List, Dict
-
+from os import mkdir, chdir
+from pdpp.utils.yaml_task import dump_self
+from pdpp.templates.populate_new_project import populate_new_project
 
 class SubTask(BasePDPPClass):
     """
@@ -20,9 +22,13 @@ class SubTask(BasePDPPClass):
         self.has_source = False
 
     FILENAME = ".pdpp_project.yaml"
+    RIG_VALID = True # Can be rigged
+    TRG_VALID = True # Can have targets 
+    DEP_VALID = True # Can contain dependencies for other tasks
+    SRC_VALID = False # Can have source code
     IN_DIR = "_import_"
     OUT_DIR = "_export_"
     SRC_DIR = False
 
-    def initialize_step(self):
-        populate_new_project(self.target_dir)
+    def initialize_task(self):
+        populate_new_project()

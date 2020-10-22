@@ -71,9 +71,9 @@ def depgraph(files='both'):
     This is a docstring
     """
 
-    from pdpp.utils.directory_test import get_riggable_classes
+    from pdpp.utils.directory_test import get_pdpp_tasks
 
-    riggable_classes: List[base_pdpp_class] = get_riggable_classes()
+    riggable_classes: List[base_pdpp_class] = get_pdpp_tasks()
 
     SOURCE = nx.DiGraph()
     SPARSE = nx.DiGraph()

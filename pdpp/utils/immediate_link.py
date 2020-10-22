@@ -1,60 +1,34 @@
-from os import link, remove, makedirs
+from os import link, makedirs
 from posixpath import join
 from typing import List
-from pdpp.pdpp_class import base_pdpp_class
+from pdpp.pdpp_class_base import BasePDPPClass
+from shutil import rmtree, copytree
 
 
-def immediate_import_link(this_class:base_pdpp_class):
+def immediate_link(task:BasePDPPClass):
     """
     This is a docstring.
     """
 
-    for import_file in this_class.import_files:
+    #The following block cleans the input directory by deleting it recursively
+    #and then re-creating it with a new .gitkeep
 
-        pre_link = join("_import_", import_file)
-        post_link = join(this_class.target_dir, this_class.in_dir, import_file)
+    in_dir = join(task.target_dir, task.IN_DIR)
+    rmtree(in_dir)
+    makedirs(in_dir)
+    with open(join(in_dir, ".gitkeep"), 'w'):
+        pass
 
-        try:
+    for key, value in task.dep_files.items():
+        
+        out_dir = join(key, value["task_out"])
+
+        for file_entry in value['file_list']:
+            pre_link = join(out_dir, file_entry)
+            post_link = join(in_dir, file_entry)
             link(pre_link, post_link)
-        except FileExistsError:
-            remove(post_link)
-            link(pre_link, post_link)
-        except FileNotFoundError:
-            post_link_list = post_link.split('/')
-            del post_link_list[-1]
-
-            if len(post_link_list) != 0:
-                makedirs(join(*post_link_list))
-
-            link(pre_link, post_link)
-
-
-def immediate_link(this_class:base_pdpp_class, riggables: List[base_pdpp_class]):
-    """
-    This is a docstring.
-    """
-
-    for dep_step in this_class.dep_files:
-
-        dep_files = this_class.dep_files[dep_step]
-
-        dep_class = next((c for c in riggables if c.target_dir == dep_step))
-
-        for dep_file in dep_files:
-
-            pre_link = join(dep_class.target_dir, dep_class.out_dir, dep_file)
-            post_link = join(this_class.target_dir, this_class.in_dir, dep_file)
-
-            try:
-                link(pre_link, post_link)
-            except FileExistsError:
-                remove(post_link)
-                link(pre_link, post_link)
-            except FileNotFoundError:
-                post_link_list = post_link.split('/')
-                del post_link_list[-1]
-
-                if len(post_link_list) != 0:
-                    makedirs(join(*post_link_list))
-
-                link(pre_link, post_link)
+        
+        for directory_entry in value['dir_list']:
+            pre_link = join(out_dir, directory_entry)
+            post_link = join(in_dir, directory_entry)
+            copytree(pre_link, post_link, copy_function=link)

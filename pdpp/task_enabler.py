@@ -1,23 +1,21 @@
-from pdpp.utils.directory_test import get_riggable_directories
+from pdpp.utils.directory_test import get_pdpp_directories
 from posixpath import join, exists
 from pdpp.styles.prompt_style import custom_style_fancy 
 from questionary import prompt
 import yaml
 from pdpp.utils.import_step_class import import_step_class
-from pdpp.pdpp_class import step_class, export_class, project_class, custom_class
+from pdpp.task_types import all_task_types
  
 def task_enabler():
 
-    subdirs, _ = get_riggable_directories()
-
-    classes_to_load = [step_class, export_class, project_class, custom_class]
+    subdirs, _ = get_pdpp_directories()
 
     pdpp_steps = []
 
     for directory in subdirs:
-        for pdpp_class in classes_to_load:
-            if exists(join(directory, pdpp_class.filename)):
-                pdpp_steps.append(import_step_class(directory, pdpp_class.filename))
+        for pdpp_class in all_task_types:
+            if exists(join(directory, pdpp_class.FILENAME)):
+                pdpp_steps.append(import_step_class(directory, pdpp_class.FILENAME))
 
     choice_list = []
 

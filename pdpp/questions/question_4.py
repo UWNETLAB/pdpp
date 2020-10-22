@@ -1,8 +1,10 @@
 from questionary import prompt
 from click import clear as click_clear
 from pdpp.styles.prompt_style import custom_style_fancy
+from pdpp.pdpp_class_base import BasePDPPClass
+from pdpp.languages.language_enum import Language
 
-def q4(src_files: list) -> str:
+def q4(task: BasePDPPClass) -> str:
     """
     This question is used to determine the language of the source code this step will run. 
     This needs documentation badly, because I'm not entirely certain what it does at the moment.
@@ -13,24 +15,23 @@ def q4(src_files: list) -> str:
 
     extension_list = []
 
-    for entry in src_files:
+    for entry in task.src_files:
         extension_list.append(str(entry).split('.')[-1].lower())
 
     language_list = []
 
     for entry in extension_list:
         if entry == 'py':
-            language_list.append('Python')
+            language_list.append(Language.PYTHON.value)
         elif entry == 'r' or entry == 'rscript':
-            language_list.append('R')
+            language_list.append(Language.R.value)
         else:
             language_list.append('???')
 
 
     if len(set(language_list)) != 1 or '???' in language_list:
         
-        message = ("""
-        Note that pdpp does not currently support automating steps that 
+        message = ("""Note that pdpp does not currently support automating tasks that 
         contain scripts written in more than one programming language.
 
         If this step contains source code from multiple languages,
@@ -55,10 +56,10 @@ def q4(src_files: list) -> str:
             'message': message,
             'choices': [
                 {
-                    'name': 'Python'
+                    'name': Language.PYTHON.value
                 },
                 {
-                    'name': 'R'
+                    'name': Language.R.value
                 }
             ],
         }]

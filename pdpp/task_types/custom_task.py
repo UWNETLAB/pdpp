@@ -1,7 +1,10 @@
 from pdpp.pdpp_class_base import BasePDPPClass
 from typing import List, Dict
-from os import chdir
-        
+from os import mkdir
+from pdpp.utils.yaml_task import dump_self
+from pdpp.templates.create_in_out_src import create_in_out_src
+from pdpp.utils.execute_at_target import execute_at_target
+
 
 class CustomTask(BasePDPPClass):
     """
@@ -23,9 +26,13 @@ class CustomTask(BasePDPPClass):
         self.enabled = enabled
 
     FILENAME = ".pdpp_custom.yaml"
+    RIG_VALID = True # Can be rigged
+    TRG_VALID = True # Can have targets 
+    DEP_VALID = True # Can contain dependencies for other tasks
+    SRC_VALID = True # Can have source code
     IN_DIR = "input"
     OUT_DIR = "output"
     SRC_DIR = "src"
 
-    def initialize_step(self):
-        create_in_out_src(self.target_dir)
+    def initialize_task(self):
+        execute_at_target(create_in_out_src, self)

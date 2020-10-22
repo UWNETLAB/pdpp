@@ -1,7 +1,7 @@
-from pdpp.pdpp_class import base_pdpp_class
+from pdpp.pdpp_class_base import BasePDPPClass
 from pdpp.languages.runners import python_runner, r_runner
 
-def parse_language(step: base_pdpp_class):
+def parse_language(step: BasePDPPClass):
 
     if step.language == "Python":
         return python_runner

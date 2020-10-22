@@ -1,14 +1,18 @@
-from questionary import Separator, prompt
+from questionary import Separator, prompt, Choice
 from click import clear as click_clear
 from posixpath import join
 import os
 from pprint import pprint
 from pdpp.styles.prompt_style import custom_style_fancy
-from pdpp.pdpp_class import step_class
+from pdpp.pdpp_class_base import BasePDPPClass
+from pdpp.utils.ignorelist import ignorelist
 from typing import Tuple, List, Dict
-from pdpp.utils.directory_test import get_riggable_classes
+from os import DirEntry
+from collections import defaultdict
 
-def q2(dep_dirs: list, target_dir: str, step_metadata:step_class) -> Tuple[Dict[str, List[str]], List[str]]:
+
+
+def q2(selected_dep_tasks: List[BasePDPPClass], task: BasePDPPClass):
     """
     A question which asks users to indicate which individual files 
     (drawn from a list of those contained in the output directories of the steps indicated in question #1) 
@@ -17,115 +21,75 @@ def q2(dep_dirs: list, target_dir: str, step_metadata:step_class) -> Tuple[Dict[
 
     click_clear()
 
-    q2input = {}
+    q2input: Dict[BasePDPPClass, List[DirEntry[str]]] = {}
     import_input = []
 
-    riggable_classes = get_riggable_classes()
-    selected_classes = []
+    for selected_task in selected_dep_tasks:
 
-    import_dir = "_import_"
+        search_dir = join(selected_task.target_dir, selected_task.OUT_DIR)
 
-    include_import = False
+        results = [r for r in os.scandir(search_dir) if r.name not in ignorelist]
 
-    if import_dir in dep_dirs:
-        dep_dirs.remove(import_dir)
-        include_import = True
+        if results:
+            q2input[selected_task] = results
 
-    for directory in dep_dirs:
-        selected_class = next((c for c in riggable_classes if c.target_dir == directory))
-        selected_classes.append(selected_class)
 
-    for selected_class in selected_classes:
-        q2input[selected_class.target_dir] = []
-        for root, _, files in os.walk(join(selected_class.target_dir, selected_class.out_dir)):
-            root = root.replace('\\', '/').replace('./', '').replace('.\\', '')
-            for entry in files:
-                if entry != '.gitkeep' and entry != ".pdpp_export.yaml":
-                    output = join(root, entry).replace('./', '')
-                    q2input[selected_class.target_dir].append(output) 
+    choice_list = []
 
-    if include_import:
-        for root, _, files in os.walk(import_dir):
-            root = root.replace('\\', '/').replace('./', '').replace('.\\', '')
-            for entry in files:
-                if entry != '.gitkeep' and entry != ".pdpp_export.yaml":
-                    output = join(root, entry).replace('./', '')
-                    import_input.append(output) 
+    for key, values in q2input.items():
 
-    choice_list_2 = []
+        choice_list.append(Separator('\n= ' + key.target_dir + ' ='))
 
-    for key in q2input:
-        if len(q2input[key]) > 0:
-            choice_list_2.append(Separator('\n= ' + key + ' ='))
-            for value in q2input[key]:
-                try:
-                    checked = join(*(value.split('/')[2:])) in step_metadata.dep_files[key]
-                except KeyError:
-                    checked = False
-                except TypeError:
-                    checked = False 
-                choice_list_2.append({
-                    'name': join(value),
-                    'checked': checked,
-                    })
+        for value in values:
+            try:
+                checked = value.name in task.dep_files[key.target_dir]
+            except KeyError:
+                checked = False
+            except TypeError:
+                checked = False 
 
-        else:
-            print(str(key) + " does not contain any eligible output files. Skipping.")
+            title = value.name 
 
-    if include_import:
-        if len(import_input) > 0:
-            choice_list_2.append(Separator('\n= ' + import_dir + ' ='))
-            for value in import_input:
-                try:
-                    checked = join(*(value.split('/')[1:])) in step_metadata.import_files
-                except KeyError:
-                    checked = False
-                choice_list_2.append({
-                    'name': join(value),
-                    'checked': checked,
-                    })
+            if value.is_dir():
+                title += " (This is a directory)"
 
+            choice_list.append(
+                Choice(
+                    title = title,
+                    value = (key, value),
+                    checked= checked,
+                )
+            )
 
     questions_2 =[
         {
             'type': 'checkbox',
-            'message': 'Select the dependency files for "{}"'.format(target_dir),
+            'message': 'Select the dependency files for "{}"'.format(task.target_dir),
             'name': 'dependencies',
-            'choices': choice_list_2,
+            'choices': choice_list,
         }
     ]
+    
+    response_dict = {}
 
-    response_dict={}
-    import_list = []
+    responses: List[Tuple[BasePDPPClass, DirEntry[str]]]
 
-    if len(questions_2[0]['choices']) > 0:
+    if questions_2[0]['choices']:
         responses = prompt(questions_2, style=custom_style_fancy)['dependencies']
     else:
-        return (response_dict, import_list)
+        return {}
 
-    for response in responses:
-        split_response = response.split('/')
+    dep_task_set = set([t for t, f in responses])
 
-        pprint(split_response)
+    for dep_task in dep_task_set:
+        task_out = dep_task.OUT_DIR
+        file_list = [f.name for t, f in responses if t == dep_task and f.is_file()]
+        dir_list = [d.name for t, d in responses if t == dep_task and d.is_dir()]
 
-        if split_response[0] == import_dir:
-            
-            dependency_step_name = split_response.pop(0)
-
-            import_list.append(join(*split_response))
-
-        else:
-            #The following line 'pops' the step name out of the list of the components which comprise the
-            #dependency filepath... The one thereafter pops out the one following, which will always be 'output'
-            dependency_step_name = split_response.pop(0)
-
-            _ = split_response.pop(0)
-
-            if dependency_step_name in response_dict:
-                pass
-            else:
-                response_dict[dependency_step_name] = []
-            
-            response_dict[dependency_step_name].append(join(*split_response))
-
-    return (response_dict, import_list)
+        response_dict[dep_task.target_dir] = {
+            "task_out": task_out,
+            "file_list": file_list,
+            "dir_list": dir_list,
+        }
+    
+    return response_dict
