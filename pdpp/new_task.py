@@ -3,7 +3,7 @@ from pdpp.questions.question_1 import q1
 from pdpp.questions.question_2 import q2
 from pdpp.questions.question_3 import q3
 from pdpp.questions.question_4 import q4
-from pdpp.utils.directory_test import get_riggable_directories, get_riggable_classes
+from pdpp.utils.directory_test import get_riggable_classes
 import yaml
 from pdpp.utils.immediate_link import immediate_link, immediate_import_link
 from pdpp.pdpp_class_base import BasePDPPClass

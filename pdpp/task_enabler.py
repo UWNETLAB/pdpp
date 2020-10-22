@@ -8,7 +8,7 @@ from pdpp.pdpp_class import step_class, export_class, project_class, custom_clas
  
 def task_enabler():
 
-    subdirs = get_riggable_directories()
+    subdirs, _ = get_riggable_directories()
 
     classes_to_load = [step_class, export_class, project_class, custom_class]
 

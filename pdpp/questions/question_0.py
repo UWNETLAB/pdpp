@@ -11,7 +11,7 @@ def q0() -> Tuple[str, base_pdpp_class, dict] :
     This question is used to select the step you wish to alter with pdpp.
     '''
 
-    subdirs = get_riggable_directories()
+    subdirs, _ = get_riggable_directories()
     subdirs.sort()
 
     click_clear()
