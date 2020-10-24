@@ -53,13 +53,13 @@ def new(dirname):
     
     click.echo(f"Your new step folder, {dirname}, was created.")
 
+
 # rig
 @main.command(short_help="Incorporates a step in the project's automation")
 def rig():
     in_project_folder()
-    from pdpp.rig import rig as rig_step
-    rig_step()
-
+    from pdpp.questions.question_0 import q0
+    q0().rig_task()
 
 
 #custom
@@ -109,8 +109,6 @@ def sub(dirname):
     class_type = SubTask(target_dir = rem_slash(dirname))
     
     click.echo(f"Your new subproject, {dirname}, was created.")
-
-
 
  
 # graph

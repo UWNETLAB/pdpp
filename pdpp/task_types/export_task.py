@@ -15,7 +15,7 @@ class ExportTask(BasePDPPClass):
             ):
 
         self.target_dir: str = "_export_"
-        self.dep_files: Dict[str, List[str]]
+        self.dep_files: Dict[str, List[str]] = {}
         self.enabled: bool = True
 
 
@@ -28,6 +28,8 @@ class ExportTask(BasePDPPClass):
     OUT_DIR = "./"
     SRC_DIR = False
 
+    def rig_task(self):
+        pass
 
     def initialize_task(self):
         mkdir(self.target_dir)

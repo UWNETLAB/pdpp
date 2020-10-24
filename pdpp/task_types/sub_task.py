@@ -30,5 +30,8 @@ class SubTask(BasePDPPClass):
     OUT_DIR = "_export_"
     SRC_DIR = False
 
+    def rig_task(self):
+        pass
+
     def initialize_task(self):
         populate_new_project()

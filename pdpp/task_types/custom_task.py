@@ -34,5 +34,8 @@ class CustomTask(BasePDPPClass):
     OUT_DIR = "output"
     SRC_DIR = "src"
 
+    def rig_task(self):
+        pass
+    
     def initialize_task(self):
         execute_at_target(create_in_out_src, self)

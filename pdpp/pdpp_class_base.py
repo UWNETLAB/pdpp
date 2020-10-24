@@ -29,5 +29,10 @@ class BasePDPPClass(ABC):
     
 
     @abstractmethod
+    def rig_task(self):
+        pass
+
+    @abstractmethod
     def initialize_task(self):
         pass
+

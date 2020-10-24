@@ -14,6 +14,7 @@ class ImportTask(BasePDPPClass):
             ):
 
         self.target_dir = "_import_"
+        self.dep_files = {}
         self.enabled = True
 
 
@@ -26,6 +27,8 @@ class ImportTask(BasePDPPClass):
     OUT_DIR = "./"
     SRC_DIR = False
 
+    def rig_task(self):
+        raise NotImplementedError
 
     def initialize_task(self):
         mkdir(self.target_dir)

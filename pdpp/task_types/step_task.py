@@ -5,7 +5,7 @@ from pdpp.utils.execute_at_target import execute_at_target
 from pdpp.templates.create_in_out_src import create_in_out_src
 from pdpp.utils.yaml_task import dump_self
 from pdpp.utils.immediate_link import immediate_link
-from pdpp.questions import *
+from pdpp.questions import q1, q2, q3, q4
 from pdpp.languages.language_enum import Language
 
 
@@ -35,6 +35,7 @@ class StepTask(BasePDPPClass):
     SRC_DIR = "src"
 
     def rig_task(self):
+
         from pdpp.utils.directory_test import get_dependency_tasks
 
         # Ask dependency questions:
@@ -42,11 +43,14 @@ class StepTask(BasePDPPClass):
         selected_dep_tasks = q1(dep_tasks, self)
         self.dep_files = q2(selected_dep_tasks, self)
 
-
         # Ensure source compliance:
         self.src_files = q3(self)
         self.language = q4(self)
 
+        # Implement links:
+        # TODO: Consider creating a check for files that aren't part of the
+        # existing dependency structure; if there are any, ask if users want
+        # them deleted or to be preserved.
         immediate_link(self)
 
         # Finally, save self to YAML:

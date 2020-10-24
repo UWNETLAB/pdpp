@@ -1,4 +1,4 @@
-from pdpp.pdpp_class import base_pdpp_class, import_class
+from pdpp.pdpp_class_base import BasePDPPClass
 from pdpp.doit_constructors.mylinker import mylinker
 from typing import List
 from posixpath import join
