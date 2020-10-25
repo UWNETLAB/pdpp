@@ -1,5 +1,5 @@
 from pdpp.pdpp_class_base import BasePDPPClass
-from typing import List, Dict
+from typing import List, Tuple, Dict
 from os import mkdir, DirEntry
 from pdpp.utils.execute_at_target import execute_at_target
 from pdpp.templates.create_in_out_src import create_in_out_src
@@ -7,6 +7,7 @@ from pdpp.utils.yaml_task import dump_self
 from pdpp.utils.immediate_link import immediate_link
 from pdpp.questions import q1, q2, q3, q4
 from pdpp.languages.language_enum import Language
+from pdpp.templates.dep_dataclass import dep_dataclass
 
 
 class StepTask(BasePDPPClass):
@@ -20,7 +21,7 @@ class StepTask(BasePDPPClass):
             ):
 
         self.target_dir = target_dir
-        self.dep_files = {}
+        self.dep_files: Dict[str, dep_dataclass] = {}
         self.src_files: List = []
         self.language: str = Language.PYTHON.value
         self.enabled: bool = True
@@ -65,3 +66,13 @@ class StepTask(BasePDPPClass):
 
         # From here on out, rigging is identical to creating anew:
         self.rig_task()
+
+    def provide_dependencies(self, asking_task: BasePDPPClass) -> List[str]:
+        # The 'asking_task' can be thought of as the one asking which of its files are needed
+        # by this ('self') task.
+        try:
+            return self.dep_files[asking_task.target_dir].compile_targets()
+        except KeyError:
+            pass
+
+        return []

@@ -3,6 +3,8 @@ from typing import List, Dict
 from os import mkdir, chdir
 from pdpp.utils.yaml_task import dump_self
 from pdpp.utils.execute_at_target import execute_at_target
+from pdpp.templates.dep_dataclass import dep_dataclass
+
 
 class ImportTask(BasePDPPClass):
     """
@@ -34,3 +36,5 @@ class ImportTask(BasePDPPClass):
         mkdir(self.target_dir)
         execute_at_target(dump_self, self)
 
+    def provide_dependencies(self, other_task) -> List[str]:
+        return []

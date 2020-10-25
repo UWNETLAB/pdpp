@@ -3,6 +3,8 @@ from typing import List, Dict
 from os import mkdir, chdir
 from pdpp.utils.yaml_task import dump_self
 from pdpp.templates.populate_new_project import populate_new_project
+from pdpp.templates.dep_dataclass import dep_dataclass
+
 
 class SubTask(BasePDPPClass):
     """
@@ -12,12 +14,10 @@ class SubTask(BasePDPPClass):
             self,
             target_dir = '',
             dep_files = {},
-            import_files = [],
             enabled = True):
         
         self.target_dir = target_dir
         self.dep_files: Dict[str, List[str]] = dep_files
-        self.import_files = import_files
         self.enabled = enabled
         self.has_source = False
 
@@ -35,3 +35,6 @@ class SubTask(BasePDPPClass):
 
     def initialize_task(self):
         populate_new_project()
+
+    def provide_dependencies(self, other_task) -> List[str]:
+        return []

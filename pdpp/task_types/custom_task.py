@@ -4,6 +4,7 @@ from os import mkdir
 from pdpp.utils.yaml_task import dump_self
 from pdpp.templates.create_in_out_src import create_in_out_src
 from pdpp.utils.execute_at_target import execute_at_target
+from pdpp.templates.dep_dataclass import dep_dataclass
 
 
 class CustomTask(BasePDPPClass):
@@ -14,14 +15,12 @@ class CustomTask(BasePDPPClass):
             self, 
             target_dir = '',
             dep_files = {}, 
-            import_files = [],
             shell_commands = [],
             enabled = True
             ):
 
         self.target_dir = target_dir
         self.dep_files: Dict[str, List[str]] = dep_files
-        self.import_files = import_files
         self.shell_commands = []
         self.enabled = enabled
 
@@ -39,3 +38,6 @@ class CustomTask(BasePDPPClass):
     
     def initialize_task(self):
         execute_at_target(create_in_out_src, self)
+
+    def provide_dependencies(self, other_task) -> List[str]:
+        return []

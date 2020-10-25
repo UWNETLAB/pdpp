@@ -1,5 +1,6 @@
 from typing import Dict, List, Union
 from abc import ABC, abstractmethod
+from pdpp.templates.dep_dataclass import dep_dataclass
 
 
 class BasePDPPClass(ABC):
@@ -13,7 +14,7 @@ class BasePDPPClass(ABC):
         self.target_dir: str
         self.language: str
         self.enabled: bool    
-        self.dep_files: Dict[str, Dict]
+        self.dep_files: Dict[str, dep_dataclass]
         self.import_files: List
         self.src_files: List
 
@@ -27,6 +28,10 @@ class BasePDPPClass(ABC):
     OUT_DIR: str
     SRC_DIR: str
     
+
+    @abstractmethod
+    def provide_dependencies(self, other_task) -> List[str]:
+        pass
 
     @abstractmethod
     def rig_task(self):

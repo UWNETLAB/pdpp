@@ -2,17 +2,16 @@ from questionary import Separator, prompt, Choice
 from click import clear as click_clear
 from posixpath import join
 import os
-from pprint import pprint
 from pdpp.styles.prompt_style import custom_style_fancy
 from pdpp.pdpp_class_base import BasePDPPClass
 from pdpp.utils.ignorelist import ignorelist
 from typing import Tuple, List, Dict
 from os import DirEntry
-from collections import defaultdict
+from pdpp.templates.dep_dataclass import dep_dataclass
 
 
 
-def q2(selected_dep_tasks: List[BasePDPPClass], task: BasePDPPClass):
+def q2(selected_dep_tasks: List[BasePDPPClass], task: BasePDPPClass) -> Dict[str, dep_dataclass]:
     """
     A question which asks users to indicate which individual files 
     (drawn from a list of those contained in the output directories of the steps indicated in question #1) 
@@ -82,14 +81,14 @@ def q2(selected_dep_tasks: List[BasePDPPClass], task: BasePDPPClass):
     dep_task_set = set([t for t, f in responses])
 
     for dep_task in dep_task_set:
-        task_out = dep_task.OUT_DIR
         file_list = [f.name for t, f in responses if t == dep_task and f.is_file()]
         dir_list = [d.name for t, d in responses if t == dep_task and d.is_dir()]
 
-        response_dict[dep_task.target_dir] = {
-            "task_out": task_out,
-            "file_list": file_list,
-            "dir_list": dir_list,
-        }
+        response_dict[dep_task.target_dir] = dep_dataclass(
+            task_out = dep_task.OUT_DIR,
+            task_name = dep_task.target_dir,
+            file_list = file_list,
+            dir_list = dir_list
+        )
     
     return response_dict

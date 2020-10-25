@@ -21,14 +21,14 @@ def immediate_link(task:BasePDPPClass):
 
     for key, value in task.dep_files.items():
         
-        out_dir = join(key, value["task_out"])
+        out_dir = join(key, value.task_out)
 
-        for file_entry in value['file_list']:
+        for file_entry in value.file_list:
             pre_link = join(out_dir, file_entry)
             post_link = join(in_dir, file_entry)
             link(pre_link, post_link)
         
-        for directory_entry in value['dir_list']:
+        for directory_entry in value.dir_list:
             pre_link = join(out_dir, directory_entry)
             post_link = join(in_dir, directory_entry)
             copytree(pre_link, post_link, copy_function=link)

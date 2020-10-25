@@ -2,7 +2,8 @@ from pdpp.pdpp_class_base import BasePDPPClass
 from typing import List, Dict
 from os import mkdir
 from pdpp.utils.yaml_task import dump_self
-
+from pdpp.templates.dep_dataclass import dep_dataclass
+from pdpp.utils.execute_at_target import execute_at_target
 
 
 class ExportTask(BasePDPPClass):
@@ -33,6 +34,7 @@ class ExportTask(BasePDPPClass):
 
     def initialize_task(self):
         mkdir(self.target_dir)
-        dump_self(self)
+        execute_at_target(dump_self, self)
 
-
+    def provide_dependencies(self, other_task) -> List[str]:
+        return []

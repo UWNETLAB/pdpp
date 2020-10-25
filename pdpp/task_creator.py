@@ -5,33 +5,17 @@ from typing import List
 from pdpp.pdpp_class_base import BasePDPPClass
 from pdpp.languages.language_parser import parse_language
 from pdpp.languages.runners import project_runner
+from pdpp.doit_constructors.link_task import make_link_task
 
 
 def find_dependencies_from_others(task: BasePDPPClass, loaded_steps: List[BasePDPPClass]) -> List[str]:
 
-    files: List[str] = []
-    dirs: List[str] = []
-    
+    dependencies = []
+
     for other_task in loaded_steps:
-        try:
+        dependencies.extend(other_task.provide_dependencies(task))
 
-            other_task_deps = other_task.dep_files[task.target_dir]
-            files.extend([join(task.target_dir, task.OUT_DIR, t) for t in other_task_deps['file_list']])
-            dirs.extend([join(task.target_dir, task.OUT_DIR, t) for t in other_task_deps['dir_list']])
-
-        except KeyError:
-            pass
-        except AttributeError:
-            pass
-        except TypeError:
-            pass
-
-    #print(set(files).union(set(dirs)))
-    fileset = set(files)
-    dirset = set(dirs)
-    fullset = fileset.union(dirset)
-
-    return [f for f in fullset]
+    return [d for d in set(dependencies)] # This is just a hackier way of making everything unique; pylance type checking REALLY didn't like list(set(dependencies)) for some reason
  
 def gen_many_tasks():
     
@@ -39,26 +23,41 @@ def gen_many_tasks():
     loaded_tasks = get_pdpp_tasks()
 
     # 2. Create a list of all the disabled steps loaded in step #1
-    disabled_list = [t for t in loaded_tasks if not t.enabled]
+    disabled_list = [t.target_dir for t in loaded_tasks if not t.enabled]
 
     for task in loaded_tasks:
-
 
         targ_list = find_dependencies_from_others(task, loaded_tasks)
 
         if task.enabled:
-            pass
-     #         dep_list = []
 
-    #         """
-    #         The following, which is a new addition to pdpp, examines the dependencies of all other 
-    #         steps in order to determine what targets the current step should have. 
-    #         """
+            lt = make_link_task(task, disabled_list)
 
-    #         targ_list = find_dependencies_from_others(step, _export, [custom_list, project_list, step_list])
+            print(lt)
 
-    #         yield make_link_task(step, loaded_steps, disabled_list)
+            yield lt
             
+
+    #         full_targ_list = [join(step.target_dir, step.out_dir, targ) for targ in targ_list]
+
+            # yield {
+            #     'basename': '{}'.format(step.target_dir),
+            #     'actions': action_list,
+            #     'file_dep': dep_list,
+            #     'targets': full_targ_list,
+            #     'clean': True,
+            # }
+
+
+def task_all():
+    yield gen_many_tasks()
+
+if __name__ == '__main__':
+    import doit
+    doit.run(globals())
+
+
+
     #         action_list = []
 
     #         if isinstance(step, project_class):
@@ -84,22 +83,3 @@ def gen_many_tasks():
     #         for dependent_step in step.dep_files:
     #             for dependency_file in step.dep_files[dependent_step]:
     #                 dep_list.append(join(step.target_dir, step.in_dir, dependency_file))
-
-            
-    #         full_targ_list = [join(step.target_dir, step.out_dir, targ) for targ in targ_list]
-
-            # yield {
-            #     'basename': '{}'.format(step.target_dir),
-            #     'actions': action_list,
-            #     'file_dep': dep_list,
-            #     'targets': full_targ_list,
-            #     'clean': True,
-            # }
-
-
-def task_all():
-    yield gen_many_tasks()
-
-if __name__ == '__main__':
-    import doit
-    doit.run(globals())
