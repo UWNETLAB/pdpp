@@ -2,8 +2,6 @@ from posixpath import join
 from pdpp.utils.directory_test import get_pdpp_tasks
 from typing import List
 from pdpp.pdpp_class_base import BasePDPPClass
-from pdpp.languages.language_parser import parse_language
-from pdpp.languages.runners import project_runner
 from pdpp.doit_constructors.link_task import make_link_task
 
 
@@ -28,22 +26,25 @@ def gen_many_tasks():
 
         target_list = find_dependencies_from_others(task, loaded_tasks)
 
-        yield make_link_task(task, disabled_list)
+        # Although it's hacky, 'dep_list' is altered inside of 'make_link_task'. 
+        # Doit places strict requirements on how it expects to intake
+        # task information, and the use of the nested 'yield' statements
+        # make it difficult to get data out of the 'make_link_task' function
+        # in a pythonic way. May the most exalted one - our BDFL - take pity upon me. 
 
-        if task.enabled and task.RUN_VALID:
-            pass
-            
-            
+        dep_list = task.provide_src_dependencies()
 
-            
-            
-            # yield {
-            #     'basename': f'{task.target_dir}',
-            #     'actions': action_list,
-            #     'file_dep': dep_list,
-            #     'targets': target_list,
-            #     'clean': True,
-            # }
+        yield make_link_task(task, disabled_list, dep_list)
+
+        if task.enabled and task.RUN_VALID:        
+ 
+            yield {
+                'basename': f'{task.target_dir}',
+                'actions': task.provide_run_actions(),
+                'file_dep': dep_list,
+                'targets': target_list,
+                'clean': True,
+            }
 
 
 def task_all():
@@ -52,31 +53,3 @@ def task_all():
 if __name__ == '__main__':
     import doit
     doit.run(globals())
-
-
-
-    #         action_list = []
-
-    #         if isinstance(step, project_class):
-    #             action_list.append((project_runner, [step.target_dir], {}))
-    #         elif isinstance(step, custom_class):
-    #             action_list = step.shell_commands
-    #         elif isinstance(step, step_class):
-    #             runner = parse_language(step)
-    #             for source_file in step.src_files:
-    #                 action_list.append((runner, [source_file, step.target_dir], {}))
-    #                 dep_list.append(join(step.target_dir, step.src_dir, source_file))
-    #         elif isinstance(step, export_class):
-    #             action_list.append((passaction, [], {}))
-    #         else:
-    #             raise Exception
-
-
-    #         """
-    #         This section adds all of the file dependencies to the metadata being passed to doit. This information is drawn from the
-    #         "dep_files" dictionary that all step .yaml files have, as well as their "import_files" attribute.
-    #         """
-
-    #         for dependent_step in step.dep_files:
-    #             for dependency_file in step.dep_files[dependent_step]:
-    #                 dep_list.append(join(step.target_dir, step.in_dir, dependency_file))

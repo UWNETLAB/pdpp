@@ -1,4 +1,4 @@
-from typing import Dict, List, Union
+from typing import Dict, List, Tuple
 from abc import ABC, abstractmethod
 from pdpp.templates.dep_dataclass import dep_dataclass
 
@@ -29,6 +29,13 @@ class BasePDPPClass(ABC):
     OUT_DIR: str
     SRC_DIR: str
     
+    @abstractmethod
+    def provide_run_actions(self) -> Tuple:
+        pass
+
+    @abstractmethod
+    def provide_src_dependencies(self) -> List:
+        pass
 
     @abstractmethod
     def provide_dependencies(self, other_task) -> List[str]:

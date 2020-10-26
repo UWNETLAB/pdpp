@@ -5,7 +5,7 @@ from posixpath import join
 import os
 
 
-def make_link_task(task: BasePDPPClass, disabled_list: List[str]):
+def make_link_task(task: BasePDPPClass, disabled_list: List[str], final_dep_list: List):
 
     for task_with_dependency, dependency_metadata in task.dep_files.items():
 
@@ -42,8 +42,7 @@ def make_link_task(task: BasePDPPClass, disabled_list: List[str]):
                         link_targ_list.append(subdir_filepath_end)
                 os.chdir(startdir)
 
-            print(link_dep_list)
-            print(link_targ_list)
+            final_dep_list.extend(link_targ_list)
 
             yield {
                 'basename': 'task_{}_LINK_TO_{}'.format(task_with_dependency, task.target_dir),

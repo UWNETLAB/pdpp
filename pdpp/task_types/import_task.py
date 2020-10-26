@@ -1,5 +1,5 @@
 from pdpp.pdpp_class_base import BasePDPPClass
-from typing import List, Dict
+from typing import List, Dict, Tuple
 from os import mkdir, chdir
 from pdpp.utils.yaml_task import dump_self
 from pdpp.utils.execute_at_target import execute_at_target
@@ -18,6 +18,7 @@ class ImportTask(BasePDPPClass):
         self.target_dir = "_import_"
         self.dep_files = {}
         self.enabled = True
+        self.src_files: List = []
 
 
     FILENAME = ".pdpp_import.yaml"
@@ -29,6 +30,12 @@ class ImportTask(BasePDPPClass):
     IN_DIR = "./"
     OUT_DIR = "./"
     SRC_DIR = False
+
+    def provide_run_actions(self) -> Tuple:
+        return ()
+
+    def provide_src_dependencies(self) -> List:
+        return []
 
     def rig_task(self):
         raise NotImplementedError

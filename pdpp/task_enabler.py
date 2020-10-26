@@ -3,7 +3,7 @@ from posixpath import join, exists
 from pdpp.styles.prompt_style import custom_style_fancy 
 from questionary import prompt
 import yaml
-from pdpp.utils.import_step_class import import_step_class
+from pdpp.pdpp_class_base import BasePDPPClass
 from pdpp.task_types import all_task_types
  
 def task_enabler():

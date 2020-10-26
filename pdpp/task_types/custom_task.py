@@ -1,5 +1,5 @@
 from pdpp.pdpp_class_base import BasePDPPClass
-from typing import List, Dict
+from typing import List, Dict, Tuple
 from os import mkdir
 from pdpp.utils.yaml_task import dump_self
 from pdpp.templates.create_in_out_src import create_in_out_src
@@ -23,6 +23,7 @@ class CustomTask(BasePDPPClass):
         self.dep_files: Dict[str, List[str]] = dep_files
         self.shell_commands = []
         self.enabled = enabled
+        self.src_files: List = []
 
     FILENAME = ".pdpp_custom.yaml"
     RIG_VALID = True # Can be rigged
@@ -33,6 +34,12 @@ class CustomTask(BasePDPPClass):
     IN_DIR = "input"
     OUT_DIR = "output"
     SRC_DIR = "src"
+
+    def provide_run_actions(self) -> Tuple:
+        return ()
+
+    def provide_src_dependencies(self) -> List:
+        return []
 
     def rig_task(self):
         pass

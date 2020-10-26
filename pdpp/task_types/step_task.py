@@ -1,6 +1,7 @@
 from pdpp.pdpp_class_base import BasePDPPClass
 from typing import List, Tuple, Dict
-from os import mkdir, DirEntry
+from os import mkdir
+from posixpath import join
 from pdpp.utils.execute_at_target import execute_at_target
 from pdpp.templates.create_in_out_src import create_in_out_src
 from pdpp.utils.yaml_task import dump_self
@@ -8,6 +9,8 @@ from pdpp.utils.immediate_link import immediate_link
 from pdpp.questions import q1, q2, q3, q4
 from pdpp.languages.language_enum import Language
 from pdpp.templates.dep_dataclass import dep_dataclass
+from pdpp.languages.language_parser import parse_language
+from pdpp.languages.runners import project_runner
 
 
 class StepTask(BasePDPPClass):
@@ -26,6 +29,8 @@ class StepTask(BasePDPPClass):
         self.language: str = Language.PYTHON.value
         self.enabled: bool = True
 
+
+    # region
     FILENAME = ".pdpp_step.yaml"
     RIG_VALID = True # Can be rigged
     TRG_VALID = True # Can have targets 
@@ -35,6 +40,17 @@ class StepTask(BasePDPPClass):
     IN_DIR = "input"
     OUT_DIR = "output"
     SRC_DIR = "src"
+    # endregion
+
+
+    def provide_run_actions(self):
+        runner = parse_language(self)
+        
+        return tuple((runner, [s, self], {}) for s in self.src_files)
+
+    def provide_src_dependencies(self) -> List:
+        return [join(self.target_dir, self.SRC_DIR, s) for s in self.src_files]
+
 
     def rig_task(self):
 
@@ -68,6 +84,7 @@ class StepTask(BasePDPPClass):
         # From here on out, rigging is identical to creating anew:
         self.rig_task()
 
+
     def provide_dependencies(self, asking_task: BasePDPPClass) -> List[str]:
         # The 'asking_task' can be thought of as the one asking which of its files are needed
         # by this ('self') task.
@@ -77,3 +94,4 @@ class StepTask(BasePDPPClass):
             pass
 
         return []
+

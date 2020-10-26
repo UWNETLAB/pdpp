@@ -1,5 +1,5 @@
 from pdpp.pdpp_class_base import BasePDPPClass
-from typing import List, Dict
+from typing import List, Dict, Tuple
 from os import mkdir
 from pdpp.utils.yaml_task import dump_self
 from pdpp.templates.dep_dataclass import dep_dataclass
@@ -18,6 +18,7 @@ class ExportTask(BasePDPPClass):
         self.target_dir: str = "_export_"
         self.dep_files: Dict[str, List[str]] = {}
         self.enabled: bool = True
+        self.src_files: List = []
 
 
     FILENAME = ".pdpp_export.yaml"
@@ -29,6 +30,12 @@ class ExportTask(BasePDPPClass):
     IN_DIR = "./"
     OUT_DIR = "./"
     SRC_DIR = False
+
+    def provide_run_actions(self) -> Tuple:
+        return ()
+
+    def provide_src_dependencies(self) -> List:
+        return []
 
     def rig_task(self):
         pass
