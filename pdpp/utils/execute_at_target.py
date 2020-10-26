@@ -1,4 +1,3 @@
-from pdpp.pdpp_class_base import BasePDPPClass
 from os import chdir, getcwd
 
 # VERY IMPORTANT: Use the 'execute_at_target' function wrapper to 
@@ -6,7 +5,7 @@ from os import chdir, getcwd
 # move the target directory!!
 
 
-def execute_at_target(func, task: BasePDPPClass):
+def execute_at_target(func, task):
     original_dir = getcwd()
     chdir(task.target_dir)
     func(task)

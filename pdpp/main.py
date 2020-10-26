@@ -8,6 +8,7 @@ from pdpp.utils.step_folder_test import StepFolder
 from pdpp.utils.directory_test import in_project_folder
 from pdpp.utils.rem_slash import rem_slash
 import click
+
  
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 FILES_LIST = ['png', 'pdf', 'both']
@@ -62,7 +63,7 @@ def rig():
     q0().rig_task()
 
 
-#custom
+#TODO: custom
 @main.command(short_help="Creates a new directory named <dirname>, with subdirectories 'input', "
                          "'output', and 'src'. Adds dodo.py to <dirname>. Use this to create a new step folder. "
                          "You will be asked to indicate which other steps are dependencies of this step,"
@@ -82,12 +83,12 @@ def custom(dirname: str):
 
     from pdpp.task_types.custom_task import CustomTask
 
-    class_type = CustomTask(target_dir = rem_slash(dirname))
+    CustomTask(target_dir = rem_slash(dirname)).initialize_task()
     
     click.echo(f"Your new step folder, {dirname}, was created.")
 
 
-#sub
+#TODO sub
 @main.command(short_help="Creates a new subproject in a directory named <dirname>,"
                          "You will be asked to indicate which other steps are dependencies of this step,"
                          "And which files from those steps should be immediately linked to the new step.",)
@@ -106,12 +107,12 @@ def sub(dirname):
 
     from pdpp.task_types.sub_task import SubTask
 
-    class_type = SubTask(target_dir = rem_slash(dirname))
+    SubTask(target_dir = rem_slash(dirname)).initialize_task()
     
     click.echo(f"Your new subproject, {dirname}, was created.")
 
  
-# graph
+#TODO graph
 @main.command(short_help="Creates a dependency graph to visualize how the steps in your project relate "
                          "to each other.", context_settings=CONTEXT_SETTINGS)
 @click.option('--files', '-f',
@@ -134,11 +135,9 @@ def run():
     doit_run()
 
 
-# select
+# enable
 @main.command(short_help="Selects which tasks will resolve when pdpp run is called")
-def select():
+def enable():
     in_project_folder()
     from pdpp.task_enabler import task_enabler
     task_enabler()
-
-

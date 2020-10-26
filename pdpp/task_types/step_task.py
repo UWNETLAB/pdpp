@@ -5,8 +5,6 @@ from posixpath import join
 from pdpp.utils.execute_at_target import execute_at_target
 from pdpp.templates.create_in_out_src import create_in_out_src
 from pdpp.utils.yaml_task import dump_self
-from pdpp.utils.immediate_link import immediate_link
-from pdpp.questions import q1, q2, q3, q4
 from pdpp.languages.language_enum import Language
 from pdpp.templates.dep_dataclass import dep_dataclass
 from pdpp.languages.language_parser import parse_language
@@ -55,6 +53,8 @@ class StepTask(BasePDPPClass):
     def rig_task(self):
 
         from pdpp.utils.directory_test import get_dependency_tasks
+        from pdpp.questions import q1, q2, q3, q4
+        from pdpp.utils.immediate_link import immediate_link
 
         # Ask dependency questions:
         dep_tasks = get_dependency_tasks()
@@ -72,7 +72,8 @@ class StepTask(BasePDPPClass):
         immediate_link(self)
 
         # Finally, save self to YAML:
-        execute_at_target(dump_self, self)
+        #execute_at_target(dump_self, self)
+        self.save_self()
 
 
     def initialize_task(self):

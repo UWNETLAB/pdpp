@@ -1,8 +1,9 @@
-from os import link, makedirs
+from os import link, walk, remove
 from posixpath import join
 from typing import List
 from pdpp.pdpp_class_base import BasePDPPClass
 from shutil import rmtree, copytree
+from pdpp.utils.ignorelist import ignorelist
 
 
 def immediate_link(task:BasePDPPClass):
@@ -10,15 +11,16 @@ def immediate_link(task:BasePDPPClass):
     This is a docstring.
     """
 
-    #The following block cleans the input directory by deleting it recursively
-    #and then re-creating it with a new .gitkeep
+    #The following block cleans the input directory by deleting everything
+    # in it recursively, except for things on the ignorelist
 
     in_dir = join(task.target_dir, task.IN_DIR)
-    rmtree(in_dir)
-    makedirs(in_dir)
-    with open(join(in_dir, ".gitkeep"), 'w'):
-        pass
-
+    for root, dirs, files in walk(in_dir):
+        for name in [f for f in files if f not in ignorelist]:
+            remove(join(in_dir, name))
+        for name in dirs:
+            rmtree(join(in_dir, name))
+        
     for key, value in task.dep_files.items():
         
         out_dir = join(key, value.task_out)

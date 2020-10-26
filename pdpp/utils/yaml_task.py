@@ -1,9 +1,9 @@
 import yaml
 from posixpath import join
-from pdpp.pdpp_class_base import BasePDPPClass
 
 
-def dump_self(task: BasePDPPClass):
+
+def dump_self(task):
     with open(type(task).FILENAME, 'w') as stream:
         yaml.dump(task, stream, default_flow_style=False)
 

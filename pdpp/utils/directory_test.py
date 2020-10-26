@@ -65,3 +65,8 @@ def get_dependency_tasks() -> List[BasePDPPClass]:
 def get_target_tasks() -> List[BasePDPPClass]:
 
     return [task for task in get_pdpp_tasks() if task.TRG_VALID]
+
+
+def get_runnable_tasks() -> List[BasePDPPClass]:
+
+    return [task for task in get_pdpp_tasks() if task.RUN_VALID]

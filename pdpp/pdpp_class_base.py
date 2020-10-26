@@ -1,6 +1,8 @@
 from typing import Dict, List, Tuple
 from abc import ABC, abstractmethod
 from pdpp.templates.dep_dataclass import dep_dataclass
+from pdpp.utils.yaml_task import dump_self
+from pdpp.utils.execute_at_target import execute_at_target
 
 
 class BasePDPPClass(ABC):
@@ -49,3 +51,13 @@ class BasePDPPClass(ABC):
     def initialize_task(self):
         pass
 
+    def save_self(self):
+        execute_at_target(dump_self, self)
+
+    def enable(self):
+        self.enabled = True
+        self.save_self()
+    
+    def disable(self):
+        self.enabled = False
+        self.save_self()

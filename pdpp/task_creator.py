@@ -12,7 +12,7 @@ def find_dependencies_from_others(task: BasePDPPClass, loaded_steps: List[BasePD
     for other_task in loaded_steps:
         dependencies.extend(other_task.provide_dependencies(task))
 
-    return [d for d in set(dependencies)] # This is just a hackier way of making everything unique; pylance type checking REALLY didn't like list(set(dependencies)) for some reason
+    return [d for d in set(dependencies)] # This is just a hackier way of unpacking everything; pylance type-checking REALLY didn't like list(set(dependencies)) for some reason
  
 def gen_many_tasks():
     

@@ -1,34 +1,29 @@
-from pdpp.utils.directory_test import get_pdpp_directories
+from pdpp.utils.directory_test import get_runnable_tasks
 from posixpath import join, exists
 from pdpp.styles.prompt_style import custom_style_fancy 
-from questionary import prompt
+from questionary import prompt, Choice
 import yaml
 from pdpp.pdpp_class_base import BasePDPPClass
 from pdpp.task_types import all_task_types
  
 def task_enabler():
 
-    subdirs, _ = get_pdpp_directories()
-
-    pdpp_steps = []
-
-    for directory in subdirs:
-        for pdpp_class in all_task_types:
-            if exists(join(directory, pdpp_class.FILENAME)):
-                pdpp_steps.append(import_step_class(directory, pdpp_class.FILENAME))
+    runnable_tasks = get_runnable_tasks()
 
     choice_list = []
 
-    for step in pdpp_steps:
-        choice_list.append({
-            'name': step.target_dir,
-            'checked': step.enabled,
-            })
+    for task in runnable_tasks:
+        choice_list.append(Choice(
+            title=task.target_dir,
+            value=task,
+            checked=task.enabled,
+
+        ))
 
     questions_1 = [
         {
             'type': 'checkbox',
-            'message': "Select the steps which will be run when 'pdpp run' is called",
+            'message': "Select the tasks which will be run when 'pdpp run' is called",
             'name': 'enabled',
             'choices': choice_list,
         }
@@ -40,19 +35,14 @@ def task_enabler():
         print('There are no valid steps in this project directory!')
         enabled_list = []
     
-    for step in pdpp_steps:
+    for task in runnable_tasks:
 
-        yaml_loc = join(step.target_dir, step.filename)
-
-        if step.target_dir in enabled_list:
-            step.enabled = True
+        if task in enabled_list:
+            task.enable()
+        elif task not in enabled_list:
+            task.disable()
         else:
-            step.enabled = False
+            raise Exception("SOMETHING WENT WRONG WITH ENABLE FLOW CONTROL")
 
-        with open(yaml_loc, 'w') as stream:
-            yaml.dump(step, stream, default_flow_style=False)
-
-
-    
 
     

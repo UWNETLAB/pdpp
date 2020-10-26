@@ -1,9 +1,16 @@
 import networkx as nx
 import os
-from pdpp.pdpp_class import base_pdpp_class, export_class, step_class
+from pdpp.pdpp_class_base import BasePDPPClass
 from typing import List
 from pdpp.task_creator import find_dependencies_from_others
 from posixpath import join
+from pdpp.styles.graph_style import default_graph_style, greyscale_graph_style
+
+
+# Determine what kind of style will be used
+#gs = default_graph_style
+gs = greyscale_graph_style
+
 
 if os.name == 'nt':
     os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
@@ -16,15 +23,14 @@ def src_links(target_dir: str, source_file: str, G):
     This is a docstring
     """
     
-    G.add_edge(source_file, target_dir, dir='none', color='#D3D3D3', penwidth=2)
-    G.nodes[source_file]['style'] = 'filled'
-    #G.nodes[source_file]['fontcolor'] = 'white'
-    
+    G.add_edge(source_file, target_dir, dir='none', color=gs.EDGE_COLOR, penwidth=gs.EDGE_PEN_WIDTH)
+    #G.add_edge(target_dir, source_file, dir='none', color=gs.EDGE_COLOR, penwidth=2)
+    G.nodes[source_file]['style'] = gs.SOURCE_STYLE
+    G.nodes[source_file]['fontcolor'] = gs.SOURCE_FONT_COLOR 
+    G.nodes[source_file]['fillcolor'] = gs.SOURCE_FILL_COLOR
+    G.nodes[source_file]['shape'] = gs.SOURCE_SHAPE
+    G.nodes[source_file]['penwidth'] = gs.SOURCE_PENWIDTH
 
-    G.nodes[source_file]['fillcolor'] = '#761D78'
-
-    G.nodes[source_file]['shape'] = 'box'
-    G.nodes[source_file]['penwidth'] = 0
 
 def node_colour(G):
 
@@ -34,13 +40,14 @@ def node_colour(G):
 
     for node in G:
         if G.nodes[node]['categ'] == 'disabled':
-            G.nodes[node]['fillcolor'] = 'dimgrey'
+            G.nodes[node]['fillcolor'] = gs.DISABLED_TASK_COLOR
+            G.nodes[node]['fontcolor'] = gs.DISABLED_TASK_FONTCOLOR
         elif G.in_degree(node) == 0:
-            G.nodes[node]['fillcolor'] = '#3E8DCF'
+            G.nodes[node]['fillcolor'] = gs.START_TASK_COLOR
         elif G.out_degree(node) == 0:
-            G.nodes[node]['fillcolor'] = '#E95C3F'
+            G.nodes[node]['fillcolor'] = gs.END_TASK_COLOR
         else:
-            G.nodes[node]['fillcolor'] = '#F2A93B'
+            G.nodes[node]['fillcolor'] = gs.MID_TASK_COLOR
 
 
 def export_graph(G, output_name, files):
@@ -56,7 +63,7 @@ def export_graph(G, output_name, files):
     for node in remlist:
         G.remove_node(node)
 
-    toPdot = nx.drawing.nx_pydot.to_pydot
+    toPdot = nx.drawing.nx_pydot.to_pydot # type:ignore
     N = toPdot(G)
 
     if files == "pdf" or files == "both":
@@ -64,6 +71,7 @@ def export_graph(G, output_name, files):
 
     if files == "png" or files == "both":
         N.write(output_name + ".png", prog='dot', format='png')
+
 
 def depgraph(files='both'):
 
@@ -73,43 +81,50 @@ def depgraph(files='both'):
 
     from pdpp.utils.directory_test import get_pdpp_tasks
 
-    riggable_classes: List[base_pdpp_class] = get_pdpp_tasks()
+    all_tasks: List[BasePDPPClass] = get_pdpp_tasks()
 
     SOURCE = nx.DiGraph()
     SPARSE = nx.DiGraph()
 
-    nodes = ["_import_"]
+    nodes = []
     edges = []
     disabled_nodes = []
 
     """
-    This section adds _import_ to the loaded steps
-    """ 
-
-    for step_metadata in riggable_classes:
-        if isinstance(step_metadata, export_class) == False:
-            if len(step_metadata.import_files) > 0:
-                step_metadata.dep_files["_import_"] = step_metadata.import_files
-
-    """
-    This section populates the graph with nodes
+    This section populates the graph with nodes and edges from dependency tasks to dependent tasks
     """
 
-    for step_metadata in riggable_classes:
-        if step_metadata.enabled:
-            nodes.append(step_metadata.target_dir)
+    for task in all_tasks:
+        if task.enabled:
+            nodes.append(task.target_dir)
         else:
-            disabled_nodes.append(step_metadata.target_dir)
-        for linkage in step_metadata.dep_files:
-            edges.append((linkage, step_metadata.target_dir))
+            disabled_nodes.append(task.target_dir)
+        for linkage in task.dep_files:
+            edges.append((linkage, task.target_dir))
 
     """
     This section creates the SPARSE graph, consisting only of edges indicating dependencies between steps
     """
 
-    SPARSE.add_nodes_from(nodes, style='filled', shape='box', penwidth=0, categ="task")
-    SPARSE.add_nodes_from(disabled_nodes, style='filled', shape='box', penwidth=0, categ="disabled")
-    SPARSE.add_edges_from(edges, color='#D3D3D3', penwidth=2)
+    SPARSE.add_nodes_from(
+        nodes, 
+        style=gs.TASK_NODE_STYLE, 
+        shape=gs.TASK_NODE_SHAPE, 
+        penwidth=gs.TASK_NODE_PENWIDTH, 
+        categ="task"
+        )
+    SPARSE.add_nodes_from(
+        disabled_nodes, 
+        style=gs.TASK_NODE_STYLE, 
+        shape=gs.TASK_NODE_SHAPE, 
+        penwidth=gs.TASK_NODE_PENWIDTH, 
+        categ="disabled"
+        )
+    SPARSE.add_edges_from(
+        edges, 
+        color=gs.EDGE_COLOR, 
+        penwidth=gs.EDGE_PEN_WIDTH
+        )        
     node_colour(SPARSE)  
 
     output_name = "dependencies_sparse"
@@ -121,11 +136,13 @@ def depgraph(files='both'):
 
     SOURCE = SPARSE.copy()
 
-    for step_metadata in riggable_classes:        
-        if isinstance(step_metadata, step_class):
-            for source_file in step_metadata.src_files:                
-                src_links(step_metadata.target_dir, source_file, SOURCE)
-        
+    for task in all_tasks:
+        try:
+            for source_file in task.src_files:                
+                src_links(task.target_dir, source_file, SOURCE)
+        except AttributeError:
+            pass
+            
     output_name = "dependencies_source"
     export_graph(SOURCE, output_name, files)
 
@@ -135,36 +152,73 @@ def depgraph(files='both'):
     """
 
     FILE = nx.create_empty_copy(SPARSE)    
-    export_ = next((c for c in riggable_classes if isinstance(c, export_class)))
 
-    for step_metadata in riggable_classes:
-
-        # Add edges to target files
-        if isinstance(step_metadata, export_class) == False:
-            target_list = find_dependencies_from_others(step_metadata, export_, [riggable_classes])
-            
-            for target in target_list:
-                target_name = join(step_metadata.target_dir, target)
-                FILE.add_node(target_name, style="filled", shape='box', fillcolor='#748F56', categ='file', label=target, penwidth=0)
-                FILE.add_edge(step_metadata.target_dir, target_name, color='#D3D3D3', penwidth=2)
-
+    for task in all_tasks:
+        
         # Add edges from dependency files
-        for dep_dir in step_metadata.dep_files:
-            for dep_file in step_metadata.dep_files[dep_dir]:
-                dep_name = join(dep_dir, dep_file)
-                FILE.add_node(dep_name, style="filled", shape='box', fillcolor='#748F56', categ='file', label=dep_file, penwidth=0)
-                FILE.add_edge(dep_name, step_metadata.target_dir, color='#D3D3D3', penwidth=2)
-                if dep_dir == "_import_":
-                    FILE.add_edge("_import_", dep_name, color='#D3D3D3', penwidth=2)
+        for dep_dataclass in task.dep_files.values():
+
+            # ADD FILES
+            for dep_file in dep_dataclass.file_list:
+                dep_name = join(dep_dataclass.task_name, dep_dataclass.task_out, dep_file)
+                FILE.add_node(
+                    dep_name, 
+                    style=gs.FILE_NODE_STYLE, 
+                    shape=gs.FILE_FILE_SHAPE, 
+                    fillcolor=gs.FILE_NODE_COLOR, 
+                    categ='file', 
+                    label=dep_file, 
+                    penwidth=gs.FILE_NODE_PENWIDTH
+                    )
+                FILE.add_edge(
+                    dep_name, 
+                    task.target_dir, 
+                    color=gs.EDGE_COLOR, 
+                    penwidth=gs.EDGE_PEN_WIDTH
+                    )
+            
+            # ADD DIRECTORIES
+            for dep_dir in dep_dataclass.dir_list:
+                dep_name = join(dep_dataclass.task_name, dep_dataclass.task_out, dep_dir)
+                dep_label = dep_dir + "/"
+                FILE.add_node(
+                    dep_name, 
+                    style=gs.FILE_NODE_STYLE, 
+                    shape=gs.FILE_DIR_SHAPE, 
+                    fillcolor=gs.FILE_NODE_COLOR, 
+                    categ='file', 
+                    label=dep_label, 
+                    penwidth=gs.FILE_NODE_PENWIDTH
+                    )
+                FILE.add_edge(
+                    dep_name, 
+                    task.target_dir, 
+                    color=gs.EDGE_COLOR, 
+                    penwidth=gs.EDGE_PEN_WIDTH
+                    )
+        
+        # Add edges to targets (as defined by others)
+        target_list = find_dependencies_from_others(task, all_tasks)
+
+        for full_target_path in target_list:
+            target_name = full_target_path.split('/')[-1]
+            FILE.add_edge(
+                task.target_dir, 
+                full_target_path, 
+                color=gs.EDGE_COLOR, 
+                penwidth=gs.EDGE_PEN_WIDTH)
                     
+
     output_name = "dependencies_file"
     export_graph(FILE, output_name, files)
     
     ALL = FILE.copy()
-    for step_metadata in riggable_classes:        
-        if isinstance(step_metadata, step_class):
-            for source_file in step_metadata.src_files:                
-                src_links(step_metadata.target_dir, source_file, ALL)
+    for task in all_tasks:        
+        try: 
+            for source_file in task.src_files:                
+                src_links(task.target_dir, source_file, ALL)
+        except AttributeError:
+            pass
 
     output_name = "dependencies_all"
     export_graph(ALL, output_name, files)

@@ -26,7 +26,7 @@ class ImportTask(BasePDPPClass):
     TRG_VALID = True # Can have targets 
     DEP_VALID = True # Can contain dependencies for other tasks
     SRC_VALID = False # Can have source code
-    RUN_VALID = True # Has actions that should be executed at runtime
+    RUN_VALID = False # Has actions that should be executed at runtime
     IN_DIR = "./"
     OUT_DIR = "./"
     SRC_DIR = False
