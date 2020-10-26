@@ -41,7 +41,7 @@ def q2(selected_dep_tasks: List[BasePDPPClass], task: BasePDPPClass) -> Dict[str
 
         for value in values:
             try:
-                checked = value.name in task.dep_files[key.target_dir]
+                checked = value.name in task.dep_files[key.target_dir].dir_list or value.name in task.dep_files[key.target_dir].file_list
             except KeyError:
                 checked = False
             except TypeError:

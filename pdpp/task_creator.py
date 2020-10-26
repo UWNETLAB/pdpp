@@ -1,5 +1,4 @@
 from posixpath import join
-#from pdpp.doit_constructors.link_task import make_link_task
 from pdpp.utils.directory_test import get_pdpp_tasks
 from typing import List
 from pdpp.pdpp_class_base import BasePDPPClass
@@ -27,24 +26,22 @@ def gen_many_tasks():
 
     for task in loaded_tasks:
 
-        targ_list = find_dependencies_from_others(task, loaded_tasks)
+        target_list = find_dependencies_from_others(task, loaded_tasks)
 
-        if task.enabled:
+        yield make_link_task(task, disabled_list)
 
-            lt = make_link_task(task, disabled_list)
-
-            print(lt)
-
-            yield lt
+        if task.enabled and task.RUN_VALID:
+            pass
+            
             
 
-    #         full_targ_list = [join(step.target_dir, step.out_dir, targ) for targ in targ_list]
-
+            
+            
             # yield {
-            #     'basename': '{}'.format(step.target_dir),
+            #     'basename': f'{task.target_dir}',
             #     'actions': action_list,
             #     'file_dep': dep_list,
-            #     'targets': full_targ_list,
+            #     'targets': target_list,
             #     'clean': True,
             # }
 
