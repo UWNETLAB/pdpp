@@ -5,6 +5,7 @@ from typing import List
 from pdpp.task_creator import find_dependencies_from_others
 from posixpath import join
 from pdpp.styles.graph_style import default_graph_style, greyscale_graph_style
+import pydot
 
 
 # Determine what kind of style will be used
@@ -30,6 +31,7 @@ def src_links(target_dir: str, source_file: str, G):
     G.nodes[source_file]['fillcolor'] = gs.SOURCE_FILL_COLOR
     G.nodes[source_file]['shape'] = gs.SOURCE_SHAPE
     G.nodes[source_file]['penwidth'] = gs.SOURCE_PENWIDTH
+    G.nodes[source_file]['categ'] = 'source'
 
 
 def node_colour(G):
@@ -65,7 +67,26 @@ def export_graph(G, output_name, files):
         G.remove_node(node)
 
     toPdot = nx.drawing.nx_pydot.to_pydot # type:ignore
-    N = toPdot(G)
+    N:pydot.Dot = toPdot(G)
+
+    N.obj_dict['attributes']['concentrate'] = 'true' # Combines edges
+    N.obj_dict['attributes']['rankdir'] = 'LR' # Runs graph left-to-right
+
+
+    
+    # Add all source nodes to supgraphs with their tasks so that they are 
+    # displayed on the same rank:
+
+    for edge in N.get_edge_list():
+        if N.get_node(edge.get_source())[0].get('categ') == "source":
+            print("true")
+            S = pydot.Subgraph(rank = 'same')
+            S.add_node(N.get_node(edge.get_source())[0])
+            S.add_node(N.get_node(edge.get_destination())[0])
+            N.add_subgraph(S)
+
+
+
 
     if files == "pdf" or files == "both":
         N.write(output_name + ".pdf", prog='dot', format='pdf')
