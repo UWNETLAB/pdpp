@@ -8,8 +8,8 @@ from pdpp.styles.graph_style import default_graph_style, greyscale_graph_style
 
 
 # Determine what kind of style will be used
-#gs = default_graph_style
-gs = greyscale_graph_style
+gs = default_graph_style
+#gs = greyscale_graph_style
 
 
 if os.name == 'nt':
@@ -42,6 +42,7 @@ def node_colour(G):
         if G.nodes[node]['categ'] == 'disabled':
             G.nodes[node]['fillcolor'] = gs.DISABLED_TASK_COLOR
             G.nodes[node]['fontcolor'] = gs.DISABLED_TASK_FONTCOLOR
+            G.nodes[node]['style'] = gs.DISABLED_TASK_STYLE
         elif G.in_degree(node) == 0:
             G.nodes[node]['fillcolor'] = gs.START_TASK_COLOR
         elif G.out_degree(node) == 0:
