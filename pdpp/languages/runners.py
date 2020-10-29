@@ -1,9 +1,9 @@
 from os import name
 from subprocess import run
 from posixpath import join
-from pdpp.pdpp_class_base import BasePDPPClass
+from pdpp.base_task import BaseTask
 
-def python_runner(script_name: str, task: BasePDPPClass):
+def python_runner(script_name: str, task: BaseTask):
     if name == 'posix':
         python_caller = 'python3'
     else:
@@ -14,5 +14,5 @@ def r_runner(script_name, target_dir, src_dir):
     run(['Rscript', script_name], check=True, cwd=join(target_dir, src_dir))
 
 # TODO: Fix the project runner and bring it in line with the other runners
-def project_runner(target_dir: str):
-    run(["doit"], check=True, cwd=target_dir)
+def project_runner(task: BaseTask):
+    run(["doit"], check=True, cwd=task.target_dir)

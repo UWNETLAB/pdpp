@@ -1,6 +1,6 @@
 import networkx as nx
 import os
-from pdpp.pdpp_class_base import BasePDPPClass
+from pdpp.base_task import BaseTask
 from typing import List
 from pdpp.task_creator import find_dependencies_from_others
 from posixpath import join
@@ -79,7 +79,6 @@ def export_graph(G, output_name, files):
 
     for edge in N.get_edge_list():
         if N.get_node(edge.get_source())[0].get('categ') == "source":
-            print("true")
             S = pydot.Subgraph(rank = 'same')
             S.add_node(N.get_node(edge.get_source())[0])
             S.add_node(N.get_node(edge.get_destination())[0])
@@ -103,7 +102,7 @@ def depgraph(files='both'):
 
     from pdpp.utils.directory_test import get_pdpp_tasks
 
-    all_tasks: List[BasePDPPClass] = get_pdpp_tasks()
+    all_tasks: List[BaseTask] = get_pdpp_tasks()
 
     SOURCE = nx.DiGraph()
     SPARSE = nx.DiGraph()
@@ -159,11 +158,9 @@ def depgraph(files='both'):
     SOURCE = SPARSE.copy()
 
     for task in all_tasks:
-        try:
-            for source_file in task.src_files:                
-                src_links(task.target_dir, source_file, SOURCE)
-        except AttributeError:
-            pass
+        for source_file in task.src_files:                
+            src_links(task.target_dir, source_file, SOURCE)
+
             
     output_name = "dependencies_source"
     export_graph(SOURCE, output_name, files)
@@ -236,11 +233,8 @@ def depgraph(files='both'):
     
     ALL = FILE.copy()
     for task in all_tasks:        
-        try: 
-            for source_file in task.src_files:                
-                src_links(task.target_dir, source_file, ALL)
-        except AttributeError:
-            pass
+        for source_file in task.src_files:                
+            src_links(task.target_dir, source_file, ALL)
 
     output_name = "dependencies_all"
     export_graph(ALL, output_name, files)

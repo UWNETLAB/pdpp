@@ -4,11 +4,11 @@ from os import scandir, DirEntry
 from posixpath import join
 from pdpp.styles.prompt_style import custom_style_fancy
 from pdpp.utils.ignorelist import ignorelist
-from pdpp.pdpp_class_base import BasePDPPClass
+from pdpp.base_task import BaseTask
 from typing import List
 
 
-def q3(task: BasePDPPClass) -> List[str]:
+def q3(task: BaseTask) -> List[str]:
     """
     A question which asks users to indicate which scripts in the chosen step's
     'src' folder should be run to produce this step's targets.

@@ -1,11 +1,11 @@
-from pdpp.pdpp_class_base import BasePDPPClass
+from pdpp.base_task import BaseTask
 from pdpp.doit_constructors.mylinker import file_linker, dir_linker
 from typing import List
 from posixpath import join
 import os
 
 
-def make_link_task(task: BasePDPPClass, disabled_list: List[str], final_dep_list: List):
+def make_link_task(task: BaseTask, disabled_list: List[str], final_dep_list: List):
 
     for task_with_dependency, dependency_metadata in task.dep_files.items():
 
@@ -45,7 +45,7 @@ def make_link_task(task: BasePDPPClass, disabled_list: List[str], final_dep_list
             final_dep_list.extend(link_targ_list)
 
             yield {
-                'basename': 'task_{}_LINK_TO_{}'.format(task_with_dependency, task.target_dir),
+                'basename': '_task_{}_LINK_TO_{}'.format(task_with_dependency, task.target_dir),
                 'actions': link_action_list,
                 'file_dep': link_dep_list,
                 'targets': link_targ_list,

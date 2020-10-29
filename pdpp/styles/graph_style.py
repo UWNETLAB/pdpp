@@ -1,4 +1,3 @@
-
 class default_graph_style():
     # Task Nodes:
     TASK_NODE_STYLE = 'filled'

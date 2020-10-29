@@ -7,6 +7,7 @@ module.
 from pdpp.utils.step_folder_test import StepFolder
 from pdpp.utils.directory_test import in_project_folder
 from pdpp.utils.rem_slash import rem_slash
+import os
 import click
 
  

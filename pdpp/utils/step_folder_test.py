@@ -3,7 +3,6 @@ from pdpp.utils.rem_slash import rem_slash
 import os
 from os.path import isdir, join
 
-# ignoregeneraltypeissues: ignore
 
 class ExistingStepFolder(click.types.StringParamType):
     """
@@ -21,6 +20,7 @@ class ExistingStepFolder(click.types.StringParamType):
                             "Please choose an existing step folder that you created by running pdpp step.")# type: ignore
 
         return folder
+
 
 class StepFolder(click.types.StringParamType):
     """

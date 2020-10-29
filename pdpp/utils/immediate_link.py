@@ -1,12 +1,11 @@
 from os import link, walk, remove
 from posixpath import join
-from typing import List
-from pdpp.pdpp_class_base import BasePDPPClass
+from pdpp.base_task import BaseTask
 from shutil import rmtree, copytree
 from pdpp.utils.ignorelist import ignorelist
 
 
-def immediate_link(task:BasePDPPClass):
+def immediate_link(task:BaseTask):
     """
     This is a docstring.
     """

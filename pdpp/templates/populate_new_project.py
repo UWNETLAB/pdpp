@@ -4,7 +4,7 @@ from pdpp.task_types.export_task import ExportTask
 from pdpp.task_types.import_task import ImportTask
 
 
-def populate_new_project():
+def populate_new_project(_ = None):
     """
     This is run whenever `pdpp new` and `pdpp sub` is invoked. 
     It checks to see whether the necessary support structure is in place.

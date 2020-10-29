@@ -3,7 +3,7 @@ from click import clear as click_clear
 from posixpath import join
 import os
 from pdpp.styles.prompt_style import custom_style_fancy
-from pdpp.pdpp_class_base import BasePDPPClass
+from pdpp.base_task import BaseTask
 from pdpp.utils.ignorelist import ignorelist
 from typing import Tuple, List, Dict
 from os import DirEntry
@@ -11,7 +11,7 @@ from pdpp.templates.dep_dataclass import dep_dataclass
 
 
 
-def q2(selected_dep_tasks: List[BasePDPPClass], task: BasePDPPClass) -> Dict[str, dep_dataclass]:
+def q2(selected_dep_tasks: List[BaseTask], task: BaseTask) -> Dict[str, dep_dataclass]:
     """
     A question which asks users to indicate which individual files 
     (drawn from a list of those contained in the output directories of the steps indicated in question #1) 
@@ -20,7 +20,7 @@ def q2(selected_dep_tasks: List[BasePDPPClass], task: BasePDPPClass) -> Dict[str
 
     click_clear()
 
-    q2input: Dict[BasePDPPClass, List[DirEntry[str]]] = {}
+    q2input: Dict[BaseTask, List[DirEntry[str]]] = {}
     import_input = []
 
     for selected_task in selected_dep_tasks:
@@ -71,7 +71,7 @@ def q2(selected_dep_tasks: List[BasePDPPClass], task: BasePDPPClass) -> Dict[str
     
     response_dict = {}
 
-    responses: List[Tuple[BasePDPPClass, DirEntry[str]]]
+    responses: List[Tuple[BaseTask, DirEntry[str]]]
 
     if questions_2[0]['choices']:
         responses = prompt(questions_2, style=custom_style_fancy)['dependencies']

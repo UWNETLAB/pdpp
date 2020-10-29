@@ -1,13 +1,11 @@
 from questionary import prompt, Choice
 from click import clear as click_clear
 from pdpp.styles.prompt_style import custom_style_fancy 
-from pdpp.pdpp_class_base import BasePDPPClass
+from pdpp.base_task import BaseTask
 from typing import List
 
 
-
-
-def q1(dep_tasks: List[BasePDPPClass], task: BasePDPPClass) -> List[BasePDPPClass]:
+def q1(dep_tasks: List[BaseTask], task: BaseTask) -> List[BaseTask]:
     """
     This question is used to determine which other steps in the project structure are dependencies of the current step. 
     """

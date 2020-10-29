@@ -1,11 +1,10 @@
-from posixpath import join
 from pdpp.utils.directory_test import get_pdpp_tasks
 from typing import List
-from pdpp.pdpp_class_base import BasePDPPClass
+from pdpp.base_task import BaseTask
 from pdpp.doit_constructors.link_task import make_link_task
 
 
-def find_dependencies_from_others(task: BasePDPPClass, loaded_steps: List[BasePDPPClass]) -> List[str]:
+def find_dependencies_from_others(task: BaseTask, loaded_steps: List[BaseTask]) -> List[str]:
 
     dependencies = []
 
@@ -27,7 +26,7 @@ def gen_many_tasks():
         target_list = find_dependencies_from_others(task, loaded_tasks)
 
         # Although it's hacky, 'dep_list' is altered inside of 'make_link_task'. 
-        # Doit places strict requirements on how it expects to intake
+        # Doit places strict requirements on the format used by 
         # task information, and the use of the nested 'yield' statements
         # make it difficult to get data out of the 'make_link_task' function
         # in a pythonic way. May the most exalted one - our BDFL - take pity upon me. 
@@ -36,7 +35,7 @@ def gen_many_tasks():
 
         yield make_link_task(task, disabled_list, dep_list)
 
-        if task.enabled and task.RUN_VALID:        
+        if task.enabled and task.RUN_VALID:   
  
             yield {
                 'basename': f'{task.target_dir}',

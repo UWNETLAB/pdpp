@@ -1,12 +1,11 @@
 from questionary import prompt, Choice
 from click import clear as click_clear
-from posixpath import  exists, join
 from pdpp.styles.prompt_style import custom_style_fancy 
 from pdpp.utils.directory_test import get_riggable_tasks
-from pdpp.pdpp_class_base import BasePDPPClass
+from pdpp.base_task import BaseTask
 
 
-def q0() -> BasePDPPClass:
+def q0() -> BaseTask:
     '''
     This question is used to select the step you wish to alter with pdpp.
     '''

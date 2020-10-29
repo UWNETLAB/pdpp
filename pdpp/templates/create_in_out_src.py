@@ -1,8 +1,8 @@
-from pdpp.pdpp_class_base import BasePDPPClass
+from pdpp.base_task import BaseTask
 from os import makedirs
 from posixpath import join
 
-def create_in_out_src(task: BasePDPPClass):
+def create_in_out_src(task: BaseTask):
 
     """
     Creates the input, output, and src directories, as well as a source file and .gitkeep files, in the new step.
