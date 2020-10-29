@@ -1,4 +1,9 @@
-class default_graph_style():
+class base_graph_style():
+    NAME:str = ''
+
+
+class default_graph_style(base_graph_style):
+    NAME:str = 'default'
     # Task Nodes:
     TASK_NODE_STYLE = 'filled'
     TASK_NODE_SHAPE = 'box3d'
@@ -30,7 +35,8 @@ class default_graph_style():
     EDGE_PEN_WIDTH = 1.5
 
 
-class greyscale_graph_style():
+class greyscale_graph_style(base_graph_style):
+    NAME:str = 'greyscale'
     # Task Nodes:
     TASK_NODE_STYLE = 'filled'
     TASK_NODE_SHAPE = 'box3d'

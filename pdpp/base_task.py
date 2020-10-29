@@ -2,6 +2,7 @@ from typing import Dict, List
 from pdpp.templates.dep_dataclass import dep_dataclass
 from pdpp.utils.yaml_task import dump_self
 from pdpp.utils.execute_at_target import execute_at_target
+from pdpp.languages.language_enum import Language
 
 
 class BaseTask():
@@ -16,7 +17,7 @@ class BaseTask():
         self.target_dir: str
         self.dep_files: Dict[str, dep_dataclass]
         self.src_files: List
-        self.language: str
+        self.language: str = Language.NULL.value
         self.enabled: bool    
 
     
@@ -24,7 +25,7 @@ class BaseTask():
     RIG_VALID = True # Can be rigged
     TRG_VALID = False # Can have targets 
     DEP_VALID = True # Can contain dependencies for other tasks
-    SRC_VALID = False # Can have source code
+    SRC_VALID = False # Should soucre code be automatically parsed?
     RUN_VALID = True # Has actions that should be executed at runtime
     IN_DIR: str
     OUT_DIR: str

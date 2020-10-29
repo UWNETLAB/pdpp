@@ -4,21 +4,15 @@ from pdpp.base_task import BaseTask
 from typing import List
 from pdpp.task_creator import find_dependencies_from_others
 from posixpath import join
-from pdpp.styles.graph_style import default_graph_style, greyscale_graph_style
+from pdpp.styles.graph_style import default_graph_style
 import pydot
-
-
-# Determine what kind of style will be used
-gs = default_graph_style
-#gs = greyscale_graph_style
-
 
 if os.name == 'nt':
     os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
     os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz2.38/bin/'
 
 
-def src_links(target_dir: str, source_file: str, G):
+def src_links(target_dir: str, source_file: str, G, gs):
 
     """
     This is a docstring
@@ -34,7 +28,7 @@ def src_links(target_dir: str, source_file: str, G):
     G.nodes[source_file]['categ'] = 'source'
 
 
-def node_colour(G):
+def node_colour(G, gs):
 
     """
     This is a docstring
@@ -94,7 +88,7 @@ def export_graph(G, output_name, files):
         N.write(output_name + ".png", prog='dot', format='png')
 
 
-def depgraph(files='both'):
+def depgraph(files='both', gs=default_graph_style):
 
     """
     This is a docstring
@@ -146,7 +140,7 @@ def depgraph(files='both'):
         color=gs.EDGE_COLOR, 
         penwidth=gs.EDGE_PEN_WIDTH
         )        
-    node_colour(SPARSE)  
+    node_colour(SPARSE, gs)  
 
     output_name = "dependencies_sparse"
     export_graph(SPARSE, output_name, files)
@@ -159,7 +153,7 @@ def depgraph(files='both'):
 
     for task in all_tasks:
         for source_file in task.src_files:                
-            src_links(task.target_dir, source_file, SOURCE)
+            src_links(task.target_dir, source_file, SOURCE, gs)
 
             
     output_name = "dependencies_source"
@@ -234,7 +228,7 @@ def depgraph(files='both'):
     ALL = FILE.copy()
     for task in all_tasks:        
         for source_file in task.src_files:                
-            src_links(task.target_dir, source_file, ALL)
+            src_links(task.target_dir, source_file, ALL, gs)
 
     output_name = "dependencies_all"
     export_graph(ALL, output_name, files)

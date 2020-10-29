@@ -7,10 +7,13 @@ module.
 from pdpp.utils.step_folder_test import StepFolder
 from pdpp.utils.directory_test import in_project_folder
 from pdpp.utils.rem_slash import rem_slash
+from pdpp.styles.graph_style import default_graph_style, greyscale_graph_style, base_graph_style
 import os
 import click
+from typing import List, Type
 
- 
+
+GRAPH_STYLE_LIST: List[Type[base_graph_style]] = [default_graph_style, greyscale_graph_style] 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 FILES_LIST = ['png', 'pdf', 'both']
 
@@ -121,11 +124,19 @@ def sub(dirname):
               prompt="What file format would you prefer as an output?",
               help="The dependency graph can be outputted in .png and/or .pdf formats. Default is to output both formats.",
               default="both")
-def graph(files):
+@click.option(
+    '--style', '-s',
+    type=click.Choice([s.NAME for s in GRAPH_STYLE_LIST]),
+    prompt="What color scheme would you prefer?",
+    help="The dependency graph can be outputted in one of a variety of styles.",
+    default=default_graph_style.NAME,
+    )
+def graph(files, style):
     in_project_folder()
     from pdpp.graph_dependencies import depgraph
     """Creates a dependency graph to visualize how the steps in your project relate to each other."""
-    depgraph(files)
+    full_style = next((s for s in GRAPH_STYLE_LIST if s.NAME == style), None)
+    depgraph(files, full_style)
 
 
 # run
