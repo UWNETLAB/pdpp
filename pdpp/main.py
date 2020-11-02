@@ -15,7 +15,7 @@ from typing import List, Type
 
 GRAPH_STYLE_LIST: List[Type[base_graph_style]] = [default_graph_style, greyscale_graph_style] 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
-FILES_LIST = ['png', 'pdf', 'both']
+FILES_LIST = ['png', 'pdf', 'jpg']
 
 
 @click.group()
@@ -67,7 +67,7 @@ def rig():
     q0().rig_task()
 
 
-#TODO: custom
+# custom
 @main.command(short_help="Creates a new directory named <dirname>, with subdirectories 'input', "
                          "'output', and 'src'. Adds dodo.py to <dirname>. Use this to create a new step folder. "
                          "You will be asked to indicate which other steps are dependencies of this step,"
@@ -92,7 +92,7 @@ def custom(dirname: str):
     click.echo(f"Your new step folder, {dirname}, was created.")
 
 
-#TODO sub
+# sub
 @main.command(short_help="Creates a new subproject in a directory named <dirname>,"
                          "You will be asked to indicate which other steps are dependencies of this step,"
                          "And which files from those steps should be immediately linked to the new step.",)
@@ -116,14 +116,14 @@ def sub(dirname):
     click.echo(f"Your new subproject, {dirname}, was created.")
 
  
-#TODO graph
+# graph
 @main.command(short_help="Creates a dependency graph to visualize how the steps in your project relate "
                          "to each other.", context_settings=CONTEXT_SETTINGS)
 @click.option('--files', '-f',
               type=click.Choice(FILES_LIST),
               prompt="What file format would you prefer as an output?",
-              help="The dependency graph can be outputted in .png and/or .pdf formats. Default is to output both formats.",
-              default="both")
+              help="The dependency graph can be outputted in .png and/or .pdf formats. Default is to output png.",
+              default="png")
 @click.option(
     '--style', '-s',
     type=click.Choice([s.NAME for s in GRAPH_STYLE_LIST]),

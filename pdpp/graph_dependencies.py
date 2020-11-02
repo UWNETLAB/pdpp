@@ -65,6 +65,7 @@ def export_graph(G, output_name, files):
 
     N.obj_dict['attributes']['concentrate'] = 'true' # Combines edges
     N.obj_dict['attributes']['rankdir'] = 'LR' # Runs graph left-to-right
+    N.obj_dict['attributes']['dpi'] = 300
 
 
     
@@ -78,17 +79,13 @@ def export_graph(G, output_name, files):
             S.add_node(N.get_node(edge.get_destination())[0])
             N.add_subgraph(S)
 
+    ext = "." + files
+
+    N.write(output_name + ext, prog='dot', format=files)
 
 
 
-    if files == "pdf" or files == "both":
-        N.write(output_name + ".pdf", prog='dot', format='pdf')
-
-    if files == "png" or files == "both":
-        N.write(output_name + ".png", prog='dot', format='png')
-
-
-def depgraph(files='both', gs=default_graph_style):
+def depgraph(files='png', gs=default_graph_style):
 
     """
     This is a docstring
