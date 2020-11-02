@@ -58,8 +58,8 @@ class greyscale_graph_style(base_graph_style):
     
     # Source Nodes:
     SOURCE_STYLE = 'filled'
-    SOURCE_FONT_COLOR = 'white'
-    SOURCE_FILL_COLOR = '#363636'
+    SOURCE_FONT_COLOR = 'black'
+    SOURCE_FILL_COLOR = 'white'
     SOURCE_SHAPE = 'component'
     SOURCE_PENWIDTH = 1
 
