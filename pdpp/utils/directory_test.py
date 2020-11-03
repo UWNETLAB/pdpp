@@ -1,10 +1,9 @@
 from posixpath import exists, join
-from os import DirEntry, scandir, listdir
-from pdpp.pdpp_class import base_pdpp_class, export_class, custom_class, project_class, step_class
-from pdpp.utils.import_step_class import import_step_class
-from typing import List
- 
-pdpp_classes_list = [export_class, custom_class, project_class, step_class]
+from os import scandir, listdir
+from pdpp.base_task import BaseTask
+from pdpp.utils.yaml_task import load_task
+from typing import List, Tuple, Iterator
+
 
 class NotInProjectException(Exception):
     """
@@ -12,46 +11,59 @@ class NotInProjectException(Exception):
     """
     pass
 
+
 def in_project_folder():
 
     if exists("dodo.py") and len(listdir()) > 0:
         pass
-    # elif len(listdir()) == 0:
-    #     pass
+
     else:
-        print("""Please run this command from an empty directory or an existing project directory (project directories contain a dodo.py file)""")
+        print("""Please run this command from an existing project directory (project directories contain a dodo.py file)""")
         raise NotInProjectException
 
 
-def get_riggable_directories() -> list:
+def pdpp_directory_test(dir_) -> bool:
+    """
+    This function tests a directory to see if it is a valid pdpp-compliant step directory.
+    """
+
+    return exists(join(dir_, BaseTask.FILENAME))
+
+
+def get_pdpp_directories() -> Iterator[Tuple[str]]:
     """
     Returns a list of all the riggable directories at this level of the project (or subproject)
     """
-    riggables = [f.path.replace('./', '').replace('.\\', '') for f in scandir() if riggable_directory_test(f)]
 
-    return riggables
+    return zip(*[(f, BaseTask.FILENAME) for f in [r.name for r in scandir() if r.is_dir()] if pdpp_directory_test(f)])
 
-def get_riggable_classes() -> List[base_pdpp_class]:
-    directories = get_riggable_directories()
 
-    classes = []
-
-    for directory in directories:
-        for _class in pdpp_classes_list:
-            if exists(join(directory, _class.filename)):
-                classes.append(import_step_class(directory, _class.filename))
-
-    return classes
-
-def riggable_directory_test(dirs:DirEntry) -> bool:
+def get_pdpp_tasks() -> List[BaseTask]:
     """
-    This function tests a directory to see if it is a valid pdpp-compliant step directory.
-    Returns 'True' if all three aforementioned subdirectories are found, returns 'False' otherwise. 
+    Returns a list containing loaded instances of all pdpp tasks in the current 
+    project. (Does not recursively search subprojects).
+    """    
 
-    """
+    directories, filenames = get_pdpp_directories()
 
-    for _class in pdpp_classes_list:
-        if exists(join(dirs, _class.filename)):
-            return True
+    return [load_task(task) for task in map(join, directories, filenames)]
 
-    return False
+
+def get_riggable_tasks() -> List[BaseTask]:
+
+    return [task for task in get_pdpp_tasks() if task.RIG_VALID]
+
+
+def get_dependency_tasks() -> List[BaseTask]:
+
+    return [task for task in get_pdpp_tasks() if task.DEP_VALID]
+
+
+def get_target_tasks() -> List[BaseTask]:
+
+    return [task for task in get_pdpp_tasks() if task.TRG_VALID]
+
+
+def get_runnable_tasks() -> List[BaseTask]:
+
+    return [task for task in get_pdpp_tasks() if task.RUN_VALID]

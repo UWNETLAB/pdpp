@@ -1,41 +1,30 @@
 from questionary import prompt
 from click import clear as click_clear
 from pdpp.styles.prompt_style import custom_style_fancy
+from pdpp.base_task import BaseTask
+from pdpp.languages.language_enum import Language
+from pdpp.languages.extension_parser import extension_parser
 
-def q4(src_files: list) -> str:
+
+def q4(task: BaseTask) -> str:
     """
     This question is used to determine the language of the source code this step will run. 
     This needs documentation badly, because I'm not entirely certain what it does at the moment.
-    
     """
 
     click_clear()
 
-    extension_list = []
-
-    for entry in src_files:
-        extension_list.append(str(entry).split('.')[-1].lower())
-
-    language_list = []
-
-    for entry in extension_list:
-        if entry == 'py':
-            language_list.append('Python')
-        elif entry == 'r' or entry == 'rscript':
-            language_list.append('R')
-        else:
-            language_list.append('???')
-
+    language_list = extension_parser(task)
 
     if len(set(language_list)) != 1 or '???' in language_list:
         
-        message = ("""
-        Note that pdpp does not currently support automating steps that 
+        message = ("""Note that pdpp does not currently support automating tasks that 
         contain scripts written in more than one programming language.
 
         If this step contains source code from multiple languages,
         please separate all source code written in dissimilar 
-        languages into different steps. 
+        languages into different steps. Failing to do so will 
+        cause an exception at runtime.
 
         If all of this step's source code is written in the same
         pdpp-supported language, you can indicate the appropriate
@@ -43,7 +32,7 @@ def q4(src_files: list) -> str:
 
         If the programming language you would like to use is not 
         indicated below, or you would like to use more than one programming 
-        language in the same step, consider creating a custom pdpp step using
+        language in the same step, consider creating a custom pdpp task using
         the 'pdpp custom' command. 
 
         Select the programming language used:
@@ -55,10 +44,10 @@ def q4(src_files: list) -> str:
             'message': message,
             'choices': [
                 {
-                    'name': 'Python'
+                    'name': Language.PYTHON.value
                 },
                 {
-                    'name': 'R'
+                    'name': Language.R.value
                 }
             ],
         }]

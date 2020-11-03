@@ -1,39 +1,46 @@
-from questionary import prompt
+from questionary import prompt, Choice
 from click import clear as click_clear
-from os import walk
+from os import scandir, DirEntry
 from posixpath import join
 from pdpp.styles.prompt_style import custom_style_fancy
-from pdpp.pdpp_class import step_class
+from pdpp.utils.ignorelist import ignorelist
+from pdpp.base_task import BaseTask
+from typing import List
 
 
-def q3(target_dir: str, step_metadata: step_class) -> list:
+def q3(task: BaseTask) -> List[str]:
     """
-    A question which asks users to indicate which scripts in the chosen step's 'src' folder
-    should be run in order to produce this step's targets.
+    A question which asks users to indicate which scripts in the chosen step's
+    'src' folder should be run to produce this step's targets.
     """
 
     click_clear()
 
     source_files = []
     source_choices = []
+    src_loc = join(task.target_dir, task.SRC_DIR)
 
-    for _, _, files in walk(join(target_dir, 'src')):
-        for script in files: 
-            if script != '.gitkeep':
-                source_choices.append({
-                    'name': script,
-                    'checked': script in step_metadata.src_files,
-                })  
-                source_files.append(script)
+    source_files = [s for s in scandir(src_loc) if ((s.name not in ignorelist) and (s.is_file()))]
+ 
+    for entry in source_files:
+        source_choices.append(
+            Choice(
+                title=entry.name,
+                value=entry,
+                checked= entry.name in task.src_files
+            )
+        )
 
     if len(source_files) < 2:
-        return source_files
+        return [s.name for s in source_files]
 
     question_3 = [{
             'type': 'checkbox',
-            'message': 'Select the source files for "{}"'.format(target_dir),
+            'message': 'Select the source file(s) for "{}"'.format(task.target_dir),
             'name': 'source',
             'choices': source_choices,
         }]
 
-    return prompt(question_3, style=custom_style_fancy)['source']
+    final_choices: List[DirEntry[str]] = prompt(question_3, style=custom_style_fancy)['source']
+
+    return [s.name for s in final_choices]

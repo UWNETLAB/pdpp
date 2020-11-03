@@ -1,11 +1,12 @@
-from pdpp.pdpp_class import base_pdpp_class
+from pdpp.base_task import BaseTask
 from pdpp.languages.runners import python_runner, r_runner
+from pdpp.languages.language_enum import Language
 
-def parse_language(step: base_pdpp_class):
+def parse_language(task: BaseTask):
 
-    if step.language == "Python":
+    if task.language == Language.PYTHON.value:
         return python_runner
-    elif step.language == "R":
+    elif task.language == Language.R.value:
         return r_runner
     else:
         raise Exception
