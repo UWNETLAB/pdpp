@@ -4,21 +4,21 @@ from pdpp.tasks.base_task import BaseTask
 from pdpp.automation.link_task import make_link_task
 
 
-def find_dependencies_from_others(task: BaseTask, loaded_steps: List[BaseTask]) -> List[str]:
+def find_dependencies_from_others(task: BaseTask, loaded_tasks: List[BaseTask]) -> List[str]:
 
     dependencies = []
 
-    for other_task in loaded_steps:
+    for other_task in loaded_tasks:
         dependencies.extend(other_task.provide_dependencies(task))
 
     return [d for d in set(dependencies)] # This is just a hackier way of unpacking everything; pylance type-checking REALLY didn't like list(set(dependencies)) for some reason
  
 def gen_many_tasks():
     
-    # 1. Get all of the steps in the current scope
+    # 1. Get all of the tasks in the current scope
     loaded_tasks = get_pdpp_tasks()
 
-    # 2. Create a list of all the disabled steps loaded in step #1
+    # 2. Create a list of all the disabled tasks loaded in task #1
     disabled_list = [t.target_dir for t in loaded_tasks if not t.enabled]
 
     for task in loaded_tasks:

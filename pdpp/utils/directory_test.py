@@ -24,7 +24,7 @@ def in_project_directory():
 
 def pdpp_directory_test(dir_) -> bool:
     """
-    This function tests a directory to see if it is a valid pdpp-compliant step directory.
+    This function tests a directory to see if it is a valid pdpp-compliant task directory.
     """
 
     return exists(join(dir_, BaseTask.FILENAME))

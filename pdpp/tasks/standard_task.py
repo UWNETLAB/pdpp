@@ -9,7 +9,7 @@ from pdpp.templates.dep_dataclass import dep_dataclass
 from pdpp.languages.language_parser import parse_language
 
 
-class StepTask(BaseTask):
+class StandardTask(BaseTask):
     """
     This is the class documentation
     """

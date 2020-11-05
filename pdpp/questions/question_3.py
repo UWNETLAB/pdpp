@@ -10,8 +10,8 @@ from typing import List
 
 def q3(task: BaseTask) -> List[str]:
     """
-    A question which asks users to indicate which scripts in the chosen step's
-    'src'  should be run to produce this step's targets.
+    A question which asks users to indicate which scripts in the chosen task's
+    'src'  should be run to produce this task's targets.
     """
 
     click_clear()

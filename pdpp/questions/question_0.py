@@ -7,7 +7,7 @@ from pdpp.tasks.base_task import BaseTask
 
 def q0() -> BaseTask:
     '''
-    This question is used to select the step you wish to alter with pdpp.
+    This question is used to select the task you wish to alter with pdpp.
     '''
 
     tasks = get_riggable_tasks()
@@ -29,7 +29,7 @@ def q0() -> BaseTask:
         {
             'type': 'list',
             'name': 'target_dir',
-            'message': 'Select the step you would like to rig:', 
+            'message': 'Select the task you would like to rig:', 
             'choices': choice_list
         }
     ]

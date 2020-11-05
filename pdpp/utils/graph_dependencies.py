@@ -113,7 +113,7 @@ def depgraph(files='png', gs=default_graph_style):
             edges.append((linkage, task.target_dir))
 
     """
-    This section creates the SPARSE graph, consisting only of edges indicating dependencies between steps
+    This section creates the SPARSE graph, consisting only of edges indicating dependencies between tasks
     """
 
     SPARSE.add_nodes_from(
@@ -141,7 +141,7 @@ def depgraph(files='png', gs=default_graph_style):
     export_graph(SPARSE, output_name, files)
 
     """
-    The SOURCE graph can be built out from the SPARSE graph; it simply adds source files and draws edges between them and their steps
+    The SOURCE graph can be built out from the SPARSE graph; it simply adds source files and draws edges between them and their tasks
     """
 
     SOURCE = SPARSE.copy()
@@ -155,8 +155,8 @@ def depgraph(files='png', gs=default_graph_style):
     export_graph(SOURCE, output_name, files)
 
     """
-    The FILE graph is built from scratch, using edges to represent the connections between steps and the files that they have as either 
-    targets (implicitly defined as a file they output that another step relies upon) or dependencies (defined explicitly)
+    The FILE graph is built from scratch, using edges to represent the connections between tasks and the files that they have as either 
+    targets (implicitly defined as a file they output that another task relies upon) or dependencies (defined explicitly)
     """
 
     FILE = nx.create_empty_copy(SPARSE)    

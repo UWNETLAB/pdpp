@@ -10,7 +10,7 @@ def load_task(task_path):
     from pdpp.tasks.custom_task import CustomTask
     from pdpp.tasks.export_task import ExportTask
     from pdpp.tasks.import_task import ImportTask
-    from pdpp.tasks.step_task import StepTask
+    from pdpp.tasks.standard_task import StandardTask
     from pdpp.tasks.sub_task import SubTask
     with open(task_path, 'r') as stream:
         return yaml.full_load(stream)

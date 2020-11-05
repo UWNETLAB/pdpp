@@ -4,7 +4,7 @@ Every call to `pdpp` from the command line is routed through this
 module.
 """
 
-from pdpp.utils.step_directory_test import StepDirectory
+from pdpp.utils.task_directory_test import TaskDirectory
 from pdpp.utils.directory_test import in_project_directory
 from pdpp.utils.rem_slash import rem_slash
 from pdpp.styles.graph_style import default_graph_style, greyscale_graph_style, base_graph_style
@@ -35,19 +35,19 @@ def init():
 """,
               context_settings=CONTEXT_SETTINGS)
 @click.option('--dirname', '-d',
-              type=StepDirectory(),
+              type=TaskDirectory(),
               prompt="What do you want to call the new task directory?"
                      "(Use all lower case, no spaces, and cannot be '_import_' or '_export_')",
-              help="This is what you want to name your new step directory. "
+              help="This is what you want to name your new task directory. "
                    "It must be all lower case and contain no spaces."
               )
 def new(dirname):
     """Creates a new directory named <dirname>, with subdirectories 'input', 'output', and 'src'.
-    Adds dodo.py to <dirname>. Use this to create a new step directory."""
+    Adds dodo.py to <dirname>. Use this to create a new task directory."""
     in_project_directory()
-    from pdpp.tasks.step_task import StepTask
-    StepTask(target_dir = rem_slash(dirname)).initialize_task()
-    click.echo(f"Your new step directory, {dirname}, was created.")
+    from pdpp.tasks.standard_task import StandardTask
+    StandardTask(target_dir = rem_slash(dirname)).initialize_task()
+    click.echo(f"Your new task directory, {dirname}, was created.")
 
 
 @main.command(short_help="""Configure a task's dependencies and source code
@@ -61,31 +61,31 @@ def rig():
 @main.command(short_help="""Create a new task directory with no automation assumptions
 """,)
 @click.option('--dirname', '-s',
-              type=StepDirectory(),
+              type=TaskDirectory(),
               prompt="What do you want to call the new custom task directory?"
                      "(Use all lower case, no spaces, and cannot be '_import_' or '_export_')",
-              help="This is what you want to name your new step directory. "
+              help="This is what you want to name your new task directory. "
                    "It must be all lower case and contain no spaces."
               )
 def custom(dirname: str):
     in_project_directory()
     from pdpp.tasks.custom_task import CustomTask
     CustomTask(target_dir = rem_slash(dirname)).initialize_task()
-    click.echo(f"Your new step directory, {dirname}, was created.")
+    click.echo(f"Your new task directory, {dirname}, was created.")
 
 
 @main.command(short_help="""Create a new sub-project directory
 """,)
 @click.option('--dirname', '-s',
-              type=StepDirectory(),
+              type=TaskDirectory(),
               prompt="What do you want to call the new subproject task directory?"
                      "(Use all lower case, no spaces, and cannot be '_import_' or '_export_')",
-              help="This is what you want to name your new step directory. "
+              help="This is what you want to name your new task directory. "
                    "It must be all lower case and contain no spaces."
               )
 def sub(dirname):
     """Creates a new subproject in a directory named <dirname>.
-    Adds dodo.py to <dirname>. Use this to create a new step directory."""
+    Adds dodo.py to <dirname>. Use this to create a new task directory."""
     in_project_directory()
     from pdpp.tasks.sub_task import SubTask
     SubTask(target_dir = rem_slash(dirname)).initialize_task()
@@ -110,7 +110,7 @@ def sub(dirname):
 def graph(files, style):
     in_project_directory()
     from pdpp.utils.graph_dependencies import depgraph
-    """Creates a dependency graph to visualize how the steps in your project relate to each other."""
+    """Creates a dependency graph to visualize how the tasks in your project relate to each other."""
     full_style = next((s for s in GRAPH_STYLE_LIST if s.NAME == style), None)
     depgraph(files, full_style)
 

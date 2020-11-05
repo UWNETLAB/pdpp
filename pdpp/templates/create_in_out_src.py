@@ -5,9 +5,7 @@ from posixpath import join
 def create_in_out_src(task: BaseTask):
 
     """
-    Creates the input, output, and src directories, as well as a source file and .gitkeep files, in the new step.
-    Only applicable to pdpp_step (pdpp new) and pdpp_custom (pdpp custom) steps.
-
+    Creates the input, output, and src directories, as well as a source file and .gitkeep files, in the new task.
     """
 
     makedirs("input")

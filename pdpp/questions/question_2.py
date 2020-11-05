@@ -14,8 +14,8 @@ from pdpp.templates.dep_dataclass import dep_dataclass
 def q2(selected_dep_tasks: List[BaseTask], task: BaseTask) -> Dict[str, dep_dataclass]:
     """
     A question which asks users to indicate which individual files 
-    (drawn from a list of those contained in the output directories of the steps indicated in question #1) 
-    are required as dependencies for the current step.
+    (drawn from a list of those contained in the output directories of the tasks indicated in question #1) 
+    are required as dependencies for the current task.
     """
 
     click_clear()
