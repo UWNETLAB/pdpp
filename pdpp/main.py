@@ -133,4 +133,6 @@ def enable():
 #extant
 @main.command(short_help="Add standard automation to an unautomated directory")
 def extant():
-    pass
+    in_project_directory()
+    from pdpp.questions.question_extant import q_extant
+    q_extant().rig_task()
