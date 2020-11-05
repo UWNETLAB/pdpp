@@ -1,8 +1,8 @@
 import networkx as nx
 import os
-from pdpp.base_task import BaseTask
+from pdpp.tasks.base_task import BaseTask
 from typing import List
-from pdpp.task_creator import find_dependencies_from_others
+from pdpp.automation.task_creator import find_dependencies_from_others
 from posixpath import join
 from pdpp.styles.graph_style import default_graph_style
 import pydot

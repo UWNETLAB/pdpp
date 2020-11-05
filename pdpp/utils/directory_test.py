@@ -1,18 +1,18 @@
 from posixpath import exists, join
 from os import scandir, listdir
-from pdpp.base_task import BaseTask
+from pdpp.tasks.base_task import BaseTask
 from pdpp.utils.yaml_task import load_task
 from typing import List, Tuple, Iterator
 
 
 class NotInProjectException(Exception):
     """
-    Raised when a user attempts to use most pdpp commands from outside project folder (project folders contain a dodo.py file)
+    Raised when a user attempts to use most pdpp commands from outside project directory (project directories contain a dodo.py file)
     """
     pass
 
 
-def in_project_folder():
+def in_project_directory():
 
     if exists("dodo.py") and len(listdir()) > 0:
         pass

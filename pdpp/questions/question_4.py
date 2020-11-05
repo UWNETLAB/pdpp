@@ -1,7 +1,7 @@
 from questionary import prompt
 from click import clear as click_clear
 from pdpp.styles.prompt_style import custom_style_fancy
-from pdpp.base_task import BaseTask
+from pdpp.tasks.base_task import BaseTask
 from pdpp.languages.language_enum import Language
 from pdpp.languages.extension_parser import extension_parser
 

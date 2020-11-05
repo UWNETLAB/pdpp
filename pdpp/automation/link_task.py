@@ -1,5 +1,5 @@
-from pdpp.base_task import BaseTask
-from pdpp.doit_constructors.mylinker import file_linker, dir_linker
+from pdpp.tasks.base_task import BaseTask
+from pdpp.automation.mylinker import file_linker, dir_linker
 from typing import List
 from posixpath import join
 import os

@@ -1,4 +1,4 @@
-from pdpp.base_task import BaseTask
+from pdpp.tasks.base_task import BaseTask
 from pdpp.languages.runners import python_runner, r_runner
 from pdpp.languages.language_enum import Language
 

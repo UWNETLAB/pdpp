@@ -1,4 +1,4 @@
-from pdpp.base_task import BaseTask
+from pdpp.tasks.base_task import BaseTask
 from os import makedirs
 from posixpath import join
 

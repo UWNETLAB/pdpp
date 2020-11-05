@@ -7,10 +7,10 @@ def dump_self(task):
 
 
 def load_task(task_path):
-    from pdpp.task_types.custom_task import CustomTask
-    from pdpp.task_types.export_task import ExportTask
-    from pdpp.task_types.import_task import ImportTask
-    from pdpp.task_types.step_task import StepTask
-    from pdpp.task_types.sub_task import SubTask
+    from pdpp.tasks.custom_task import CustomTask
+    from pdpp.tasks.export_task import ExportTask
+    from pdpp.tasks.import_task import ImportTask
+    from pdpp.tasks.step_task import StepTask
+    from pdpp.tasks.sub_task import SubTask
     with open(task_path, 'r') as stream:
         return yaml.full_load(stream)

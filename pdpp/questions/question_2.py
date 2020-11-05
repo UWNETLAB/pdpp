@@ -3,7 +3,7 @@ from click import clear as click_clear
 from posixpath import join
 import os
 from pdpp.styles.prompt_style import custom_style_fancy
-from pdpp.base_task import BaseTask
+from pdpp.tasks.base_task import BaseTask
 from pdpp.utils.ignorelist import ignorelist
 from typing import Tuple, List, Dict
 from os import DirEntry

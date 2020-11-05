@@ -1,7 +1,7 @@
 from pdpp.utils.directory_test import get_pdpp_tasks
 from typing import List
-from pdpp.base_task import BaseTask
-from pdpp.doit_constructors.link_task import make_link_task
+from pdpp.tasks.base_task import BaseTask
+from pdpp.automation.link_task import make_link_task
 
 
 def find_dependencies_from_others(task: BaseTask, loaded_steps: List[BaseTask]) -> List[str]:
