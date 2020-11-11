@@ -29,7 +29,7 @@ def task_enabler():
     try:
         enabled_list = prompt(questions_1, style=custom_style_fancy)['enabled']
     except IndexError:
-        print('There are no valid steps in this project directory!')
+        print('There are no valid tasks in this project directory!')
         enabled_list = []
     
     for task in runnable_tasks:

@@ -1,7 +1,7 @@
 from os import name
 from subprocess import run
 from posixpath import join
-from pdpp.base_task import BaseTask
+from pdpp.tasks.base_task import BaseTask
 
 def python_runner(script_name: str, task: BaseTask):
     if name == 'posix':

@@ -4,8 +4,8 @@ Every call to `pdpp` from the command line is routed through this
 module.
 """
 
-from pdpp.utils.step_folder_test import StepFolder
-from pdpp.utils.directory_test import in_project_folder
+from pdpp.utils.task_directory_test import TaskDirectory
+from pdpp.utils.directory_test import in_project_directory
 from pdpp.utils.rem_slash import rem_slash
 from pdpp.styles.graph_style import default_graph_style, greyscale_graph_style, base_graph_style
 import os
@@ -21,11 +21,9 @@ FILES_LIST = ['png', 'pdf', 'jpg']
 @click.group()
 def main():
     """A command line tool to automate the use of the Principled Data Processing methodology for reproducibility."""
-    
     pass
 
 
-# init
 @main.command(short_help="Prepares a directory to become a pdpp project")
 def init():
 
@@ -33,92 +31,70 @@ def init():
     populate_new_project()
 
 
-# new
-@main.command(short_help="Creates a new directory named <dirname>, with subdirectories 'input', "
-                         "'output', and 'src'. Adds dodo.py to <dirname>. Use this to create a new step folder. "
-                         "You will be asked to indicate which other steps are dependencies of this step,"
-                         "And which files from those steps should be immediately linked to the new step.",
+@main.command(short_help="""Create a new task directory
+""",
               context_settings=CONTEXT_SETTINGS)
 @click.option('--dirname', '-d',
-              type=StepFolder(),
+              type=TaskDirectory(),
               prompt="What do you want to call the new task directory?"
                      "(Use all lower case, no spaces, and cannot be '_import_' or '_export_')",
-              help="This is what you want to name your new step folder. "
+              help="This is what you want to name your new task directory. "
                    "It must be all lower case and contain no spaces."
               )
 def new(dirname):
     """Creates a new directory named <dirname>, with subdirectories 'input', 'output', and 'src'.
-    Adds dodo.py to <dirname>. Use this to create a new step folder."""
-    
-    in_project_folder()
-
-    from pdpp.task_types.step_task import StepTask
-
-    StepTask(target_dir = rem_slash(dirname)).initialize_task()
-    
-    click.echo(f"Your new step folder, {dirname}, was created.")
+    Adds dodo.py to <dirname>. Use this to create a new task directory."""
+    in_project_directory()
+    from pdpp.tasks.standard_task import StandardTask
+    StandardTask(target_dir = rem_slash(dirname)).initialize_task()
+    click.echo(f"Your new task directory, {dirname}, was created.")
 
 
-# rig
-@main.command(short_help="Incorporates a step in the project's automation")
+@main.command(short_help="""Configure a task's dependencies and source code
+""")
 def rig():
-    in_project_folder()
+    in_project_directory()
     from pdpp.questions.question_0 import q0
     q0().rig_task()
 
 
-# custom
-@main.command(short_help="Creates a new directory named <dirname>, with subdirectories 'input', "
-                         "'output', and 'src'. Adds dodo.py to <dirname>. Use this to create a new step folder. "
-                         "You will be asked to indicate which other steps are dependencies of this step,"
-                         "And which files from those steps should be immediately linked to the new step.",)
+@main.command(short_help="""Create a new task directory with no automation assumptions
+""",)
 @click.option('--dirname', '-s',
-              type=StepFolder(),
+              type=TaskDirectory(),
               prompt="What do you want to call the new custom task directory?"
                      "(Use all lower case, no spaces, and cannot be '_import_' or '_export_')",
-              help="This is what you want to name your new step folder. "
+              help="This is what you want to name your new task directory. "
                    "It must be all lower case and contain no spaces."
               )
 def custom(dirname: str):
-    """Creates a new directory named <dirname>, with subdirectories 'input', 'output', and 'src'.
-    Adds dodo.py to <dirname>. Use this to create a new step folder."""
-
-    in_project_folder()
-
-    from pdpp.task_types.custom_task import CustomTask
-
+    in_project_directory()
+    from pdpp.tasks.custom_task import CustomTask
     CustomTask(target_dir = rem_slash(dirname)).initialize_task()
-    
-    click.echo(f"Your new step folder, {dirname}, was created.")
+    click.echo(f"Your new task directory, {dirname}, was created.")
 
 
-# sub
-@main.command(short_help="Creates a new subproject in a directory named <dirname>,"
-                         "You will be asked to indicate which other steps are dependencies of this step,"
-                         "And which files from those steps should be immediately linked to the new step.",)
+@main.command(short_help="""Create a new sub-project directory
+""",)
 @click.option('--dirname', '-s',
-              type=StepFolder(),
+              type=TaskDirectory(),
               prompt="What do you want to call the new subproject task directory?"
                      "(Use all lower case, no spaces, and cannot be '_import_' or '_export_')",
-              help="This is what you want to name your new step folder. "
+              help="This is what you want to name your new task directory. "
                    "It must be all lower case and contain no spaces."
               )
 def sub(dirname):
     """Creates a new subproject in a directory named <dirname>.
-    Adds dodo.py to <dirname>. Use this to create a new step folder."""
-
-    in_project_folder()
-
-    from pdpp.task_types.sub_task import SubTask
-
+    Adds dodo.py to <dirname>. Use this to create a new task directory."""
+    in_project_directory()
+    from pdpp.tasks.sub_task import SubTask
     SubTask(target_dir = rem_slash(dirname)).initialize_task()
-    
     click.echo(f"Your new subproject, {dirname}, was created.")
 
  
 # graph
-@main.command(short_help="Creates a dependency graph to visualize how the steps in your project relate "
-                         "to each other.", context_settings=CONTEXT_SETTINGS)
+@main.command(short_help="""Graph this project's dependency structure
+""", context_settings=CONTEXT_SETTINGS)
 @click.option('--files', '-f',
               type=click.Choice(FILES_LIST),
               prompt="What file format would you prefer as an output?",
@@ -132,24 +108,31 @@ def sub(dirname):
     default=default_graph_style.NAME,
     )
 def graph(files, style):
-    in_project_folder()
-    from pdpp.graph_dependencies import depgraph
-    """Creates a dependency graph to visualize how the steps in your project relate to each other."""
+    in_project_directory()
+    from pdpp.utils.graph_dependencies import depgraph
+    """Creates a dependency graph to visualize how the tasks in your project relate to each other."""
     full_style = next((s for s in GRAPH_STYLE_LIST if s.NAME == style), None)
     depgraph(files, full_style)
 
 
 # run
-@main.command(short_help="Runs the project")
+@main.command(short_help="""Execute the project's tasks""")
 def run():
-    in_project_folder()
-    from pdpp.doit_constructors.doit_run import doit_run
+    in_project_directory()
+    from pdpp.automation.doit_run import doit_run
     doit_run()
 
 
 # enable
-@main.command(short_help="Selects which tasks will resolve when pdpp run is called")
+@main.command(short_help="Selects which tasks will resolve when the project is run")
 def enable():
-    in_project_folder()
-    from pdpp.task_enabler import task_enabler
+    in_project_directory()
+    from pdpp.automation.task_enabler import task_enabler
     task_enabler()
+
+#extant
+@main.command(short_help="Add standard automation to an unautomated directory")
+def extant():
+    in_project_directory()
+    from pdpp.questions.question_extant import q_extant
+    q_extant().rig_task()

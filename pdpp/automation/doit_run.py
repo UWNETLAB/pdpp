@@ -1,4 +1,4 @@
-from pdpp.task_creator import gen_many_tasks, task_all
+from pdpp.automation.task_creator import gen_many_tasks, task_all
 
 def doit_run():
     import doit

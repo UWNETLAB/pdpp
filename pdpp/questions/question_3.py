@@ -4,14 +4,14 @@ from os import scandir, DirEntry
 from posixpath import join
 from pdpp.styles.prompt_style import custom_style_fancy
 from pdpp.utils.ignorelist import ignorelist
-from pdpp.base_task import BaseTask
+from pdpp.tasks.base_task import BaseTask
 from typing import List
 
 
 def q3(task: BaseTask) -> List[str]:
     """
-    A question which asks users to indicate which scripts in the chosen step's
-    'src' folder should be run to produce this step's targets.
+    A question which asks users to indicate which scripts in the chosen task's
+    'src'  should be run to produce this task's targets.
     """
 
     click_clear()

@@ -1,6 +1,6 @@
 from os import link, walk, remove
 from posixpath import join
-from pdpp.base_task import BaseTask
+from pdpp.tasks.base_task import BaseTask
 from shutil import rmtree, copytree
 from pdpp.utils.ignorelist import ignorelist
 

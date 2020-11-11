@@ -3,7 +3,7 @@ from click import clear as click_clear
 from posixpath import join
 import os
 from pdpp.styles.prompt_style import custom_style_fancy
-from pdpp.base_task import BaseTask
+from pdpp.tasks.base_task import BaseTask
 from pdpp.utils.ignorelist import ignorelist
 from typing import Tuple, List, Dict
 from os import DirEntry
@@ -14,8 +14,8 @@ from pdpp.templates.dep_dataclass import dep_dataclass
 def q2(selected_dep_tasks: List[BaseTask], task: BaseTask) -> Dict[str, dep_dataclass]:
     """
     A question which asks users to indicate which individual files 
-    (drawn from a list of those contained in the output directories of the steps indicated in question #1) 
-    are required as dependencies for the current step.
+    (drawn from a list of those contained in the output directories of the tasks indicated in question #1) 
+    are required as dependencies for the current task.
     """
 
     click_clear()
