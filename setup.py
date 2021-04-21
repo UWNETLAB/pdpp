@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="pdpp",
-    version="0.4.2",
+    version="0.4.3",
     install_requires=['Click>=7.0', 'doit>=0.31.1', 'networkx>=2.2', 'graphviz>=0.10.1', 'pydot>=1.4.1', 'questionary>=1.0.2', 'pyyaml>=5.3'],
     packages=find_packages(),
 	include_package_data=True,
