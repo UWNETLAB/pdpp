@@ -12,4 +12,4 @@ def load_task(task_path):
     from pdpp.tasks.standard_task import StandardTask
     from pdpp.tasks.sub_task import SubTask
     with open(task_path, 'r') as stream:
-        return yaml.load(stream, Loader=yaml.FullLoader)
+        return yaml.load(stream, Loader=yaml.Loader)
