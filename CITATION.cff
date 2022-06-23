@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+authors:
+- family-names: "Browne"
+  given-names: "Pierson"
+- family-names: "Crick"
+  given-names: "Tyler"
+- family-names: "Wood"
+  given-names: "Rachel"
+title: "pdpp"
+version: 0.4.3
+date-released: 2021-04-21
+url: "https://github.com/UWNETLAB/pdpp"
