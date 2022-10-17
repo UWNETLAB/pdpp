@@ -6,6 +6,8 @@ authors:
   given-names: "Tyler"
 - family-names: "Wood"
   given-names: "Rachel"
+- family-names: "McLevey"
+  given-names: "John"
 title: "pdpp"
 version: 0.4.3
 date-released: 2021-04-21
