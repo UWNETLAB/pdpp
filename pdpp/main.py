@@ -19,14 +19,13 @@ FILES_LIST = ['png', 'pdf', 'jpg']
 
 
 @click.group()
-def main():
+def main() -> None:
     """A command line tool to automate the use of the Principled Data Processing methodology for reproducibility."""
     pass
 
 
 @main.command(short_help="Prepares a directory to become a pdpp project")
-def init():
-
+def init() -> None:      
     from pdpp.templates.populate_new_project import populate_new_project
     populate_new_project()
 

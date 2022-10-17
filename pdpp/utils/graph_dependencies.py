@@ -67,7 +67,7 @@ def export_graph(G, output_name, files):
     N.obj_dict['attributes']['rankdir'] = 'LR' # Runs graph left-to-right
     N.obj_dict['attributes']['dpi'] = 300
 
-    # Add all source nodes to supgraphs with their tasks so that they are 
+    # Add all source nodes to subgraphs with their tasks so that they are 
     # displayed on the same rank:
 
     for edge in N.get_edge_list():

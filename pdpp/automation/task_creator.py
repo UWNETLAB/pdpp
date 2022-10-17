@@ -5,7 +5,6 @@ from pdpp.automation.link_task import make_link_task
 
 
 def find_dependencies_from_others(task: BaseTask, loaded_tasks: List[BaseTask]) -> List[str]:
-
     dependencies = []
 
     for other_task in loaded_tasks:
@@ -14,7 +13,6 @@ def find_dependencies_from_others(task: BaseTask, loaded_tasks: List[BaseTask]) 
     return [d for d in set(dependencies)] # This is just a hackier way of unpacking everything; pylance type-checking REALLY didn't like list(set(dependencies)) for some reason
  
 def gen_many_tasks():
-    
     # 1. Get all of the tasks in the current scope
     loaded_tasks = get_pdpp_tasks()
 
