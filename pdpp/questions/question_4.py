@@ -9,7 +9,6 @@ from pdpp.languages.extension_parser import extension_parser
 def q4(task: BaseTask) -> str:
     """
     This question is used to determine the language of the source code this task will run. 
-    This needs documentation badly, because I'm not entirely certain what it does at the moment.
     """
 
     click_clear()
