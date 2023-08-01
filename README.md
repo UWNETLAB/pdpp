@@ -1,19 +1,28 @@
-# Principled Data Processing for Python
+- [`pdpp`](#pdpp)
+  - [Example](#example)
+  - [Installation Prerequisites](#installation-prerequisites)
+  - [Installation](#installation)
+  - [Usage from the Command Line](#usage-from-the-command-line)
 
 
-## Patrick Ball's Principled Data Processing
+# `pdpp`
+
+`pdpp` is a package for facilitating the creation and maintainance of a data workflow that adheres to principles espoused by Patrick Ball in his manifesto on ['Principled Data Processing'](https://www.youtube.com/watch?v=ZSunU9GQdcI).
+
+## Example
 
 
-## About this Package
+## Installation Prerequisites
 
-
-## Examples
+Aside from an up-to-date installation of `python` and `pip` (installation instructions for which can be found [here](https://wiki.python.org/moin/BeginnersGuide/Download)), the `pdpp` package depends on `graphviz`, which must be installed before attempting to install `pykrusch`. Installation instructions for `graphviz` can be found at the [GraphViz installation instructions page.](https://pygraphviz.github.io/documentation/stable/install.html#windows-install)
 
 
 ## Installation
 
+To install `pykrusch`, use `pip`:
 
-## Credits
+```bash
+pip install pdpp
+```
 
-
-## License
+## Usage from the Command Line
