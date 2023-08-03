@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="pdpp",
-    version="0.4.5",
+    version="0.4.6",
     install_requires=[
         'Click>=7.0', 
         'doit>=0.31.1', 
@@ -18,12 +18,14 @@ setup(
         [console_scripts]
         pdpp=pdpp.main:main
         """,
+    readme="README.md",
+    
 
     author="Pierson Browne, Rachel Wood, Tyler Crick, John McLevey",
     author_email="pbrowne88@gmail.com",
     description="Command line tool for automation, transparency, and reproducibility in data processing projects",
     keywords="doit",
-    url="http://networkslab.org",
+    url="https://github.com/UWNETLAB/pdpp",
 	classifiers=[
 		"Programming Language :: Python :: 3",
 		"License :: OSI Approved :: MIT License",
