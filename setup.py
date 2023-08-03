@@ -1,8 +1,11 @@
 from setuptools import setup, find_packages
+from pathlib import Path
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="pdpp",
-    version="0.4.6",
+    version="0.4.8",
     install_requires=[
         'Click>=7.0', 
         'doit>=0.31.1', 
@@ -19,7 +22,8 @@ setup(
         pdpp=pdpp.main:main
         """,
     readme="README.md",
-    
+    long_description=long_description,
+    long_description_content_type='text/markdown',
 
     author="Pierson Browne, Rachel Wood, Tyler Crick, John McLevey",
     author_email="pbrowne88@gmail.com",
