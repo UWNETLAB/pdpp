@@ -40,12 +40,12 @@ These additional constraints disambiguate the input and output of the overall wo
 
 ## Installation Prerequisites
 
-Aside from an up-to-date installation of `python` and `pip` (installation instructions for which can be found [here](https://wiki.python.org/moin/BeginnersGuide/Download)), the `pdpp` package depends on `graphviz`, which must be installed before attempting to install `pykrusch`. Installation instructions for `graphviz` can be found at the [GraphViz installation instructions page.](https://pygraphviz.github.io/documentation/stable/install.html#windows-install)
+Aside from an up-to-date installation of `python` and `pip` (installation instructions for which can be found [here](https://wiki.python.org/moin/BeginnersGuide/Download)), the `pdpp` package depends on `graphviz`, which must be installed before attempting to install `pdpp`. Installation instructions for `graphviz` can be found at the [GraphViz installation instructions page.](https://pygraphviz.github.io/documentation/stable/install.html#windows-install)
 
 
 ## Installation
 
-To install `pykrusch`, use the following terminal command:
+To install `pdpp`, use the following terminal command:
 
 ```bash
 pip install pdpp
