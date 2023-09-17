@@ -22,13 +22,13 @@
 
 ![](img/dependencies_all.png)
 
-Every project that comforms with Patrick Ball's ['Principled Data Processing'](https://www.youtube.com/watch?v=ZSunU9GQdcI) guidelines uses the 'task' as the quantum of a workflow. Each task in a workflow takes the form of a directory that houses a discrete data operation, such as extracting records from plaintext documents and storing the results as a `.csv` file. Ideally, each task should be simple and conceptually unified enough that a short 3- or 4-word description is enough to convey what the task accomplishes.^[In practical terms, this implies that PDP-compliant projects tend to use many more distinct script files to perform what would normally be accomplished in the space of a single, longer script.] 
+Every project that comforms with Patrick Ball's ['Principled Data Processing'](https://www.youtube.com/watch?v=ZSunU9GQdcI) guidelines uses the 'task' as the quantum of a workflow. Each task in a workflow takes the form of a directory that houses a discrete data operation, such as extracting records from plaintext documents and storing the results as a `.csv` file. Ideally, each task should be simple and conceptually unified enough that a short 3- or 4-word description is enough to convey what the task accomplishes.
 
 Each task directory contains at minimum three subdirectories:
 
 1. `input`, which contains all of the task's local data dependencies
 2. `output`, which contains all of the task's local data outputs (also referred to as 'targets')
-3. `src`, which all of the task's source code^[Which, ideally, would be contained within a single script file.]
+3. `src`, which all of the task's source codeWhich, ideally, would be contained within a single script file.]
 
 The `pdpp` package adds two additional constraints to Patrick Ball's original formulation of PDP: 
 
@@ -84,7 +84,7 @@ Select 'example_data.csv' and press enter. `pdpp` will inform you that your new 
 
 ![](img/tree_2.png)
 
-The tree diagram shows that 'task_1' exists, that its input directory contains `example_data.csv` (which is hard linked to the `example_data.csv` file in `_import_`, meaning that any changes to one will be reflected in the other). The `src` directory also contains a Python script titled `task_1.py` -- for the sake of convenience, `pdpp` populates new tasks with a synonymous Python script.^[This file should be deleted or renamed if the task requires source code by a different name or using a different programming language.] For this example, we'll populate the Python script with a simple set of instructions for loading `example_data.csv`, adding one to each of the items in it, and then saving it as a new `.csv` file in the `output` subdirectory of the `task_1` directory:
+The tree diagram shows that 'task_1' exists, that its input directory contains `example_data.csv` (which is hard linked to the `example_data.csv` file in `_import_`, meaning that any changes to one will be reflected in the other). The `src` directory also contains a Python script titled `task_1.py` -- for the sake of convenience, `pdpp` populates new tasks with a synonymous Python script.This file should be deleted or renamed if the task requires source code by a different name or using a different programming language.] For this example, we'll populate the Python script with a simple set of instructions for loading `example_data.csv`, adding one to each of the items in it, and then saving it as a new `.csv` file in the `output` subdirectory of the `task_1` directory:
 
 ```python
 import csv
@@ -145,7 +145,7 @@ When a workflow is run, the `doit` automation suite -- atop which `pdpp` is buil
 -- task_1
 ```
 
-This is because `doit` checks the relative ages of each tasks' inputs and outputs at runtime; if any given task has any outputs^[Or 'targets,' in `doit` nomenclature.] that are older than one or more of the task's inputs,^[Or 'dependencies,' in `doit` nomenclature] that task must be re-run. If all of a task's inputs are older than its outputs, the task does not need to be run. This means that a `pdpp`/`doit` pipeline can be run as often as the user desires without running the risk of needlessly wasting time or computing power: tasks will only be re-run if changes to 'upstream' files necessitate it. You can read more about this impressive feature of the `doit` suite [here](https://pydoit.org/tasks.html).  
+This is because `doit` checks the relative ages of each tasks' inputs and outputs at runtime; if any given task has any outputsOr 'targets,' in `doit` nomenclature.] that are older than one or more of the task's inputs,Or 'dependencies,' in `doit` nomenclature] that task must be re-run. If all of a task's inputs are older than its outputs, the task does not need to be run. This means that a `pdpp`/`doit` pipeline can be run as often as the user desires without running the risk of needlessly wasting time or computing power: tasks will only be re-run if changes to 'upstream' files necessitate it. You can read more about this impressive feature of the `doit` suite [here](https://pydoit.org/tasks.html).  
 
 
 ## Usage from the Command Line
@@ -172,7 +172,7 @@ Adds a new sub-project task to a `pdpp` project and launches an interactive rigg
 
 ### `pdpp rig`
 
-Launches an interactive rigging session for a selected task, which allows users to specify the task's dependencies (inputs), targets (outputs), and source code (src).^[In practice, explicit rigging of a task's source code shouldn't be necessary, as doing so is only required if there are more than one files inside a task's `src` directory, or if `pdpp` doesn't recognize the language of one or more of the source files. If this is the case, users are encouraged to consider using a custom task (`pdpp custom`) instead of a basic task.]
+Launches an interactive rigging session for a selected task, which allows users to specify the task's dependencies (inputs), targets (outputs), and source code (src).In practice, explicit rigging of a task's source code shouldn't be necessary, as doing so is only required if there are more than one files inside a task's `src` directory, or if `pdpp` doesn't recognize the language of one or more of the source files. If this is the case, users are encouraged to consider using a custom task (`pdpp custom`) instead of a basic task.]
 
 ### `pdpp run` or `doit`
 
