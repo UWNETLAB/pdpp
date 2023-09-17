@@ -45,7 +45,7 @@ Aside from an up-to-date installation of `python` and `pip` (installation instru
 
 ## Installation
 
-To install `pykrusch`, use `pip`:
+To install `pykrusch`, use the following terminal command:
 
 ```bash
 pip install pdpp
