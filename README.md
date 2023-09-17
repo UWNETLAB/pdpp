@@ -40,7 +40,7 @@ These additional constraints disambiguate the input and output of the overall wo
 
 ## Installation Prerequisites
 
-Aside from an up-to-date installation of `python` and `pip` (installation instructions for which can be found [here](https://wiki.python.org/moin/BeginnersGuide/Download)), the `pdpp` package depends on `graphviz`, which must be installed before attempting to install `pdpp`. Installation instructions for `graphviz` can be found at the [GraphViz installation instructions page.](https://pygraphviz.github.io/documentation/stable/install.html#windows-install)
+The `pdpp` package depends on `graphviz`, which must be installed before attempting to install `pdpp`. Installation instructions for `graphviz` can be found at the [GraphViz installation instructions page.](https://pygraphviz.github.io/documentation/stable/install.html#windows-install)
 
 
 ## Installation
