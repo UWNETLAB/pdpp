@@ -6,13 +6,13 @@
   - [Installation Prerequisites](#installation-prerequisites)
   - [Installation](#installation)
   - [Example](#example)
-	  - [Installing from source with Poetry](installing-from-source-with-poetry)
-	  - [Initialing a new project](initialing-a-new project)
-	  - [Adding tasks to the project pipeline](adding-tasks-to-the-project-pipeline)
-	  - [Executing the pipeline](executing-the-pipeline)
-	  - [Exporting finished work from any task](exporting-finished-work-from-any-task)
-	  - [Visualizing task dependencies (i.e., the pipeline)](visualizing-task-dependencies--ie-the-pipeline)
-	  - [Running tasks in different virtual environments](running-tasks-in-different-virtual environments)
+	  - [Installing from source with Poetry](#installing-from-source-with-poetry)
+	  - [Initialing a new project](#initialing-a-new project)
+	  - [Adding tasks to the project pipeline](#adding-tasks-to-the-project-pipeline)
+	  - [Executing the pipeline](#executing-the-pipeline)
+	  - [Exporting finished work from any task](#exporting-finished-work-from-any-task)
+	  - [Visualizing task dependencies (i.e., the pipeline)](#visualizing-task-dependencies--ie-the-pipeline)
+	  - [Running tasks in different virtual environments](#running-tasks-in-different-virtual environments)
 	  - [Storing task parameters / configuration files alongside source code in `src`](storing-task-parameters-configuration-files-alongside-source-code-in-src)
   - [Command Line Usage](#command-line-usage)
 	- [`pdpp init`](#pdpp-init)
@@ -295,7 +295,7 @@ Adds a new sub-project task to a `pdpp` project and launches an interactive rigg
 
 #### `pdpp rig`
 
-Launches an interactive rigging session for a selected task, which allows users to specify the task's dependencies (inputs), targets (outputs), and source code (src). In practice, explicit rigging of a task's source code is rarely necessary and it may be worth considering using a custom task (`pdpp custom`) instead of the default basic task. However, there are situations where you'll want to specify the task's main source code file, such as when you want to [run a task using a different virtual environment than other tasks]() or [store a task's parameters or other configuration in files alongside the it's source code]().
+Launches an interactive rigging session for a selected task, which allows users to specify the task's dependencies (inputs), targets (outputs), and source code (src). In practice, explicit rigging of a task's source code is rarely necessary and it may be worth considering using a custom task (`pdpp custom`) instead of the default basic task. However, there are situations where you'll want to specify the task's main source code file, such as when you want to [run a task using a different virtual environment than other tasks](#running-tasks-in-different-virtual environments) or [store a task's parameters or other configuration in files alongside the it's source code](#storing-task-parameters-configuration-files-alongside-source-code-in-src).
 
 #### `pdpp run` or `doit`
 
