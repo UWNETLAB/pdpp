@@ -15,7 +15,7 @@ networkx = "^2.2"
 graphviz = "^0.10.1"
 pydot = "^2.0.0"
 questionary = "^1.0.2"
-pyyaml = ">=5.3, <5.4"
+pyyaml = ">=5.3,<5.5"
 
 [tool.poetry.scripts]
 pdpp = "pdpp.main:main"
