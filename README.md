@@ -251,7 +251,7 @@ Whenever `pdpp` graphs a pipeline, it produces four visualizations with differen
 - Nodes with folder corners represent data files
 - Nodes with two tabs on the left-hand side represent source code
 
-Here are all four visualized for `example_1`, from least amount of information (`dependencies_sparse.png`) to most (`dependencies_all.png`):
+Here are all four visualized for `example_1`, from least amount of information (`dependencies_sparse.png`) to most (`dependencies_all.png`).
 
 `dependencies_sparse.png`: 
 
