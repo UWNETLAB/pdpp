@@ -1,6 +1,4 @@
-
-
-gitignore_text='''
+gitignore_text = """
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -91,10 +89,10 @@ ipython_config.py
 # .python-version
 
 # pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version
+#   control. However, in case of collaboration, if having platform-specific dependencies
+#   or dependencies having no cross-platform support, pipenv may install dependencies
+#   that don't work, or not install all needed dependencies.
 #Pipfile.lock
 
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
@@ -153,8 +151,9 @@ _export_/*
 
 # doit-specific
 *.doit.db*
-'''
+"""
+
 
 def create_gitignore():
-    with open('.gitignore', 'x') as stream:
+    with open(".gitignore", "x") as stream:
         stream.write(gitignore_text)
