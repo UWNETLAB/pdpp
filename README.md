@@ -1,3 +1,7 @@
+`pdpp` 😁
+
+# Principled Data Processing with Python
+
 - [`pdpp`](#pdpp)
   - [Installation Prerequisites](#installation-prerequisites)
   - [Installation](#installation)
@@ -50,7 +54,6 @@ To install `pdpp`, use the following terminal command:
 ```bash
 pip install pdpp
 ```
-
 
 ## Example
 
