@@ -28,7 +28,7 @@
 
 `pdpp` is a command-line interface enabling transparent and reproducible data science workflows. It's designed around the principles espoused by [Patrick Ball](https://hrdag.org/people/patrick-ball-phd/) (Human Rights Data Analysis Group) in his 2016 *Data & Society* talk ['Principled Data Processing'](https://www.youtube.com/watch?v=ZSunU9GQdcI) (PDP). `pdpp` can be used to create a data processing and modelling pipeline consisting of modular 'tasks' with linked inputs and outputs. `pdpp run` executes these tasks as needed by using the `doit` [suite of automation tools](https://pydoit.org/). `pdpp` also creates visualizations of task dependencies in a project pipeline with varying levels of details. For example,
 
-![](img/dependencies_all.png)
+![](examples/example_1/dependencies_all.png)
 
 In the principled data processing framework, [the task is a quantum of workflow](https://hrdag.org/2016/06/14/the-task-is-a-quantum-of-workflow/). Each task takes the form of a directory responsible for a discrete data operation, such as extracting records from plaintext documents and storing the results as a `.csv` file. Ideally, each task should be simple and conceptually unified enough that a short 3- or 4-word description in the directory name is enough to convey what the task accomplishes.
 
