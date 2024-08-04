@@ -7,13 +7,13 @@
   - [Installation](#installation)
   - [Example](#example)
 	  - [Installing from source with Poetry](#installing-from-source-with-poetry)
-	  - [Initialing a new project](#initialing-a-new project)
+	  - [Initializing a new project](#initializing-a-new-project)
 	  - [Adding tasks to the project pipeline](#adding-tasks-to-the-project-pipeline)
 	  - [Executing the pipeline](#executing-the-pipeline)
 	  - [Exporting finished work from any task](#exporting-finished-work-from-any-task)
-	  - [Visualizing task dependencies (i.e., the pipeline)](#visualizing-task-dependencies--ie-the-pipeline)
-	  - [Running tasks in different virtual environments](#running-tasks-in-different-virtual environments)
-	  - [Storing task parameters / configuration files alongside source code in `src`](storing-task-parameters-configuration-files-alongside-source-code-in-src)
+	  - [Visualizing task dependencies (i.e., the pipeline)](#visualizing-task-dependencies-ie-the-pipeline)
+	  - [Running tasks in different virtual environments](#running-tasks-in-different-virtual-environments)
+	  - [Storing task parameters / configuration files alongside source code in `src`](#storing-task-parameters--configuration-files-alongside-source-code-in-src)
   - [Command Line Usage](#command-line-usage)
 	- [`pdpp init`](#pdpp-init)
 	- [`pdpp new`](#pdpp-new)
@@ -102,7 +102,7 @@ poetry run pdpp init
 
 You can find a simple `pdpp` example in `examples/`.
 
-### Initialing a new project
+### Initializing a new project
 
 The first step when using `pdpp` is to initialize a new project directory, which must be empty. 
 
