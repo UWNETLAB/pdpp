@@ -1,5 +1,5 @@
 from os import link, remove
-from shutil import rmtree, copytree
+from shutil import copytree, rmtree
 
 
 def file_linker(link_start, link_end):
@@ -7,7 +7,7 @@ def file_linker(link_start, link_end):
         link(link_start, link_end)
     except FileExistsError:
         remove(link_end)
-        link(link_start, link_end)   
+        link(link_start, link_end)
 
 
 def dir_linker(link_start, link_end):

@@ -1,6 +1,7 @@
 from enum import Enum
 
+
 class Language(Enum):
-    PYTHON = 'Python'
+    PYTHON = "Python"
     R = "R"
     NULL = ""

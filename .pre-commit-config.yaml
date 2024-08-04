@@ -1,0 +1,31 @@
+repos:
+  - repo: git@github.com:pre-commit/pre-commit-hooks.git
+    rev: v4.4.0
+    hooks:
+      - id: check-added-large-files
+        args: ['--maxkb=102400']
+      - id: check-executables-have-shebangs
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-yaml
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: git@github.com:psf/black.git
+    rev: 23.1.0
+    hooks:
+      - id: black
+        args: ['--config', '.black.toml']
+
+  - repo: git@github.com:pre-commit/mirrors-isort.git
+    rev: v5.10.1
+    hooks:
+      - id: isort
+
+  - repo: git@github.com:pycqa/flake8.git
+    rev: 6.0.0
+    hooks:
+      - id: flake8
+        args: ['--config', '.flake8']

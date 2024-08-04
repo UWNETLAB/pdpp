@@ -8,14 +8,24 @@ readme = "README.md"
 homepage = "https://github.com/UWNETLAB/pdpp"
 
 [tool.poetry.dependencies]
-python = "^3.8"
-Click = "^7.0"
-doit = "^0.31.1"
-networkx = "^2.2"
-graphviz = "^0.10.1"
+python = "^3.11"
+Click = "^8.1.7"
+doit = "^0.36.0"
+networkx = "^3.3"
+graphviz = "^0.20.3"
 pydot = "^2.0.0"
-questionary = "^1.0.2"
-pyyaml = ">=5.3,<5.5"
+questionary = "^2.0.1"
+pyyaml = "^6.0.1"
+toml = "^0.10.2"
+pandas = "^2.2.2"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.2"
+flake8 = "^7.1.0"
+black = "^24.4.2"
+isort = "^5.13.2"
+pre-commit = "^3.7.1"
+sphinx = "^7.3.7"
 
 [tool.poetry.scripts]
 pdpp = "pdpp.main:main"
