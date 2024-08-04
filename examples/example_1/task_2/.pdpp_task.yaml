@@ -1,13 +1,13 @@
 !!python/object:pdpp.tasks.standard_task.StandardTask
 dep_files:
-  task_2: !!python/object:pdpp.templates.dep_dataclass.dep_dataclass
+  task_1: !!python/object:pdpp.templates.dep_dataclass.dep_dataclass
     dir_list: []
     file_list:
-    - test.csv
-    task_name: task_2
+    - df_plus_one.csv
+    task_name: task_1
     task_out: output
 enabled: true
 language: Python
 src_files:
-- task_3.py
-target_dir: task_3
+- task_2.py
+target_dir: task_2

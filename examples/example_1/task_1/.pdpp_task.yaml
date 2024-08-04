@@ -3,7 +3,7 @@ dep_files:
   _import_: !!python/object:pdpp.templates.dep_dataclass.dep_dataclass
     dir_list: []
     file_list:
-    - test.csv
+    - example.csv
     task_name: _import_
     task_out: ./
 enabled: true
