@@ -35,8 +35,8 @@ def init() -> None:
               context_settings=CONTEXT_SETTINGS)
 @click.option('--dirname', '-d',
               type=TaskDirectory(),
-              prompt="What do you want to call the new task directory?"
-                     "(Use all lower case, no spaces, and cannot be '_import_' or '_export_')",
+              prompt="What do you want to call the new task directory? "
+                     "(Use all lower case and no spaces. Do not use '_import_' or '_export_')",
               help="This is what you want to name your new task directory. "
                    "It must be all lower case and contain no spaces."
               )
@@ -61,8 +61,8 @@ def rig():
 """,)
 @click.option('--dirname', '-s',
               type=TaskDirectory(),
-              prompt="What do you want to call the new custom task directory?"
-                     "(Use all lower case, no spaces, and cannot be '_import_' or '_export_')",
+              prompt="What do you want to call the new custom task directory? "
+                     "(Use all lower case and no spaces. Do not use '_import_' or '_export_')",
               help="This is what you want to name your new task directory. "
                    "It must be all lower case and contain no spaces."
               )
@@ -77,8 +77,8 @@ def custom(dirname: str):
 """,)
 @click.option('--dirname', '-s',
               type=TaskDirectory(),
-              prompt="What do you want to call the new subproject task directory?"
-                     "(Use all lower case, no spaces, and cannot be '_import_' or '_export_')",
+              prompt="What do you want to call the new subproject task directory? "
+                     "(Use all lower case and no spaces. Do not use '_import_' or '_export_')",
               help="This is what you want to name your new task directory. "
                    "It must be all lower case and contain no spaces."
               )
