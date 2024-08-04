@@ -32,6 +32,9 @@ def q_extant() -> StandardTask:
             )
         )
 
+    # sort the choice_list alphabetically
+    choice_list.sort(key=lambda choice: choice.title)
+    
     questions_0 = [
         {
             "type": "list",

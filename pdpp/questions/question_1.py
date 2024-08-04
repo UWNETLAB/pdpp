@@ -45,6 +45,9 @@ def q1(dep_tasks: List[BaseTask], task: BaseTask) -> List[BaseTask]:
     if len(choice_list) < 1:
         return []
 
+    # sort the choice_list alphabetically
+    choice_list.sort(key=lambda choice: choice.title)
+
     questions_1 = [
         {
             "type": "checkbox",

@@ -34,6 +34,9 @@ def q3(task: BaseTask) -> List[str]:
     if len(source_files) < 2:
         return [s.name for s in source_files]
 
+    # sort the choice_list alphabetically
+    choice_list.sort(key=lambda choice: choice.title)
+    
     question_3 = [
         {
             "type": "checkbox",

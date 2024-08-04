@@ -25,6 +25,9 @@ def q0() -> BaseTask:
             )
         )
 
+    # sort the choice_list alphabetically
+    choice_list.sort(key=lambda choice: choice.title)
+
     questions_0 = [
         {
             "type": "list",
