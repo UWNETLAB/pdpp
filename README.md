@@ -253,13 +253,21 @@ Whenever `pdpp` graphs a pipeline, it produces four visualizations with differen
 
 Here are all four visualized for `example_1`, from least amount of information (`dependencies_sparse.png`) to most (`dependencies_all.png`):
 
-![`dependencies_sparse.png`](examples/example_1/dependencies_sparse.png)
+`dependencies_sparse.png`: 
 
-![`dependencies_source.png`](examples/example_1/dependencies_source.png)
+![](examples/example_1/dependencies_sparse.png)
 
-![`dependencies_file.png`](examples/example_1/dependencies_file.png)
+`dependencies_source.png`:
 
-![`dependencies_all.png`](examples/example_1/dependencies_all.png)
+![](examples/example_1/dependencies_source.png)
+
+`dependencies_file.png`:
+
+![](examples/example_1/dependencies_file.png)
+
+`dependencies_all.png`:
+
+![](examples/example_1/dependencies_all.png)
 
 
 ### Running tasks in different virtual environments
