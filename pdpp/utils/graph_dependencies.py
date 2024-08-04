@@ -15,10 +15,6 @@ if os.name == "nt":
 
 
 def src_links(target_dir: str, source_file: str, G, gs):
-    """
-    This is a docstring
-    """
-
     G.add_edge(
         source_file,
         target_dir,
@@ -26,7 +22,6 @@ def src_links(target_dir: str, source_file: str, G, gs):
         color=gs.EDGE_COLOR,
         penwidth=gs.EDGE_PEN_WIDTH,
     )
-    # G.add_edge(target_dir, source_file, dir='none', color=gs.EDGE_COLOR, penwidth=2)
     G.nodes[source_file]["style"] = gs.SOURCE_STYLE
     G.nodes[source_file]["fontcolor"] = gs.SOURCE_FONT_COLOR
     G.nodes[source_file]["fillcolor"] = gs.SOURCE_FILL_COLOR
@@ -36,12 +31,9 @@ def src_links(target_dir: str, source_file: str, G, gs):
 
 
 def node_colour(G, gs):
-    """
-    This is a docstring
-    """
-
     for node in G:
-        if G.nodes[node]["categ"] == "disabled":
+        categ = G.nodes[node].get("categ")
+        if categ == "disabled":
             G.nodes[node]["fillcolor"] = gs.DISABLED_TASK_COLOR
             G.nodes[node]["fontcolor"] = gs.DISABLED_TASK_FONTCOLOR
             G.nodes[node]["style"] = gs.DISABLED_TASK_STYLE
@@ -54,14 +46,7 @@ def node_colour(G, gs):
 
 
 def export_graph(G, output_name, files):
-    """
-    This is a docstring
-    """
-
-    # This loop checks for and removes any isolated nodes
-
     remlist = [node for node in G if G.degree[node] == 0]
-
     for node in remlist:
         G.remove_node(node)
 
@@ -83,15 +68,10 @@ def export_graph(G, output_name, files):
             N.add_subgraph(S)
 
     ext = "." + files
-
     N.write(output_name + ext, prog="dot", format=files)
 
 
 def depgraph(files="png", gs=default_graph_style):
-    """
-    This is a docstring
-    """
-
     from pdpp.utils.directory_test import get_pdpp_tasks
 
     all_tasks: List[BaseTask] = get_pdpp_tasks()
