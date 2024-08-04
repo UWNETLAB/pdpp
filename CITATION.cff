@@ -1,14 +1,30 @@
 cff-version: 1.2.0
+message: "See also McLevey, Browne, and Crick. Reproducibility and principled data processing. in Engel, Quan-Haase, and Lyberg (eds) Handbook of Computational Social Science, Volume 2. Routledge, 2021. 108-124."
+title: "Principled Data Processing with Python (pdpp)"
+version: 0.5.0
+date-released: 2024-08-04
 authors:
 - family-names: "Browne"
   given-names: "Pierson"
+  affiliation: "University of Waterloo"
 - family-names: "McLevey"
   given-names: "John"
+  affiliation: "University of Waterloo"
 - family-names: "Crick"
   given-names: "Tyler"
+  affiliation: "University of Waterloo"
 - family-names: "Wood"
   given-names: "Rachel"
-title: "pdpp"
-version: 0.5.0
-date-released: 2024-08-04
+  affiliation: "University of Waterloo"
 url: "https://github.com/UWNETLAB/pdpp"
+repository-code: "https://github.com/UWNETLAB/pdpp"
+license: "MIT"
+keywords:
+  - data processing
+  - reproducibility
+  - Python
+  - automation
+  - transparency
+abstract: >
+  pdpp is a command-line interface enabling transparent and reproducible data science workflows.
+  It's designed around the principles espoused by Patrick Ball (Human Rights Data Analysis Group) in his 2016 Data & Society talk 'Principled Data Processing'.
