@@ -61,7 +61,7 @@ def q2(selected_dep_tasks: List[BaseTask], task: BaseTask) -> Dict[str, dep_data
             )
 
     # sort the choice_list alphabetically
-    choice_list.sort(key=lambda choice: choice.title)
+    # choice_list.sort(key=lambda choice: choice.title)
     
     questions_2 = [
         {

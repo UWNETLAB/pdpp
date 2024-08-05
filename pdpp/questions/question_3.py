@@ -35,7 +35,7 @@ def q3(task: BaseTask) -> List[str]:
         return [s.name for s in source_files]
 
     # sort the choice_list alphabetically
-    choice_list.sort(key=lambda choice: choice.title)
+    # choice_list.sort(key=lambda choice: choice.title)
     
     question_3 = [
         {
