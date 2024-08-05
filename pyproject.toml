@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pdpp"
-version = "0.5.0"
+version = "0.5.1"
 description = "Command line tool for automation, transparency, and reproducibility in data processing projects"
 authors = ["Pierson Browne <pbrowne88@gmail.com>", "John McLevey <john.mclevey@uwaterloo.ca>", "Tyler Crick", "Rachel Wood"]
 license = "MIT"
