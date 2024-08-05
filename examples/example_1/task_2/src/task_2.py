@@ -5,5 +5,6 @@ df_plus_two = df + 2
 
 print(df)
 print(df_plus_two)
+print('\n')
 
 df_plus_two.to_csv('../output/df_plus_two.csv', index=False)
