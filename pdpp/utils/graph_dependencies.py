@@ -71,7 +71,7 @@ def export_graph(G, output_name, files):
     N.write(output_name + ext, prog="dot", format=files)
 
 
-def depgraph(files="png", gs=default_graph_style):
+def depgraph(files: str = "png", gs: type = default_graph_style):
     from pdpp.utils.directory_test import get_pdpp_tasks
 
     all_tasks: List[BaseTask] = get_pdpp_tasks()

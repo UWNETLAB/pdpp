@@ -1,10 +1,9 @@
 from click import clear as click_clear
-from questionary import prompt
 
 from pdpp.languages.extension_parser import extension_parser
 from pdpp.languages.language_enum import Language
-from pdpp.styles.prompt_style import custom_style_fancy
 from pdpp.tasks.base_task import BaseTask
+from pdpp.utils.prompt_helpers import prompt_or_abort
 
 
 def q4(task: BaseTask) -> str:
@@ -49,7 +48,7 @@ def q4(task: BaseTask) -> str:
             }
         ]
 
-        return prompt(question_4, style=custom_style_fancy)["language"]
+        return prompt_or_abort(question_4, "language")
 
     else:
         return language_list[0]

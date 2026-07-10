@@ -1,10 +1,10 @@
 from typing import List
 
 from click import clear as click_clear
-from questionary import Choice, prompt
+from questionary import Choice
 
-from pdpp.styles.prompt_style import custom_style_fancy
 from pdpp.tasks.base_task import BaseTask
+from pdpp.utils.prompt_helpers import prompt_or_abort
 
 
 def q1(dep_tasks: List[BaseTask], task: BaseTask) -> List[BaseTask]:
@@ -59,4 +59,4 @@ def q1(dep_tasks: List[BaseTask], task: BaseTask) -> List[BaseTask]:
         }
     ]
 
-    return prompt(questions_1, style=custom_style_fancy)["dep_tasks"]
+    return prompt_or_abort(questions_1, "dep_tasks")

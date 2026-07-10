@@ -8,5 +8,7 @@ from os import chdir, getcwd
 def execute_at_target(func, task):
     original_dir = getcwd()
     chdir(task.target_dir)
-    func(task)
-    chdir(original_dir)
+    try:
+        func(task)
+    finally:
+        chdir(original_dir)

@@ -1,11 +1,11 @@
 import os
 
 from click import clear as click_clear
-from questionary import Choice, prompt
+from questionary import Choice
 
-from pdpp.styles.prompt_style import custom_style_fancy
 from pdpp.tasks.standard_task import StandardTask
 from pdpp.utils.directory_test import get_pdpp_tasks
+from pdpp.utils.prompt_helpers import prompt_or_abort
 
 
 def q_extant() -> StandardTask:
@@ -20,9 +20,6 @@ def q_extant() -> StandardTask:
     dir_list = [d.name for d in os.scandir() if d.name not in task_dirs and d.is_dir()]
 
     choice_list = []
-
-    print(task_dirs)
-    print(dir_list)
 
     for _dir in dir_list:
         choice_list.append(
@@ -44,6 +41,6 @@ def q_extant() -> StandardTask:
         }
     ]
 
-    dirname = prompt(questions_0, style=custom_style_fancy)["target_dir"]
+    dirname = prompt_or_abort(questions_0, "target_dir")
 
     return StandardTask(target_dir=dirname)

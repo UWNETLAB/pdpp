@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "See also McLevey, Browne, and Crick. Reproducibility and principled data processing. in Engel, Quan-Haase, and Lyberg (eds) Handbook of Computational Social Science, Volume 2. Routledge, 2021. 108-124."
 title: "Principled Data Processing with Python (pdpp)"
-version: 0.5.0
-date-released: 2024-08-04
+version: 0.6.0
+date-released: 2026-07-10
 authors:
 - family-names: "Browne"
   given-names: "Pierson"

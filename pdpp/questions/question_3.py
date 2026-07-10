@@ -3,11 +3,11 @@ from posixpath import join
 from typing import List
 
 from click import clear as click_clear
-from questionary import Choice, prompt
+from questionary import Choice
 
-from pdpp.styles.prompt_style import custom_style_fancy
 from pdpp.tasks.base_task import BaseTask
 from pdpp.utils.ignorelist import ignorelist
+from pdpp.utils.prompt_helpers import prompt_or_abort
 
 
 def q3(task: BaseTask) -> List[str]:
@@ -36,7 +36,7 @@ def q3(task: BaseTask) -> List[str]:
 
     # sort the choice_list alphabetically
     # choice_list.sort(key=lambda choice: choice.title)
-    
+
     question_3 = [
         {
             "type": "checkbox",
@@ -46,8 +46,6 @@ def q3(task: BaseTask) -> List[str]:
         }
     ]
 
-    final_choices: List[DirEntry[str]] = prompt(question_3, style=custom_style_fancy)[
-        "source"
-    ]
+    final_choices: List[DirEntry[str]] = prompt_or_abort(question_3, "source")
 
     return [s.name for s in final_choices]

@@ -47,7 +47,7 @@ These additional constraints disambiguate the input and output of the overall wo
 
 ## Installation Prerequisites
 
-The `pdpp` package depends on `graphviz`, which must be installed before attempting to install `pdpp`. Installation instructions for `graphviz` can be found at the [GraphViz installation instructions page.](https://pygraphviz.github.io/documentation/stable/install.html#windows-install)
+The `pdpp` package renders dependency graphs with the system Graphviz `dot` binary, which must be installed before using `pdpp graph`. Installation instructions can be found at the [Graphviz download page.](https://graphviz.org/download/)
 
 
 ## Installation

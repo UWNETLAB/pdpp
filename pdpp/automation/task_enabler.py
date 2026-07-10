@@ -1,11 +1,16 @@
-from questionary import Choice, prompt
+import click
+from questionary import Choice
 
-from pdpp.styles.prompt_style import custom_style_fancy
 from pdpp.utils.directory_test import get_runnable_tasks
+from pdpp.utils.prompt_helpers import prompt_or_abort
 
 
 def task_enabler():
     runnable_tasks = get_runnable_tasks()
+
+    if not runnable_tasks:
+        click.echo("There are no valid tasks in this project directory!")
+        return
 
     choice_list = []
 
@@ -27,11 +32,7 @@ def task_enabler():
         }
     ]
 
-    try:
-        enabled_list = prompt(questions_1, style=custom_style_fancy)["enabled"]
-    except IndexError:
-        print("There are no valid tasks in this project directory!")
-        enabled_list = []
+    enabled_list = prompt_or_abort(questions_1, "enabled")
 
     for task in runnable_tasks:
         if task in enabled_list:

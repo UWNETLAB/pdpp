@@ -1,9 +1,9 @@
 from click import clear as click_clear
-from questionary import Choice, prompt
+from questionary import Choice
 
-from pdpp.styles.prompt_style import custom_style_fancy
 from pdpp.tasks.base_task import BaseTask
 from pdpp.utils.directory_test import get_riggable_tasks
+from pdpp.utils.prompt_helpers import prompt_or_abort
 
 
 def q0() -> BaseTask:
@@ -37,5 +37,5 @@ def q0() -> BaseTask:
         }
     ]
 
-    return prompt(questions_0, style=custom_style_fancy)["target_dir"]
+    return prompt_or_abort(questions_0, "target_dir")
 

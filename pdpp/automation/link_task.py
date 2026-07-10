@@ -54,21 +54,23 @@ def make_link_task(task: BaseTask, disabled_list: List[str], final_dep_list: Lis
                 )
                 startdir = os.getcwd()
                 os.chdir(path_to_dep_dir)
-                for root, _, filenames in os.walk(dir_dependency):
-                    for filename in filenames:
-                        subdir_filepath_start = join(
-                            dependency_metadata.task_name,
-                            dependency_metadata.task_out,
-                            root,
-                            filename,
-                        )
-                        link_dep_list.append(subdir_filepath_start)
+                try:
+                    for root, _, filenames in os.walk(dir_dependency):
+                        for filename in filenames:
+                            subdir_filepath_start = join(
+                                dependency_metadata.task_name,
+                                dependency_metadata.task_out,
+                                root,
+                                filename,
+                            )
+                            link_dep_list.append(subdir_filepath_start)
 
-                        subdir_filepath_end = join(
-                            task.target_dir, task.IN_DIR, root, filename
-                        )
-                        link_targ_list.append(subdir_filepath_end)
-                os.chdir(startdir)
+                            subdir_filepath_end = join(
+                                task.target_dir, task.IN_DIR, root, filename
+                            )
+                            link_targ_list.append(subdir_filepath_end)
+                finally:
+                    os.chdir(startdir)
 
             final_dep_list.extend(link_targ_list)
 

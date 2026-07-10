@@ -4,12 +4,12 @@ from posixpath import join
 from typing import Dict, List, Tuple
 
 from click import clear as click_clear
-from questionary import Choice, Separator, prompt
+from questionary import Choice, Separator
 
-from pdpp.styles.prompt_style import custom_style_fancy
 from pdpp.tasks.base_task import BaseTask
 from pdpp.templates.dep_dataclass import dep_dataclass
 from pdpp.utils.ignorelist import ignorelist
+from pdpp.utils.prompt_helpers import prompt_or_abort
 
 
 def q2(selected_dep_tasks: List[BaseTask], task: BaseTask) -> Dict[str, dep_dataclass]:
@@ -62,7 +62,7 @@ def q2(selected_dep_tasks: List[BaseTask], task: BaseTask) -> Dict[str, dep_data
 
     # sort the choice_list alphabetically
     # choice_list.sort(key=lambda choice: choice.title)
-    
+
     questions_2 = [
         {
             "type": "checkbox",
@@ -77,7 +77,7 @@ def q2(selected_dep_tasks: List[BaseTask], task: BaseTask) -> Dict[str, dep_data
     responses: List[Tuple[BaseTask, DirEntry[str]]]
 
     if questions_2[0]["choices"]:
-        responses = prompt(questions_2, style=custom_style_fancy)["dependencies"]
+        responses = prompt_or_abort(questions_2, "dependencies")
     else:
         return {}
 

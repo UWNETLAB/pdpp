@@ -2,31 +2,30 @@ from os import listdir, scandir
 from posixpath import exists, join
 from typing import Iterator, List, Tuple
 
+import click
+
 from pdpp.tasks.base_task import BaseTask
 from pdpp.utils.yaml_task import load_task
 
 
-class NotInProjectException(Exception):
+class NotInProjectException(click.ClickException):
     """
-    Raised when a user attempts to use most pdpp commands from outside project
-    directory (project directories contain a dodo.py file)
+    Raised when a user attempts to use most pdpp commands from outside a project
+    directory (project directories contain a dodo.py file).
+
+    Subclasses ``click.ClickException`` so the CLI exits cleanly (exit code 1,
+    no traceback) instead of dumping a stack trace.
     """
 
     pass
 
 
-def in_project_directory():
-    if exists("dodo.py") and len(listdir()) > 0:
-        pass
-
-    else:
-        print(
-            (
-                "Please run this command from an existing project directory "
-                "(project directories contain a dodo.py file)"
-            )
+def in_project_directory() -> None:
+    if not (exists("dodo.py") and len(listdir()) > 0):
+        raise NotInProjectException(
+            "Please run this command from an existing project directory "
+            "(project directories contain a dodo.py file)."
         )
-        raise NotInProjectException
 
 
 def pdpp_directory_test(dir_) -> bool:
