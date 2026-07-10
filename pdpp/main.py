@@ -19,7 +19,8 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 FILES_LIST = ["png", "pdf", "jpg"]
 
 
-@click.group()
+@click.group(context_settings=CONTEXT_SETTINGS)
+@click.version_option(package_name="pdpp")
 def main() -> None:
     """
     A command line tool to automate the use of the Principled Data Processing
@@ -150,7 +151,9 @@ def graph(files, style):
     in_project_directory()
     from pdpp.utils.graph_dependencies import depgraph
 
-    full_style = next((s for s in GRAPH_STYLE_LIST if s.NAME == style), None)
+    full_style = next(
+        (s for s in GRAPH_STYLE_LIST if s.NAME == style), default_graph_style
+    )
     depgraph(files, full_style)
 
 
@@ -179,3 +182,25 @@ def extant():
     from pdpp.questions.question_extant import q_extant
 
     q_extant().rig_task()
+
+
+# migrate
+@main.command(short_help="Upgrade task metadata files to the current safe format")
+def migrate():
+    """
+    Rewrites every .pdpp_task.yaml file in the project to the current
+    schema-versioned format, which contains no Python object tags.
+    Legacy files written by older pdpp versions are still readable, but
+    migrating is recommended. Safe to run repeatedly.
+    """
+    in_project_directory()
+    from pdpp.utils.directory_test import get_pdpp_tasks
+    from pdpp.utils.yaml_task import SCHEMA_VERSION
+
+    tasks = get_pdpp_tasks()
+    for task in tasks:
+        task.save_self()
+
+    click.echo(
+        f"Migrated {len(tasks)} task file(s) to schema version {SCHEMA_VERSION}."
+    )
