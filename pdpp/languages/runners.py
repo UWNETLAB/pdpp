@@ -17,8 +17,8 @@ def python_runner(script_name: str, task: BaseTask):
     )
 
 
-def r_runner(script_name, target_dir, src_dir):
-    run(["Rscript", script_name], check=True, cwd=join(target_dir, src_dir))
+def r_runner(script_name: str, task: BaseTask):
+    run(["Rscript", script_name], check=True, cwd=join(task.target_dir, task.SRC_DIR))
 
 
 # TODO: Fix the project runner and bring it in line with the other runners
