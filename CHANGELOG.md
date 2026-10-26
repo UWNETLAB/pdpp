@@ -1,5 +1,24 @@
 # Changelog
 
+## Unreleased
+
+### Security
+
+- Regenerated `poetry.lock`. The 0.6.0 cleanup removed black, sphinx,
+  pre-commit, pandas, flake8, and isort from the dev dependencies but left
+  their pins in the lockfile, along with vulnerable transitive pins (certifi,
+  urllib3, requests, jinja2, virtualenv, filelock, idna, pygments). These were
+  development-only and never shipped to pdpp users.
+- Raised the dev dependency floor to pytest 9.0.3.
+
+### Changed
+
+- Pinned ruff to 0.17.2 in the dev group and CI, and fixed the new lint
+  findings (PEP 585 annotations, a context-managed file write in the `dodo.py`
+  template, unreachable flow control in `pdpp enable`).
+- An unsupported task language now raises `ValueError` naming the language
+  instead of a bare `Exception`.
+
 ## 0.6.0
 
 ### Security
