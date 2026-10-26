@@ -1,10 +1,9 @@
-from typing import List
 
 from pdpp.languages.language_enum import Language
 from pdpp.tasks.base_task import BaseTask
 
 
-def extension_parser(task: BaseTask) -> List[str]:
+def extension_parser(task: BaseTask) -> list[str]:
     extension_list = []
 
     for entry in task.src_files:

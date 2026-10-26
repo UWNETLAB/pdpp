@@ -1,6 +1,6 @@
+from collections.abc import Iterator
 from os import listdir, scandir
 from posixpath import exists, join
-from typing import Iterator, List, Tuple
 
 import click
 
@@ -17,7 +17,6 @@ class NotInProjectException(click.ClickException):
     no traceback) instead of dumping a stack trace.
     """
 
-    pass
 
 
 def in_project_directory() -> None:
@@ -36,7 +35,7 @@ def pdpp_directory_test(dir_) -> bool:
     return exists(join(dir_, BaseTask.FILENAME))
 
 
-def get_pdpp_directories() -> Iterator[Tuple[str]]:
+def get_pdpp_directories() -> Iterator[tuple[str]]:
     """
     Returns a list of all the riggable directories at this level of the project
     (or subproject)
@@ -51,7 +50,7 @@ def get_pdpp_directories() -> Iterator[Tuple[str]]:
     )
 
 
-def get_pdpp_tasks() -> List[BaseTask]:
+def get_pdpp_tasks() -> list[BaseTask]:
     """
     Returns a list containing loaded instances of all pdpp tasks in the current
     project. (Does not recursively search subprojects).
@@ -62,17 +61,17 @@ def get_pdpp_tasks() -> List[BaseTask]:
     return [load_task(task) for task in map(join, directories, filenames)]
 
 
-def get_riggable_tasks() -> List[BaseTask]:
+def get_riggable_tasks() -> list[BaseTask]:
     return [task for task in get_pdpp_tasks() if task.RIG_VALID]
 
 
-def get_dependency_tasks() -> List[BaseTask]:
+def get_dependency_tasks() -> list[BaseTask]:
     return [task for task in get_pdpp_tasks() if task.DEP_VALID]
 
 
-def get_target_tasks() -> List[BaseTask]:
+def get_target_tasks() -> list[BaseTask]:
     return [task for task in get_pdpp_tasks() if task.TRG_VALID]
 
 
-def get_runnable_tasks() -> List[BaseTask]:
+def get_runnable_tasks() -> list[BaseTask]:
     return [task for task in get_pdpp_tasks() if task.RUN_VALID]

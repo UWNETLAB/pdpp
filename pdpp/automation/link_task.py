@@ -1,12 +1,11 @@
 import os
 from posixpath import join
-from typing import List
 
 from pdpp.automation.mylinker import dir_linker, file_linker
 from pdpp.tasks.base_task import BaseTask
 
 
-def make_link_task(task: BaseTask, disabled_list: List[str], final_dep_list: List):
+def make_link_task(task: BaseTask, disabled_list: list[str], final_dep_list: list):
     for task_with_dependency, dependency_metadata in task.dep_files.items():
         link_action_list = []
         link_dep_list = []
@@ -75,9 +74,7 @@ def make_link_task(task: BaseTask, disabled_list: List[str], final_dep_list: Lis
             final_dep_list.extend(link_targ_list)
 
             yield {
-                "basename": "_task_{}_LINK_TO_{}".format(
-                    task_with_dependency, task.target_dir
-                ),
+                "basename": f"_task_{task_with_dependency}_LINK_TO_{task.target_dir}",
                 "actions": link_action_list,
                 "file_dep": link_dep_list,
                 "targets": link_targ_list,

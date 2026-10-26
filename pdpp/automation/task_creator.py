@@ -1,4 +1,3 @@
-from typing import List
 
 from pdpp.automation.link_task import make_link_task
 from pdpp.automation.output_tracking import (
@@ -10,8 +9,8 @@ from pdpp.utils.directory_test import get_pdpp_tasks
 
 
 def find_dependencies_from_others(
-    task: BaseTask, loaded_tasks: List[BaseTask]
-) -> List[str]:
+    task: BaseTask, loaded_tasks: list[BaseTask]
+) -> list[str]:
     dependencies = []
 
     for other_task in loaded_tasks:
@@ -22,7 +21,7 @@ def find_dependencies_from_others(
     return [d for d in set(dependencies)]
 
 
-def make_stale_upstream_failer(task: BaseTask, disabled_upstreams: List[str]):
+def make_stale_upstream_failer(task: BaseTask, disabled_upstreams: list[str]):
     """Build a doit action that fails a task depending on disabled upstreams.
 
     Returning ``False`` makes doit report the task as failed and stop, instead

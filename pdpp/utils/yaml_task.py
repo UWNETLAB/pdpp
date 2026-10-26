@@ -18,7 +18,7 @@ This module replaces that with:
 """
 
 import os
-from typing import Any, Dict
+from typing import Any
 
 import yaml
 
@@ -39,7 +39,7 @@ _LEGACY_DEP_TAG = (
 )
 
 
-def _task_classes() -> Dict[str, type]:
+def _task_classes() -> dict[str, type]:
     from pdpp.tasks.custom_task import CustomTask
     from pdpp.tasks.export_task import ExportTask
     from pdpp.tasks.import_task import ImportTask
@@ -70,7 +70,7 @@ def _dep_from_value(value: Any) -> Any:
     raise ValueError(f"Invalid dependency entry in task metadata: {value!r}")
 
 
-def _build_task(class_name: str, state: Dict[Any, Any]) -> Any:
+def _build_task(class_name: str, state: dict[Any, Any]) -> Any:
     classes = _task_classes()
     if class_name not in classes:
         raise ValueError(f"Unknown pdpp task type: {class_name!r}")
@@ -113,7 +113,7 @@ for _tag, _class_name in _LEGACY_TASK_TAGS.items():
 PdppTaskLoader.add_constructor(_LEGACY_DEP_TAG, _construct_dep)
 
 
-def task_to_dict(task: Any) -> Dict[str, Any]:
+def task_to_dict(task: Any) -> dict[str, Any]:
     """Represent a task as a plain, safe-dumpable dict (schema version 1)."""
 
     return {

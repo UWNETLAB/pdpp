@@ -1,5 +1,4 @@
 from os import mkdir
-from typing import Dict, List
 
 from pdpp.languages.language_enum import Language
 from pdpp.tasks.base_task import BaseTask
@@ -15,8 +14,8 @@ class ExportTask(BaseTask):
 
     def __init__(self, target_dir: str = "_export_"):
         self.target_dir: str = "_export_"
-        self.dep_files: Dict[str, dep_dataclass] = {}
-        self.src_files: List = []
+        self.dep_files: dict[str, dep_dataclass] = {}
+        self.src_files: list = []
         self.language: str = Language.NULL.value
         self.enabled: bool = True
 

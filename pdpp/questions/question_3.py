@@ -1,6 +1,5 @@
 from os import DirEntry, scandir
 from posixpath import join
-from typing import List
 
 from click import clear as click_clear
 from questionary import Choice
@@ -10,7 +9,7 @@ from pdpp.utils.ignorelist import ignorelist
 from pdpp.utils.prompt_helpers import prompt_or_abort
 
 
-def q3(task: BaseTask) -> List[str]:
+def q3(task: BaseTask) -> list[str]:
     """
     A question which asks users to indicate which scripts in the chosen task's
     'src'  should be run to produce this task's targets.
@@ -40,12 +39,12 @@ def q3(task: BaseTask) -> List[str]:
     question_3 = [
         {
             "type": "checkbox",
-            "message": 'Select the source file(s) for "{}"'.format(task.target_dir),
+            "message": f'Select the source file(s) for "{task.target_dir}"',
             "name": "source",
             "choices": source_choices,
         }
     ]
 
-    final_choices: List[DirEntry[str]] = prompt_or_abort(question_3, "source")
+    final_choices: list[DirEntry[str]] = prompt_or_abort(question_3, "source")
 
     return [s.name for s in final_choices]

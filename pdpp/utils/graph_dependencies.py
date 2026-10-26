@@ -1,6 +1,5 @@
 import os
 from posixpath import join
-from typing import List
 
 import networkx as nx
 import pydot
@@ -74,7 +73,7 @@ def export_graph(G, output_name, files):
 def depgraph(files: str = "png", gs: type = default_graph_style):
     from pdpp.utils.directory_test import get_pdpp_tasks
 
-    all_tasks: List[BaseTask] = get_pdpp_tasks()
+    all_tasks: list[BaseTask] = get_pdpp_tasks()
 
     SOURCE = nx.DiGraph()
     SPARSE = nx.DiGraph()

@@ -26,7 +26,9 @@ jobs:
       - name: Install project
         run: |
           python -m pip install --upgrade pip
-          pip install ruff pytest
+          # Keep in sync with the dev group in pyproject.toml; an unpinned ruff
+          # breaks CI whenever a release adds lint rules.
+          pip install "ruff==0.17.2" "pytest>=9.0.3"
           pip install .
 
       - name: Lint

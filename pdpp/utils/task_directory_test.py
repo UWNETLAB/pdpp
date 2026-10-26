@@ -15,7 +15,7 @@ class ExistingTaskDirectory(click.types.StringParamType):
 
     def convert(self, value, param, ctx):
         directory = rem_slash(
-            super(ExistingTaskDirectory, self).convert(value, param, ctx)
+            super().convert(value, param, ctx)
         )
 
         if not os.path.isdir(directory):
@@ -54,7 +54,7 @@ class TaskDirectory(click.types.StringParamType):
     """
 
     def convert(self, value, param, ctx):
-        directory = super(TaskDirectory, self).convert(value, param, ctx)
+        directory = super().convert(value, param, ctx)
 
         # Check for spaces
         if " " in directory:

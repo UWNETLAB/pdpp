@@ -1,7 +1,6 @@
 import os
 from os import DirEntry
 from posixpath import join
-from typing import Dict, List, Tuple
 
 from click import clear as click_clear
 from questionary import Choice, Separator
@@ -12,7 +11,7 @@ from pdpp.utils.ignorelist import ignorelist
 from pdpp.utils.prompt_helpers import prompt_or_abort
 
 
-def q2(selected_dep_tasks: List[BaseTask], task: BaseTask) -> Dict[str, dep_dataclass]:
+def q2(selected_dep_tasks: list[BaseTask], task: BaseTask) -> dict[str, dep_dataclass]:
     """
     A question which asks users to indicate which individual files
     (drawn from a list of those contained in the output directories of the tasks
@@ -21,7 +20,7 @@ def q2(selected_dep_tasks: List[BaseTask], task: BaseTask) -> Dict[str, dep_data
 
     click_clear()
 
-    q2input: Dict[BaseTask, List[DirEntry[str]]] = {}
+    q2input: dict[BaseTask, list[DirEntry[str]]] = {}
 
     for selected_task in selected_dep_tasks:
         search_dir = join(selected_task.target_dir, selected_task.OUT_DIR)
@@ -66,7 +65,7 @@ def q2(selected_dep_tasks: List[BaseTask], task: BaseTask) -> Dict[str, dep_data
     questions_2 = [
         {
             "type": "checkbox",
-            "message": 'Select the dependency files for "{}"'.format(task.target_dir),
+            "message": f'Select the dependency files for "{task.target_dir}"',
             "name": "dependencies",
             "choices": choice_list,
         }
@@ -74,14 +73,14 @@ def q2(selected_dep_tasks: List[BaseTask], task: BaseTask) -> Dict[str, dep_data
 
     response_dict = {}
 
-    responses: List[Tuple[BaseTask, DirEntry[str]]]
+    responses: list[tuple[BaseTask, DirEntry[str]]]
 
     if questions_2[0]["choices"]:
         responses = prompt_or_abort(questions_2, "dependencies")
     else:
         return {}
 
-    dep_task_set = set([t for t, f in responses])
+    dep_task_set = {t for t, f in responses}
 
     for dep_task in dep_task_set:
         file_list = [f.name for t, f in responses if t == dep_task and f.is_file()]

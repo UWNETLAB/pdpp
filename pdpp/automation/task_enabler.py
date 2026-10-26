@@ -37,7 +37,5 @@ def task_enabler():
     for task in runnable_tasks:
         if task in enabled_list:
             task.enable()
-        elif task not in enabled_list:
-            task.disable()
         else:
-            raise Exception("SOMETHING WENT WRONG WITH ENABLE FLOW CONTROL")
+            task.disable()

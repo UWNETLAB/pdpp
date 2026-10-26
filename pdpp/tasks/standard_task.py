@@ -1,6 +1,5 @@
 from os import mkdir
 from posixpath import join
-from typing import Dict, List
 
 from pdpp.languages.language_enum import Language
 from pdpp.languages.language_parser import parse_language
@@ -17,8 +16,8 @@ class StandardTask(BaseTask):
 
     def __init__(self, target_dir: str = ""):
         self.target_dir: str = target_dir
-        self.dep_files: Dict[str, dep_dataclass] = {}
-        self.src_files: List = []
+        self.dep_files: dict[str, dep_dataclass] = {}
+        self.src_files: list = []
         self.language: str = Language.NULL.value
         self.enabled: bool = True
 
@@ -31,12 +30,12 @@ class StandardTask(BaseTask):
     OUT_DIR = "output"
     SRC_DIR = "src"
 
-    def provide_run_actions(self) -> List:
+    def provide_run_actions(self) -> list:
         runner = parse_language(self)
 
         return [(runner, [s, self], {}) for s in self.src_files]
 
-    def provide_src_dependencies(self) -> List:
+    def provide_src_dependencies(self) -> list:
         return [join(self.target_dir, self.SRC_DIR, s) for s in self.src_files]
 
     def initialize_task(self):

@@ -1,5 +1,4 @@
 from os import mkdir
-from typing import Dict, List
 
 from pdpp.languages.language_enum import Language
 from pdpp.languages.runners import project_runner
@@ -16,8 +15,8 @@ class SubTask(BaseTask):
 
     def __init__(self, target_dir: str = ""):
         self.target_dir: str = target_dir
-        self.dep_files: Dict[str, dep_dataclass] = {}
-        self.src_files: List = []
+        self.dep_files: dict[str, dep_dataclass] = {}
+        self.src_files: list = []
         self.language: str = Language.NULL.value
         self.enabled: bool = True
 
@@ -30,7 +29,7 @@ class SubTask(BaseTask):
     OUT_DIR = "_export_"
     SRC_DIR = "./"
 
-    def provide_run_actions(self) -> List:
+    def provide_run_actions(self) -> list:
         return [(project_runner, [self], {})]
 
     def initialize_task(self):

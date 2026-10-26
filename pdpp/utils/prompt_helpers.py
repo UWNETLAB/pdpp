@@ -14,7 +14,7 @@ common situations:
 ``click.ClickException`` with an actionable message.
 """
 
-from typing import Any, List
+from typing import Any
 
 import click
 import questionary
@@ -22,7 +22,7 @@ import questionary
 from pdpp.styles.prompt_style import custom_style_fancy
 
 
-def prompt_or_abort(questions: List[dict], key: str) -> Any:
+def prompt_or_abort(questions: list[dict], key: str) -> Any:
     """Run a questionary prompt and return ``result[key]``.
 
     Raises ``click.ClickException`` when stdin is not interactive and

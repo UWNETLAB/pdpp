@@ -1,4 +1,3 @@
-from typing import List, Type
 
 import click
 
@@ -11,11 +10,11 @@ from pdpp.utils.directory_test import in_project_directory
 from pdpp.utils.rem_slash import rem_slash
 from pdpp.utils.task_directory_test import TaskDirectory
 
-GRAPH_STYLE_LIST: List[Type[base_graph_style]] = [
+GRAPH_STYLE_LIST: list[type[base_graph_style]] = [
     default_graph_style,
     greyscale_graph_style,
 ]
-CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
+CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 FILES_LIST = ["png", "pdf", "jpg"]
 
 
@@ -26,7 +25,6 @@ def main() -> None:
     A command line tool to automate the use of the Principled Data Processing
     methodology for reproducibility.
     """
-    pass
 
 
 @main.command(short_help="Prepares a directory to become a pdpp project")

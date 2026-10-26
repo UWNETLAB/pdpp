@@ -29,6 +29,7 @@ COPY_INPUT_SRC = (
 def _run_pipeline(project: Path) -> subprocess.CompletedProcess:
     return subprocess.run(
         [sys.executable, "dodo.py"],
+        check=False,
         cwd=project,
         capture_output=True,
         text=True,

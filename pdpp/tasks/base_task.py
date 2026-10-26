@@ -1,4 +1,3 @@
-from typing import Dict, List
 
 from pdpp.languages.language_enum import Language
 from pdpp.templates.dep_dataclass import dep_dataclass
@@ -13,8 +12,8 @@ class BaseTask:
 
     def __init__(self, target_dir):
         self.target_dir: str
-        self.dep_files: Dict[str, dep_dataclass]
-        self.src_files: List
+        self.dep_files: dict[str, dep_dataclass]
+        self.src_files: list
         self.language: str = Language.NULL.value
         self.enabled: bool
 
@@ -28,13 +27,13 @@ class BaseTask:
     OUT_DIR: str
     SRC_DIR: str
 
-    def provide_run_actions(self) -> List:
+    def provide_run_actions(self) -> list:
         return []
 
-    def provide_src_dependencies(self) -> List:
+    def provide_src_dependencies(self) -> list:
         return []
 
-    def provide_dependencies(self, asking_task) -> List[str]:
+    def provide_dependencies(self, asking_task) -> list[str]:
         try:
             return self.dep_files[asking_task.target_dir].compile_targets()
         except KeyError:

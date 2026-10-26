@@ -1,4 +1,3 @@
-from typing import List
 
 from click import clear as click_clear
 from questionary import Choice
@@ -7,7 +6,7 @@ from pdpp.tasks.base_task import BaseTask
 from pdpp.utils.prompt_helpers import prompt_or_abort
 
 
-def q1(dep_tasks: List[BaseTask], task: BaseTask) -> List[BaseTask]:
+def q1(dep_tasks: list[BaseTask], task: BaseTask) -> list[BaseTask]:
     """
     This question is used to determine which other tasks in the project structure
     are dependencies of the current task.
@@ -51,9 +50,7 @@ def q1(dep_tasks: List[BaseTask], task: BaseTask) -> List[BaseTask]:
     questions_1 = [
         {
             "type": "checkbox",
-            "message": 'Select tasks which contain dependencies for "{}"'.format(
-                task.target_dir
-            ),
+            "message": f'Select tasks which contain dependencies for "{task.target_dir}"',
             "name": "dep_tasks",
             "choices": choice_list,
         }

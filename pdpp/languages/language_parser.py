@@ -9,4 +9,4 @@ def parse_language(task: BaseTask):
     elif task.language == Language.R.value:
         return r_runner
     else:
-        raise Exception
+        raise ValueError(f"Unsupported task language: {task.language!r}")
